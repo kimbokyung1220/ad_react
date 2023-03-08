@@ -1,7 +1,55 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Input, Button } from 'antd';
+import axios from 'axios';
+import AuthContext from '../store/auth-context';
+
+interface loginInfo {
+    memberId: string;
+    pwd: string
+}
 
 const Login = () => {
+    const authCtx = useContext(AuthContext);
+
+    const [memberId, setMemberId] = useState('');
+    const [pwd, setPwd] = useState('');
+    const [loginFail, setLoginFail] = useState<boolean>(false);
+
+    // const setId = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setMemberId(e.currentTarget.value)
+    // }
+    // const setPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setPwd(e.currentTarget.value)
+    // }
+
+    const loginEvent = () => {
+        console.log('click login')
+        const url = "http://localhost:8080/common/login";
+        const data = {
+            'memberId': memberId,
+            'pwd': pwd
+        };
+        axios.post(url, data)
+            .then(res => {
+                // 로그인
+                console.log("res.data")
+                console.log(res.data)
+                authCtx.login(res.data)
+
+            })
+            .catch(erro => {
+                // handle error
+                console.log("handle error");
+                console.log(erro);
+                setLoginFail(true)
+            })
+            .then(() => {
+                // always executed
+
+            });
+
+    }
+
     return (
         <>
             <div className="wrap login">
@@ -22,7 +70,8 @@ const Login = () => {
                                 size="large"
                                 prefix={<i className="ico ico-id"></i>}
                                 // defaultValue={loginForm.email}
-                                // onChange={changeLoginForm}
+                                onChange={(e) => setMemberId(e.currentTarget.value)}
+                                value={memberId}
                             />
                             <Input.Password
                                 name={"password"}
@@ -30,13 +79,14 @@ const Login = () => {
                                 size="large"
                                 prefix={<i className="ico ico-pw"></i>}
                                 // defaultValue={loginForm.password}
-                                // onChange={changeLoginForm}
-                                // onPressEnter={loginEvent}
+                                onChange={(e) => setPwd(e.currentTarget.value)}
+                                value={pwd}
+                                onPressEnter={loginEvent}
                             />
-                            {/* {loginFail && <p className="txt-error show">아이디 또는 비밀번호가 일치하지 않습니다.</p>} */}
+                            {loginFail && <p className="txt-error show">아이디 또는 비밀번호가 일치하지 않습니다.</p>}
                         </div>
                         <div className="box-bottom">
-                            {/* <Button type="primary" className="pink" size="large" block onClick={loginEvent}>로그인</Button> */}
+                            <Button type="primary" className="pink" size="large" block onClick={loginEvent}>로그인</Button>
                         </div>
                     </div>
                     <div className="box-right">

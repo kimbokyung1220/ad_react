@@ -4,8 +4,7 @@ const Header = () => {
     return (
         <>
             <header className="ant-layout-header css-dev-only-do-not-override-1me4733">
-                <a className="logo">
-                    <span>NHNAD</span> Bidding Solution</a>
+                <a className="logo"><span>NHNAD</span> Bidding Solution</a>
                 <ul className="ant-menu-overflow ant-menu ant-menu-root ant-menu-horizontal ant-menu-light css-dev-only-do-not-override-1me4733"
                     role="menu"
                     tabIndex={0}
@@ -14,7 +13,7 @@ const Header = () => {
                         role="menuitem"
                         tabIndex={-1}
                         data-menu-id="rc-menu-uuid-93624-2-adReg"
-                        // style={{}}"opacity: 1; order: 0;"
+                        style={{opacity: "1", order: "0"}}
                         >
                         <i className="ico ico-menu-01 ant-menu-item-icon" />
                         <span className="ant-menu-title-content">광고 등록</span>
