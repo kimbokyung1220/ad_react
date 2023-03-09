@@ -1,17 +1,26 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import Footer from "./layout/Footer";
 import Header from "./layout/Header";
+import { Layout } from 'antd';
+import ContentHeader from "./content/ContentHeader";
+import RegContent from "./page/RegContent";
+import ResultPrd from "./page/reg/component/ResultPrd";
+const { Content } = Layout;
 
-const Content = () => {
+
+
+const Home = ({ children }: PropsWithChildren) => {
     return (
         <>
-            <section className="ant-layout layout css-dev-only-do-not-override-1me4733">
+            <Layout>
                 <Header />
+                <Content>
+                    <RegContent />
+                </Content>
                 <Footer />
-            </section>
-
+            </Layout>
         </>
     );
 }
 
-export default Content;
+export default Home;

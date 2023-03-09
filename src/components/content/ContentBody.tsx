@@ -6,7 +6,6 @@ const ContentBody = () => {
         <div className="content-body">
 
         </div>
-
         </>
     );
 }

@@ -14,7 +14,8 @@ const AuthContext = React.createContext({
     id: sessionStorage.getItem('id'),
     isLoggedIn: false,
     login: (data: any) => { },
-    logout: () => { }
+    logout: () => { },
+    ItemList: (data: any) => { },
 });
 
 //Context의 Provider 역할, 즉 Context의 변화를 알리는 Provider 컴포넌트를 반환하는 함수
@@ -23,6 +24,8 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
     const [token, setToken] = useState(localStorage.getItem('accessToken'));
     const [auth, setAuth] = useState(localStorage.getItem('auth'));
     const [id, setId] = useState(sessionStorage.getItem('id'));
+
+    const [items, setItems] = useState([]);
 
     // 토큰값으로 check
     const userIsLoggedIn = !!token;
@@ -43,6 +46,15 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
     }, []);
 
 
+    //3. 상품 조회
+    const itemHandler = (data: any) => {
+        console.log("컨텍스트 data")
+        console.log(data)
+        setItems(data);
+        console.log(items);
+
+    }
+
     // retrieveStoredToken로 받은 token값과, logoutHandler를 종속변수로 삼는 useEffect훅
     useEffect(() => {
         if (token !== null && auth !== null && id !== null) {
@@ -53,7 +65,7 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
         } else {
             localStorage.clear();
         }
-    }, [token]);
+    }, [token, items]);
 
 
     const contextValue = {
@@ -62,7 +74,8 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
         id,
         isLoggedIn: userIsLoggedIn,
         login: loginHandler,
-        logout: logoutHandler
+        logout: logoutHandler,
+        ItemList: itemHandler
     }
 
 

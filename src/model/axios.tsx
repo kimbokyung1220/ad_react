@@ -31,11 +31,14 @@ const instance = axios.create({
 
 export const requestLogin = async (data: {}) => {
     const response = await instance.post(`/common/login`, data)
+    console.log("[API] requestLogin")
     console.log(response)
     return response.data
 }
 
-export const requestSearch = async () => {
-    const response = await instance.get(`/search/infos`)
+export const getItemList = async (data: {}) => {
+    const response = await instance.post(`/api/item`, data)
+    console.log("[API] getItemList")
+    console.log(response)
     return response.data
 }

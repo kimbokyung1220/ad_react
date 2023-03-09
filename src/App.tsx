@@ -7,7 +7,7 @@ import React, { useContext } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Login from "./components/Login";
 import AuthContext from './store/auth-context';
-import HomeContent from './components/page/HomeContent';
+import Home from "./components/Home";
 
 
 function App() {
@@ -18,15 +18,14 @@ function App() {
       <BrowserRouter>
         {!authCtx.isLoggedIn ?
           <Routes>
-            <Route path="/*" element={<Navigate replace to="/login" />} />
-            <Route path="*" element={<Navigate replace to="/login" />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/*" element={<Navigate replace to="/common/login" />} />
+            <Route path="/common/login" element={<Login />} />
           </Routes>
           :
           <Routes>
             <Route path="/*" element={<Navigate replace to="/home" />} />
             <Route path="*" element={<Navigate replace to="/home" />} />
-            <Route path="/home" element={<HomeContent />} />
+            <Route path="/home" element={<Home />} />
           </Routes>
         }
 

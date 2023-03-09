@@ -4,10 +4,10 @@ import AuthContext from '../../store/auth-context';
 
 
 const Header = () => {
-    const authCtx = useContext(AuthContext);
     const { Header } = Layout;
+    const authCtx = useContext(AuthContext);
     const roleGroups = localStorage.getItem('auth');
-    const [current, setCurrent] = useState('mail');
+    const [current, setCurrent] = useState('reg');
     // const menu: MenuProps['items'] = [];
 
     const advMenu: MenuProps['items'] = [
@@ -37,7 +37,7 @@ const Header = () => {
     };
 
     function moveAdvPage() {
-        window.location.href = "/adv";
+        window.location.href = "/adv/reg";
     };
 
     function moveAdminPage() {

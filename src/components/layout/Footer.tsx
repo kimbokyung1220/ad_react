@@ -1,9 +1,12 @@
 import React from 'react';
+import { Layout } from 'antd';
+
 
 const Footer = () => {
+    const { Footer } = Layout;
     return (
         <>
-            <footer className="ant-layout-footer css-dev-only-do-not-override-1me4733">
+            <Footer>
                 <div className="box-left">
                     <div className="company-info">
                         <span className="fz-14 fw-exbold fc-gray-400">NHNAD</span>
@@ -16,7 +19,7 @@ const Footer = () => {
                 <div className="box-right">
                     <span className="fz-14 fw-reg fc-gray-300">Copyright NHN AD. All right reserved.</span>
                 </div>
-            </footer>
+            </Footer>
         </>
     );
 }

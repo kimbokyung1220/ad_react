@@ -1,13 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Input, Button } from 'antd';
-import axios from 'axios';
 import AuthContext from '../store/auth-context';
 import { requestLogin } from '../model/axios';
-
-interface loginInfo {
-    memberId: string;
-    pwd: string
-}
 
 const Login = () => {
     const authCtx = useContext(AuthContext);
@@ -17,7 +11,7 @@ const Login = () => {
     const [loginFail, setLoginFail] = useState<boolean>(false);
 
     const loginEvent = () => {
-        console.log("dd")
+        console.log("loginEvent")
         const data = {
                     'memberId': memberId,
                     'pwd': pwd
@@ -25,11 +19,18 @@ const Login = () => {
         requestLogin(data).then(res=>{
             if(res!==null){
                 authCtx.login(res)
-            }else{
-                setLoginFail(true)
+                console.log("res.data")
+                console.log(res)
             }
+        }).catch(error => {
+            console.log("login error");
+            console.log(error);
+            setLoginFail(true)
         })
     }
+    useEffect(() => {
+
+    },[loginFail])
 
     return (
         <>
