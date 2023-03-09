@@ -6,8 +6,8 @@ import './css/fonts/NanumSquareNeo/fonts.css';
 import React, { useContext } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Login from "./components/Login";
-import Home from "./components/Home";
 import AuthContext from './store/auth-context';
+import HomeContent from './components/page/HomeContent';
 
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
           <Routes>
             <Route path="/*" element={<Navigate replace to="/home" />} />
             <Route path="*" element={<Navigate replace to="/home" />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/home" element={<HomeContent />} />
           </Routes>
         }
 

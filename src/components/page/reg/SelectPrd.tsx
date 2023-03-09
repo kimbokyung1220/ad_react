@@ -1,18 +1,14 @@
 import React from 'react';
 import { Layout } from 'antd';
-import ContentHeader from '../content/ContentHeader';
-interface props {
-    name: string
-}
 
-const Body = () => {
-    const { Content } = Layout
+const SelectPrd = () => {
+    const { Content } = Layout;
     return (
         <>
             <Content>
                 <div className="site-layout-content">
                     <div className="inner-content">
-                        <ContentHeader />
+                    <div className="content-header"><h1 className="fz-32 fc-gray-900">광고 등록</h1></div>
                     </div>
                 </div>
             </Content>
@@ -20,4 +16,4 @@ const Body = () => {
     );
 }
 
-export default Body;
+export default SelectPrd;

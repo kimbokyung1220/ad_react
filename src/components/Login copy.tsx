@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Input, Button } from 'antd';
 import axios from 'axios';
 import AuthContext from '../store/auth-context';
-import { requestLogin } from '../model/axios';
 
 interface loginInfo {
     memberId: string;
@@ -16,19 +15,39 @@ const Login = () => {
     const [pwd, setPwd] = useState('');
     const [loginFail, setLoginFail] = useState<boolean>(false);
 
+    // const setId = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setMemberId(e.currentTarget.value)
+    // }
+    // const setPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setPwd(e.currentTarget.value)
+    // }
+
     const loginEvent = () => {
-        console.log("dd")
+        console.log('click login')
+        const url = "http://localhost:8080/common/login";
         const data = {
-                    'memberId': memberId,
-                    'pwd': pwd
-                };
-        requestLogin(data).then(res=>{
-            if(res!==null){
-                authCtx.login(res)
-            }else{
+            'memberId': memberId,
+            'pwd': pwd
+        };
+        axios.post(url, data)
+            .then(res => {
+                // 로그인
+                console.log("res.data")
+                console.log(res.data)
+                authCtx.login(res.data)
+
+            })
+            .catch(erro => {
+                // handle error
+                console.log("handle error");
+                console.log(erro);
                 setLoginFail(true)
-            }
-        })
+            })
+            .then(() => {
+                // always executed
+
+            });
+
     }
 
     return (
