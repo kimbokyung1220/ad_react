@@ -5,12 +5,12 @@ import ResultPrd from "./reg/component/ResultPrd";
 import SearchPrd from "./reg/component/SearchPrd";
 
 export type item = {
+    itemId: number,
     itemNo: string,
     itemName: string,
     adultYn: number,
     itemOrgCost: string,
-    itemActYn: number,
-    selectBtn: Element
+    itemActYn: number
 }
 
 const RegContent = () => {
