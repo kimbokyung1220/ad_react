@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
 import App from './App';
+import { store } from './components/redux/store/redux-store';
 import reportWebVitals from './reportWebVitals';
 import { AuthContextProvider } from './store/auth-context';
 
@@ -10,7 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
+      <Provider store={store}>
       <App />
+      </Provider>
     </AuthContextProvider>
   </React.StrictMode>
 );
