@@ -5,17 +5,20 @@ import AuthContext from '../../../../store/auth-context';
 import { item } from "../../RegContent";
 import { useDispatch } from "react-redux"
 import { bindActionCreators } from "redux";
-import { actionCreators } from "../../../redux";
+import { actionCreators } from "../../../../state";
+
 
 interface itemProps {
     setItems: React.Dispatch<React.SetStateAction<item[]>>
 }
 
-const dispatch = useDispatch();
-const { showItemList } = bindActionCreators(actionCreators, dispatch);
-
-const SearchPrd = ({setItems}:itemProps) => {
-    const authCtx = useContext(AuthContext);
+// const SearchPrd = ({setItems}:itemProps) => {
+const SearchPrd = () => {
+    
+    const dispatch = useDispatch();
+    const { showItemList } = bindActionCreators(actionCreators, dispatch);
+    
+    // const authCtx = useContext(AuthContext);
     const [itemNo, setItemNo] = useState('');
     const [itemName, setItemName] = useState('');
 
@@ -31,7 +34,7 @@ const SearchPrd = ({setItems}:itemProps) => {
             if (res !== null) {
                 // console.log("상품 리스트")
                 // console.log(res)
-                setItems(res)
+                // setItems(res)
                 showItemList(res)
                 // authCtx.ItemList(res);
             }

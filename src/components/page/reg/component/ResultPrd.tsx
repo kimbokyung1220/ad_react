@@ -1,27 +1,33 @@
 import React, { useState } from 'react';
-import { Button, Table } from 'antd';
+import { Button, Table, TableColumnsType } from 'antd';
 import { item } from "../../RegContent";
-import { ColumnsType, ColumnType } from "antd/es/table";
 import { useSelector } from "react-redux"
-import { State } from '../../../redux/reducer';
+import { State } from "../../../../state";
+import { useDispatch } from "react-redux"
+import { bindActionCreators } from "redux";
+import { actionCreators } from "../../../../state";
 
-interface itemProps {
-    items: item[]
-}
 
-const ResultPrd = ({items}:itemProps) => {
 
-    const items2 = useSelector((state: State) => state.item)
+const ResultPrd = () => {
+    const items = useSelector((state: State) => state.item)
+    const dispatch = useDispatch();
+    const { showItemInfo } = bindActionCreators(actionCreators, dispatch);
 
-    const columns: ColumnsType<item>= [
+    function selectItemEvent(record: item) {
+        console.log(record)
+        showItemInfo(record)
+    }
+
+    const columns: TableColumnsType<item>= [
         { title: '상품번호', dataIndex: 'itemNo', key: 'itemNo', align: 'center' },
         { title: '상품명', dataIndex: 'itemName', key: 'itemName', align: 'center' },
         { title: '성인 상품 여부', dataIndex: 'adultYn', key: 'adultYn', align: 'center' },
         { title: '상품 가격', dataIndex: 'itemOrgCost', key: 'itemOrgCost', align: 'center' },
         { title: '상품 활성화 여부', dataIndex: 'itemActYn', key: 'itemActYn', align: 'center' },
         { title: '상품 선택', dataIndex: 'selectBtn', key: 'selectBtn', align: 'center',
-            render:(record) => (
-                <Button className="pnik" onClick={() => console.log(record)}><span>선택</span></Button>
+            render:(text, record) => (
+                <Button size="small" className="pink" onClick={() => selectItemEvent(record)}><span>선택</span></Button>
             )
     },
        
@@ -38,13 +44,11 @@ const ResultPrd = ({items}:itemProps) => {
                 <div className="box-body">
             
                     <Table
-                        dataSource={items2}
+                        dataSource={items}
                         columns={columns}
                         bordered={true}
                         pagination={{ pageSize: 10 }}
-
                     >
-
                     </Table>
                 </div>
             </section>

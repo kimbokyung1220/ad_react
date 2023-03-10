@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 import itemReducer from "./itemReducer"
+import itemInfoReducer from "./itemInfoReducer"
 
 
 const reducers = combineReducers({
-    item: itemReducer
+    item: itemReducer,
+    itemInfo: itemInfoReducer
 });
 
 export default reducers

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout } from 'antd';
-import ContentHeader from '../content/ContentHeader';
+import ContentHeader from '../page/content/ContentHeader';
 interface props {
     name: string
 }
