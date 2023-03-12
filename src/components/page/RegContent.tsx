@@ -15,7 +15,7 @@ export type item = {
 }
 
 const RegContent = () => {
-    
+
     return (
         <>
             <div className="site-layout-content">

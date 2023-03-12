@@ -1,18 +1,66 @@
-import React from 'react';
-import { Button, Table, TableColumnsType } from 'antd';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from "react-redux"
+import { bindActionCreators } from "redux";
+import { actionCreators, State } from "../../../../state";
+import { Button, Table, TableColumnsType, Modal, Input } from 'antd';
+import { keywordTable, KeywordTableDefaultValue } from '../../../../model/type';
 
-export type keyword = {
-    kwdName: string,
-    sellPossKwdYn: number,
-    manualCnrKwdYn: number
-}
+
 
 const AdKeywordList = () => {
-    const columns: TableColumnsType<keyword> = [
-        { title: '키워드명', dataIndex: 'kwdName', key: 'kwdName', align: 'center' },
-        { title: '입찰가', dataIndex: 'sellPossKwdYn', key: 'sellPossKwdYn', align: 'center' },
-        { title: '키워드 삭제', dataIndex: 'manualCnrKwdYn', key: 'manualCnrKwdYn', align: 'center' },
+
+    const keywordTableInfo = useSelector((state: State) => state.keywordTableInfo)
+    const dispatch = useDispatch();
+    const { showKeywordTableInfo } = bindActionCreators(actionCreators, dispatch);
+
+    // 모달
+    let key = 0;
+    const [kwdIsModalOpen, setKwdIsModalOpen] = useState(false);
+    const [bioCostIsModalOpen, setBioCostIsModalOpen] = useState(false);
+    const [newKeywordTable, setNewKeywordTable] = useState<keywordTable>(KeywordTableDefaultValue);
+
+    const columns: TableColumnsType<keywordTable> = [
+        { title: '키워드명', dataIndex: 'kwdName', key: 'key', align: 'center' },
+        { title: '입찰가', dataIndex: 'bidCost', key: 'key', align: 'center' },
+        {
+            title: '키워드 삭제', dataIndex: 'kwdDeleteBtn', key: 'key', align: 'center',
+            render: (text, record) => (
+                <Button size="small" className="pink" onClick={() => keywordDeleteEvent(record)} ><span>삭제</span></Button>
+            )
+
+        },
     ];
+
+    const regKeywordEvent = () => {
+        showKeywordTableInfo([newKeywordTable]);
+        setKwdIsModalOpen(false);
+        setNewKeywordTable(KeywordTableDefaultValue);
+    }
+
+    const regBioCostEvent = (bidCost: keywordTable) => {
+        // const all = keywordTableInfo.filter(cost => cost.bidCost == bidCost.bidCost)
+        // const sameCostList = keywordTableInfo.map((cost) => {
+        //     return cost.bidCost === bidCost.bidCost;
+        // })
+        showKeywordTableInfo([]);
+        setBioCostIsModalOpen(false);
+        setNewKeywordTable(KeywordTableDefaultValue);
+    }
+
+    const keywordDeleteEvent = (record: keywordTable) => {
+        const deleteList = keywordTableInfo.filter(keyword => keyword.key !== record.key);
+        return showKeywordTableInfo(deleteList);
+    }
+
+    // const 
+
+    const modalCancleEvent = () => {
+        setKwdIsModalOpen(false);
+        setBioCostIsModalOpen(false);
+        setNewKeywordTable(KeywordTableDefaultValue);
+    }
+
+
     return (
         <>
             <section className="wrap-section wrap-datagrid">
@@ -21,67 +69,113 @@ const AdKeywordList = () => {
                         <h2 className="fz-24 fc-gray-700">광고 키워드 리스트</h2>
                     </div>
                     <div className="box-right">
-                        <Button className="pink">
+                        <Button className="pink" onClick={() => setKwdIsModalOpen(true)}>
                             <span>키워드 추가</span>
                         </Button>
-                        <Button className="gray">
+                        <Button className="gray" onClick={() => setBioCostIsModalOpen(true)}>
                             <span>입찰가 일괄 설정</span>
                         </Button>
                     </div>
                 </div>
                 <div className="box-body">
                     <Table
-                        // dataSource={items}
+                        dataSource={keywordTableInfo}
                         columns={columns}
                         bordered={true}
                         pagination={{ pageSize: 10 }}
                     >
 
                     </Table>
-                    {/* <div className="ant-table-wrapper css-dev-only-do-not-override-1me4733">
-                        <div className="ant-spin-nested-loading css-dev-only-do-not-override-1me4733">
-                            <div className="ant-spin-container">
-                                <div className="ant-table ant-table-bordered ant-table-empty">
-                                    <div className="ant-table-container">
-                                        <div className="ant-table-content">
-                                            <table style="table-layout: auto;">
-                                                <colgroup />
-                                                <thead className="ant-table-thead">
-                                                    <tr>
-                                                        <th className="ant-table-cell" scope="col" style="text-align: center;">키워드명</th>
-                                                        <th className="ant-table-cell" scope="col" style="text-align: center;">입찰가</th>
-                                                        <th className="ant-table-cell" scope="col" style="text-align: center;">키워드 삭제</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody className="ant-table-tbody">
-                                                    <tr className="ant-table-placeholder">
-                                                        <td className="ant-table-cell" colspan="3">
-                                                            <div className="css-dev-only-do-not-override-1me4733 ant-empty ant-empty-normal">
-                                                                <div className="ant-empty-image">
-                                                                    <svg width="64" height="41" viewBox="0 0 64 41" xmlns="http://www.w3.org/2000/svg">
-                                                                        <g transform="translate(0 1)" fill="none" fill-rule="evenodd">
-                                                                            <ellipse fill="#f5f5f5" cx="32" cy="33" rx="32" ry="7" />
-                                                                            <g fill-rule="nonzero" stroke="#d9d9d9">
-                                                                                <path d="M55 12.76L44.854 1.258C44.367.474 43.656 0 42.907 0H21.093c-.749 0-1.46.474-1.947 1.257L9 12.761V22h46v-9.24z" />
-                                                                                <path d="M41.613 15.931c0-1.605.994-2.93 2.227-2.931H55v18.137C55 33.26 53.68 35 52.05 35h-40.1C10.32 35 9 33.259 9 31.137V13h11.16c1.233 0 2.227 1.323 2.227 2.928v.022c0 1.605 1.005 2.901 2.237 2.901h14.752c1.232 0 2.237-1.308 2.237-2.913v-.007z" fill="#fafafa" />
-                                                                            </g>
-                                                                        </g>
-                                                                    </svg>
-                                                                </div>
-                                                                <div className="ant-empty-description">No data</div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
                 </div>
             </section>
+
+            {/* 키워드 추가 모달 */}
+            <div>
+                <Modal title="키워드 추가"
+                    open={kwdIsModalOpen} onOk={() => setKwdIsModalOpen(false)} onCancel={modalCancleEvent} maskClosable={false}
+                    width={800}
+                    footer={[
+                        <Button key="back" type="primary" className="gray" size="large" onClick={modalCancleEvent}> {"취소"} </Button>,
+                        <Button key="submit" type="primary" className="pink" size="large" onClick={regKeywordEvent}> {"등록"} </Button>,
+
+                    ]}
+                >
+
+                    <section className="wrap-section wrap-tbl">
+                        <div className="box-body">
+                            <div className="tbl">
+                                <dl>
+                                    <dt>
+                                        <div className="dt-inner">
+                                            <span className="fz-16 fw-med fc-7">키워드명 입력<i className="txt-essential"></i></span>
+                                        </div>
+                                    </dt>
+                                    <dd>
+                                        <div className="form-group">
+                                            <Input type="text" name="groupName"
+                                                value={newKeywordTable.kwdName}
+                                                onChange={(e) => setNewKeywordTable({ key: key++, kwdName: e.target.value, bidCost: newKeywordTable.bidCost })}
+                                            />
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>
+                                        <div className="dt-inner">
+                                            <span className="fz-16 fw-med fc-7">입찰가 입력<i className="txt-essential"></i></span>
+                                        </div>
+                                    </dt>
+                                    <dd>
+                                        <div className="form-group">
+                                            <Input type="text" name="groupName"
+                                                value={newKeywordTable.bidCost}
+                                                onChange={(e) => setNewKeywordTable({ key: key++, kwdName: newKeywordTable.kwdName, bidCost: e.target.value })}
+
+                                            />
+                                        </div>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </section>
+                </Modal>
+            </div>
+
+            {/* 입찰가격 설정 모달 */}
+            <div>
+                <Modal title="키워드 입찰가 일괄 설정"
+                    open={bioCostIsModalOpen} onOk={() => setBioCostIsModalOpen(false)} onCancel={modalCancleEvent} maskClosable={false}
+                    width={800}
+                    footer={[
+                        <Button key="back" type="primary" className="gray" size="large" onClick={modalCancleEvent}> {"취소"} </Button>,
+                        <Button key="submit" type="primary" className="pink" size="large" onClick={() => regBioCostEvent(newKeywordTable.bidCost)}> {"등록"} </Button>,
+
+                    ]}
+                >
+                    <section className="wrap-section wrap-tbl">
+                        <div className="box-body">
+                            <div className="tbl">
+                                <dl>
+                                    <dt>
+                                        <div className="dt-inner">
+                                            <span className="fz-16 fw-med fc-7">입찰가 입력<i className="txt-essential"></i></span>
+                                        </div>
+                                    </dt>
+                                    <dd>
+                                        <div className="form-group">
+                                            <Input type="text" name="groupName"
+                                                value={newKeywordTable.bidCost}
+                                                onChange={(e) => setNewKeywordTable({ key: key++, kwdName: newKeywordTable.kwdName, bidCost: e.target.value })}
+
+                                            />
+                                        </div>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </section>
+                </Modal>
+            </div>
         </>
     );
 }

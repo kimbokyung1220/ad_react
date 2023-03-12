@@ -1,22 +1,28 @@
-import React, { useState } from 'react';
 import { Button, Table, TableColumnsType } from 'antd';
 import { item } from "../../RegContent";
-import { useSelector } from "react-redux"
-import { State } from "../../../../state";
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { bindActionCreators } from "redux";
-import { actionCreators } from "../../../../state";
-
-
+import { actionCreators, State } from "../../../../state";
+import { getAgroupList } from '../../../../model/axios';
 
 const ResultPrd = () => {
     const items = useSelector((state: State) => state.item)
     const dispatch = useDispatch();
     const { showItemInfo } = bindActionCreators(actionCreators, dispatch);
+    const { showAdGroup } = bindActionCreators(actionCreators, dispatch);
 
     function selectItemEvent(record: item) {
         console.log(record)
         showItemInfo(record)
+
+        getAgroupList().then(res => {
+            if (res !== null) {
+                showAdGroup(res)
+            }
+        }).catch(error => {
+            console.log("show AdGroup error")
+            console.log(error)
+        })
     }
 
     const columns: TableColumnsType<item>= [

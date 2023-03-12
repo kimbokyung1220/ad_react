@@ -11,7 +11,7 @@ type LoginToken = {
 const AuthContext = React.createContext({
     token: localStorage.getItem('accessToken'),
     auth: localStorage.getItem('auth'),
-    id: sessionStorage.getItem('id'),
+    id: localStorage.getItem('id'),
     isLoggedIn: false,
     login: (data: any) => { },
     logout: () => { },
@@ -21,9 +21,10 @@ const AuthContext = React.createContext({
 //Context의 Provider 역할, 즉 Context의 변화를 알리는 Provider 컴포넌트를 반환하는 함수
 export const AuthContextProvider: React.FC<Props> = (props) => {
 
-    const [token, setToken] = useState(localStorage.getItem('accessToken'));
+    const [token, setToken] = useState(localStorage.getItem('Authorization'));
+    const [rfToken, setRfToken] = useState(localStorage.getItem('Refresh_Token'));
     const [auth, setAuth] = useState(localStorage.getItem('auth'));
-    const [id, setId] = useState(sessionStorage.getItem('id'));
+    const [id, setId] = useState(localStorage.getItem('id'));
 
     const [items, setItems] = useState([]);
 
@@ -31,16 +32,18 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
     const userIsLoggedIn = !!token;
 
     // 1. 로그인 함수
-    const loginHandler = (data: any) => {
-        setToken(data.accessToken)
-        setAuth(data.authority)
-        setId(data.memberId)
-        console.log(data)
+    const loginHandler = (res: any) => {
+        setToken('Bearer ' + res.data.accessToken)
+        setRfToken(res.data.refreshToken)
+        setAuth(res.data.authority)
+        setId(res.data.memberId)
+        console.log(res.data)
     };
 
     // 2. 먼저 이 함수는 이후 useEffect를 통해 토큰이 없어지면 자동으로 로그아웃을 실행하게 할 것이므로, 무한루프를 막기 위해 useCallback으로 감싸줌
     const logoutHandler = useCallback(() => {
         setToken(null);
+        setRfToken(null);
         setAuth(null);
         setId(null);
     }, []);
@@ -57,10 +60,11 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
 
     // retrieveStoredToken로 받은 token값과, logoutHandler를 종속변수로 삼는 useEffect훅
     useEffect(() => {
-        if (token !== null && auth !== null && id !== null) {
-            localStorage.setItem('accessToken', token);
+        if (token !== null && rfToken !== null && auth !== null && id !== null) {
+            localStorage.setItem('Authorization', token);
+            localStorage.setItem('Refresh_Token', rfToken);
             localStorage.setItem('auth', auth);
-            sessionStorage.setItem('id', id);
+            localStorage.setItem('id', id);
             
         } else {
             localStorage.clear();

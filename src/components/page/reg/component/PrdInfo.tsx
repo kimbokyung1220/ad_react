@@ -4,8 +4,6 @@ import { State } from "../../../../state";
 
 const PrdInfo = () => {
     const itemInfo = useSelector((state: State) => state.itemInfo)
-    console.log(itemInfo)
-    console.log("itemInfo")
 
     return (
         <>

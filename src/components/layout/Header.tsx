@@ -58,7 +58,7 @@ const Header = () => {
                     <Space split={<Divider type="vertical" />}>
                         <Space>
                             <i className="ico ico-user-info"></i>
-                            <span className="fz-16 fc-gray-300">{sessionStorage.getItem('id')}</span>
+                            <span className="fz-16 fc-gray-300">{localStorage.getItem('id')}</span>
                         </Space>
                         <Button className="gray" size="small" onClick={logoutEvent}>로그아웃</Button>
                     </Space>

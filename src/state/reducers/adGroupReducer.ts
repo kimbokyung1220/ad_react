@@ -1,14 +1,14 @@
 import { item } from "../../components/page/RegContent";
-import { itemDefaultValue } from "../../model/type";
+import { adGroup } from "../../model/type";
 import { ActionType } from "../action-type";
 import { Action } from "../actions";
 // 실제 동작 함수
 
-const init = {} as itemDefaultValue;
+const init: adGroup[] = []
 
-const reducer = (state:item = init, action: Action) => {
+const reducer = (state: adGroup[] = init, action: Action) => {
     switch (action.type) {
-        case ActionType.ITEMINFO:
+        case ActionType.ADGROUP:
             return action.payload      
         default: 
         return state

@@ -13,14 +13,17 @@ const Login = () => {
     const loginEvent = () => {
         console.log("loginEvent")
         const data = {
-                    'memberId': memberId,
-                    'pwd': pwd
-                };
-        requestLogin(data).then(res=>{
-            if(res!==null){
-                authCtx.login(res)
-                console.log("res.data")
+            'memberId': memberId,
+            'pwd': pwd
+        };
+        requestLogin(data).then(res => {
+            if (res !== null) {
                 console.log(res)
+                authCtx.login(res)
+                // localStorage.setItem('Authorization', res.data.accessToken);
+                // localStorage.setItem('Refresh_Token', res.data.refreshToken);
+                // localStorage.setItem('auth', res.data.authority);
+                // localStorage.setItem('id', res.data.memberId);
             }
         }).catch(error => {
             console.log("login error");
@@ -30,7 +33,7 @@ const Login = () => {
     }
     useEffect(() => {
 
-    },[loginFail])
+    }, [loginFail])
 
     return (
         <>

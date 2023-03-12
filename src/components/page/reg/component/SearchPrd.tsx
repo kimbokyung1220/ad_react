@@ -69,7 +69,9 @@ const SearchPrd = () => {
                                         onChange={(e) => setItemName(e.currentTarget.value)}
                                         type="text"
                                         value={itemName}
-                                        style={{ width: "500px" }} />
+                                        style={{ width: "500px" }} 
+                                        onPressEnter={searchEvent}
+                                        />
                                 </div>
                             </dd>
                         </dl>
@@ -86,7 +88,9 @@ const SearchPrd = () => {
                                         onChange={(e) => setItemNo(e.currentTarget.value)}
                                         type="text"
                                         value={itemNo}
-                                        style={{ width: "500px" }} />
+                                        style={{ width: "500px" }} 
+                                        onPressEnter={searchEvent}
+                                        />
                                 </div>
                             </dd>
                         </dl>

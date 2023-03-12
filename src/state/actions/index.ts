@@ -1,4 +1,5 @@
 import { item } from "../../components/page/RegContent"
+import { adGroup, keywordTable } from "../../model/type"
 import { ActionType } from "../action-type"
 
 interface SearchAction {
@@ -11,4 +12,31 @@ interface ItemInfoAction {
     payload: item //뿌려지는
 }
 
-export type Action = SearchAction | ItemInfoAction
+interface showAdGroup {
+    type: ActionType.ADGROUP
+    payload: adGroup[]
+}
+
+interface AddAdGroup {
+    type: ActionType.ADD_ADGRUOP
+    payload: adGroup[]
+}
+
+interface AddKeywordInfo {
+    type: ActionType.ADD_KEYWORDINFO
+    payload: AddKeywordInfo[]
+}
+
+
+interface KeywordTableInfo {
+    type: ActionType.KEWORD_TABLE_INFO
+    payload: keywordTable[]
+}
+
+
+export type Action = SearchAction 
+                    | ItemInfoAction 
+                    | showAdGroup
+                    | AddAdGroup
+                    | AddKeywordInfo
+                    | KeywordTableInfo

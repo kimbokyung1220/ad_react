@@ -1,6 +1,7 @@
 
 import { Dispatch } from "redux";
 import { item } from "../../components/page/RegContent";
+import { adGroup, keywordTable } from "../../model/type";
 import { ActionType } from "../action-type";
 import { Action } from "../actions/index"
 
@@ -21,3 +22,32 @@ export const showItemInfo = (item: item) => {
         })
     }
 }
+
+export const showAdGroup = (adGroupArr: adGroup[]) => {
+    return (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type:ActionType.ADGROUP,
+            payload: adGroupArr
+        })
+    }
+}
+
+export const createAdGroup = (adGroupArr: adGroup[]) => {
+    return (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type:ActionType.ADGROUP,
+            payload: adGroupArr
+        })
+    }
+}
+
+export const showKeywordTableInfo = (tableInfoArr: keywordTable[]) => {
+    return (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type:ActionType.KEWORD_TABLE_INFO,
+            payload: tableInfoArr
+        })
+    }
+}
+
+
