@@ -32,11 +32,7 @@ const SearchPrd = () => {
         };
         getItemList(data).then(res => {
             if (res !== null) {
-                // console.log("상품 리스트")
-                // console.log(res)
-                // setItems(res)
                 showItemList(res)
-                // authCtx.ItemList(res);
             }
         }).catch(error => {
             console.log("search error");

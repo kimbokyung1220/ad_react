@@ -3,6 +3,7 @@ import { Button, Select, Modal, Input } from "antd";
 import { useSelector } from 'react-redux';
 import { State } from '../../../../state';
 import { createAgroup } from '../../../../model/axios';
+import AdKeywordList from "./AdKeywordList";
 const { Option } = Select;
 
 const SelectAdGroup = () => {
@@ -38,10 +39,6 @@ const SelectAdGroup = () => {
         })
 
     }
-
-    useEffect(()=> {
-
-    },[newAdGroupName])
 
     return (
         <>

@@ -14,16 +14,15 @@ const AdKeywordList = () => {
     const { showKeywordTableInfo } = bindActionCreators(actionCreators, dispatch);
 
     // 모달
-    let key = 0;
     const [kwdIsModalOpen, setKwdIsModalOpen] = useState(false);
     const [bioCostIsModalOpen, setBioCostIsModalOpen] = useState(false);
     const [newKeywordTable, setNewKeywordTable] = useState<keywordTable>(KeywordTableDefaultValue);
 
     const columns: TableColumnsType<keywordTable> = [
-        { title: '키워드명', dataIndex: 'kwdName', key: 'key', align: 'center' },
-        { title: '입찰가', dataIndex: 'bidCost', key: 'key', align: 'center' },
+        { title: '키워드명', dataIndex: 'kwdName', key: 'kwdName', align: 'center' },
+        { title: '입찰가', dataIndex: 'bidCost', key: 'bidCost', align: 'center' },
         {
-            title: '키워드 삭제', dataIndex: 'kwdDeleteBtn', key: 'key', align: 'center',
+            title: '키워드 삭제', dataIndex: 'kwdDeleteBtn', key: 'btn', align: 'center',
             render: (text, record) => (
                 <Button size="small" className="pink" onClick={() => keywordDeleteEvent(record)} ><span>삭제</span></Button>
             )
@@ -31,23 +30,22 @@ const AdKeywordList = () => {
         },
     ];
 
-    const regKeywordEvent = () => {
-        showKeywordTableInfo([newKeywordTable]);
+    const regKeywordEvent = (newKeywordTable: keywordTable) => {
+        showKeywordTableInfo([...keywordTableInfo, newKeywordTable]);
         setKwdIsModalOpen(false);
         setNewKeywordTable(KeywordTableDefaultValue);
     }
 
-    const regBioCostEvent = (bidCost: keywordTable) => {
-        // const all = keywordTableInfo.filter(cost => cost.bidCost == bidCost.bidCost)
-        // const sameCostList = keywordTableInfo.map((cost) => {
-        //     return cost.bidCost === bidCost.bidCost;
-        // })
-        showKeywordTableInfo([]);
+    const regBioCostEvent = (newBidCost: keywordTable) => {
+        let copyList = [...keywordTableInfo];
+        copyList.map((copy) => copy.bidCost = newBidCost.bidCost)
+        showKeywordTableInfo(copyList);
         setBioCostIsModalOpen(false);
         setNewKeywordTable(KeywordTableDefaultValue);
     }
 
     const keywordDeleteEvent = (record: keywordTable) => {
+        console.log(record)
         const deleteList = keywordTableInfo.filter(keyword => keyword.key !== record.key);
         return showKeywordTableInfo(deleteList);
     }
@@ -96,7 +94,7 @@ const AdKeywordList = () => {
                     width={800}
                     footer={[
                         <Button key="back" type="primary" className="gray" size="large" onClick={modalCancleEvent}> {"취소"} </Button>,
-                        <Button key="submit" type="primary" className="pink" size="large" onClick={regKeywordEvent}> {"등록"} </Button>,
+                        <Button key="submit" type="primary" className="pink" size="large" onClick={() => regKeywordEvent(newKeywordTable)}> {"등록"} </Button>,
 
                     ]}
                 >
@@ -114,7 +112,7 @@ const AdKeywordList = () => {
                                         <div className="form-group">
                                             <Input type="text" name="groupName"
                                                 value={newKeywordTable.kwdName}
-                                                onChange={(e) => setNewKeywordTable({ key: key++, kwdName: e.target.value, bidCost: newKeywordTable.bidCost })}
+                                                onChange={(e) => setNewKeywordTable({ key: Math.floor(Math.random() * 101), kwdName: e.target.value, bidCost: newKeywordTable.bidCost })}
                                             />
                                         </div>
                                     </dd>
@@ -129,7 +127,7 @@ const AdKeywordList = () => {
                                         <div className="form-group">
                                             <Input type="text" name="groupName"
                                                 value={newKeywordTable.bidCost}
-                                                onChange={(e) => setNewKeywordTable({ key: key++, kwdName: newKeywordTable.kwdName, bidCost: e.target.value })}
+                                                onChange={(e) => setNewKeywordTable({ key: Math.floor(Math.random() * 101), kwdName: newKeywordTable.kwdName, bidCost: e.target.value })}
 
                                             />
                                         </div>
@@ -148,7 +146,7 @@ const AdKeywordList = () => {
                     width={800}
                     footer={[
                         <Button key="back" type="primary" className="gray" size="large" onClick={modalCancleEvent}> {"취소"} </Button>,
-                        <Button key="submit" type="primary" className="pink" size="large" onClick={() => regBioCostEvent(newKeywordTable.bidCost)}> {"등록"} </Button>,
+                        <Button key="submit" type="primary" className="pink" size="large" onClick={() => regBioCostEvent(newKeywordTable)}> {"등록"} </Button>,
 
                     ]}
                 >
@@ -165,7 +163,7 @@ const AdKeywordList = () => {
                                         <div className="form-group">
                                             <Input type="text" name="groupName"
                                                 value={newKeywordTable.bidCost}
-                                                onChange={(e) => setNewKeywordTable({ key: key++, kwdName: newKeywordTable.kwdName, bidCost: e.target.value })}
+                                                onChange={(e) => setNewKeywordTable({ key: newKeywordTable.key, kwdName: newKeywordTable.kwdName, bidCost: e.target.value })}
 
                                             />
                                         </div>

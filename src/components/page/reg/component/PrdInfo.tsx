@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from "react-redux"
 import { State } from "../../../../state";
+import SelectAdGroup from "./SelectAdGroup";
 
 const PrdInfo = () => {
     const itemInfo = useSelector((state: State) => state.itemInfo)
@@ -74,6 +75,7 @@ const PrdInfo = () => {
                     </div>
                 </div>
             </section>
+            <SelectAdGroup /> 
         </>
     );
 }

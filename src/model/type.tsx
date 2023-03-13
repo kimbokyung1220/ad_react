@@ -1,3 +1,6 @@
+import { item } from "../components/page/RegContent";
+
+
 export type adGroup = {
     agroupId: number,
     agroupName: string,
@@ -6,12 +9,13 @@ export type adGroup = {
     agroupUseYn: number
 }
 
-export interface itemDefaultValue {
-    itemNo: "";
-    itemName:"";
-    adultYn: 0;
-    itemOrgCost: 0;
-    itemActYn: 0;
+export const itemDefaultValue: item = {
+    key: Math.floor(Math.random() * 101),
+    itemNo: "",
+    itemName:"", 
+    adultYn: 0, 
+    itemOrgCost: 0, 
+    itemActYn: 0
 }
 
 export type keywordTable = {
