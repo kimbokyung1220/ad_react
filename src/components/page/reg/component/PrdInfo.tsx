@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from "react-redux"
 import { State } from "../../../../state";
+import { item } from '../../RegContent';
 import SelectAdGroup from "./SelectAdGroup";
 
 const PrdInfo = () => {
     const itemInfo = useSelector((state: State) => state.itemInfo)
+    const adultYn = itemInfo.adultYn === 'YES' ? '성인상품' : '일반상품';
 
     return (
         <>
@@ -65,7 +67,7 @@ const PrdInfo = () => {
                                     <span className="comp-txt">
                                         <span className="table">
                                             <span className="table-cell">
-                                                <b className="fz-14 fc-gray-400">{itemInfo.adultYn}</b>
+                                                <b className="fz-14 fc-gray-400">{adultYn}</b>
                                             </span>
                                         </span>
                                     </span>
@@ -75,7 +77,8 @@ const PrdInfo = () => {
                     </div>
                 </div>
             </section>
-            <SelectAdGroup /> 
+
+            <SelectAdGroup />
         </>
     );
 }

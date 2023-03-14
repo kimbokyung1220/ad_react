@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import { bindActionCreators } from "redux";
 import { actionCreators, State } from "../../../../state";
-import { Button, Table, TableColumnsType, Modal, Input } from 'antd';
+import { Button, Table, TableColumnsType, Modal, Input, InputNumber } from 'antd';
 import { keywordTable, KeywordTableDefaultValue } from '../../../../model/type';
+import RegAdBtn from './RegAdBtn';
 
 
 
@@ -31,12 +32,26 @@ const AdKeywordList = () => {
     ];
 
     const regKeywordEvent = (newKeywordTable: keywordTable) => {
+        if(Number(newKeywordTable.bidCost) < 90 || Number(newKeywordTable.bidCost) > 99000) {
+            alert("입찰가는 최소 90원 최대 99000원까지 입력 가능합니다.");
+            return false;
+        }
+        const validationList = keywordTableInfo.filter(keyword => keyword.kwdName === newKeywordTable.kwdName)
+        if(validationList.length !== 0) {
+            alert("현재 동일한 키워드 명이 존재합니다.");
+            return false;
+        }
+        
         showKeywordTableInfo([...keywordTableInfo, newKeywordTable]);
         setKwdIsModalOpen(false);
         setNewKeywordTable(KeywordTableDefaultValue);
     }
 
     const regBioCostEvent = (newBidCost: keywordTable) => {
+        if(Number(newBidCost.bidCost) < 90 || Number(newBidCost.bidCost) > 99000) {
+            alert("입찰가는 최소 90원 최대 99000원까지 입력 가능합니다.");
+            return false;
+        }
         let copyList = [...keywordTableInfo];
         copyList.map((copy) => copy.bidCost = newBidCost.bidCost)
         showKeywordTableInfo(copyList);
@@ -50,14 +65,11 @@ const AdKeywordList = () => {
         return showKeywordTableInfo(deleteList);
     }
 
-    // const 
-
     const modalCancleEvent = () => {
         setKwdIsModalOpen(false);
         setBioCostIsModalOpen(false);
         setNewKeywordTable(KeywordTableDefaultValue);
     }
-
 
     return (
         <>
@@ -80,12 +92,13 @@ const AdKeywordList = () => {
                         dataSource={keywordTableInfo}
                         columns={columns}
                         bordered={true}
-                        pagination={{ pageSize: 10 }}
+                        pagination={{showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>)}}
                     >
 
                     </Table>
                 </div>
             </section>
+            <RegAdBtn />
 
             {/* 키워드 추가 모달 */}
             <div>
@@ -125,7 +138,7 @@ const AdKeywordList = () => {
                                     </dt>
                                     <dd>
                                         <div className="form-group">
-                                            <Input type="text" name="groupName"
+                                            <Input type="text" name="bi"
                                                 value={newKeywordTable.bidCost}
                                                 onChange={(e) => setNewKeywordTable({ key: Math.floor(Math.random() * 101), kwdName: newKeywordTable.kwdName, bidCost: e.target.value })}
 
@@ -176,6 +189,7 @@ const AdKeywordList = () => {
             </div>
         </>
     );
+    
 }
 
 export default AdKeywordList;

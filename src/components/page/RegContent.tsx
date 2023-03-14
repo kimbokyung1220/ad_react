@@ -6,11 +6,12 @@ import { State } from "../../state";
 
 export type item = {
     key: number,
+    itemId: number,
     itemNo: string,
     itemName: string,
-    adultYn: number,
+    adultYn: string,
     itemOrgCost: number,
-    itemActYn: number
+    itemActYn: string
 }
 
 const RegContent = () => {

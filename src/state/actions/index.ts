@@ -1,5 +1,5 @@
 import { item } from "../../components/page/RegContent"
-import { adGroup, keywordTable } from "../../model/type"
+import { adGroup, keywordTable, oneGroup } from "../../model/type"
 import { ActionType } from "../action-type"
 
 interface SearchAction {
@@ -22,6 +22,11 @@ interface AddAdGroup {
     payload: adGroup[]
 }
 
+interface SelectAdGroup {
+    type: ActionType.SELECT_ADGROUP
+    payload: oneGroup
+}
+
 interface AddKeywordInfo {
     type: ActionType.ADD_KEYWORDINFO
     payload: AddKeywordInfo[]
@@ -40,3 +45,4 @@ export type Action = SearchAction
                     | AddAdGroup
                     | AddKeywordInfo
                     | KeywordTableInfo
+                    | SelectAdGroup

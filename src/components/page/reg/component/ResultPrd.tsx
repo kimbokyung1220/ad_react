@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { Button, Table, TableColumnsType } from 'antd';
 import { item } from "../../RegContent";
 import { useDispatch, useSelector } from "react-redux"
@@ -6,12 +6,17 @@ import { bindActionCreators } from "redux";
 import { actionCreators, State } from "../../../../state";
 import { getAgroupList } from '../../../../model/axios';
 import PrdInfo from "./PrdInfo";
+import SelectAdGroup from './SelectAdGroup';
 
 
 
 const ResultPrd = () => {
+    // 컴포넌트 활성화
+    const [showComponent, setShowComponent] = useState<boolean>(false);
+
     // 상품 목록 조회
     const items = useSelector((state: State) => state.item)
+    
     const dispatch = useDispatch();
     const { showItemInfo } = bindActionCreators(actionCreators, dispatch);
     // 해당 광고주의 광고그룹
@@ -19,17 +24,18 @@ const ResultPrd = () => {
 
     // 상품 선택
     function selectItemEvent(record: item) {
+        if(record.itemActYn == '비활성화') {
+            alert('비활성화된 상품은 광고 등록을 진행할 수 없습니다.');
+            return false;
+        }
         // 레코드정보 담기
-        console.log("record 정보@@@@@@@@@@@@@@@@@@@@@")
-        console.log(record)
         showItemInfo(record)
+        setShowComponent(true)
 
         // 광고그룹 API
         getAgroupList().then(res => {
             if (res !== null) {
                 showAdGroup(res)
-                console.log(" *********** showAdGroup.length")
-                console.log(showAdGroup.length)
             }
         }).catch(error => {
             console.log("show AdGroup error")
@@ -64,15 +70,15 @@ const ResultPrd = () => {
 
                     <Table
                         dataSource={items}
+                        pagination={{showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>)}}
                         columns={columns}
                         bordered={true}
-                        pagination={{ pageSize: 10 }}
                     >
                     </Table>
                 </div>
             </section>
             <>
-            <PrdInfo />
+            {showComponent == true && <PrdInfo />}
                 
                
                

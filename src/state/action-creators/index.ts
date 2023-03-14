@@ -41,6 +41,15 @@ export const createAdGroup = (adGroupArr: adGroup[]) => {
     }
 }
 
+export const selectAdGroup = (adGroup: adGroup) => {
+    return (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type:ActionType.SELECT_ADGROUP,
+            payload: adGroup
+        })
+    }
+}
+
 export const showKeywordTableInfo = (tableInfoArr: keywordTable[]) => {
     return (dispatch: Dispatch<Action>) => {
         dispatch({

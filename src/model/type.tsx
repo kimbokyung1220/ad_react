@@ -1,27 +1,42 @@
 import { item } from "../components/page/RegContent";
 
+export type oneGroup = {
+    agroupId: number
+}
+export const oneGroupDefaultValue: oneGroup = {
+    agroupId: 0
+}
 
 export type adGroup = {
     agroupId: number,
     agroupName: string,
     regTime : string,
-    agroupActYn: number,
-    agroupUseYn: number
+    agroupActYn: string,
+    agroupUseYn: string
+}
+
+export const adGroupDefaultValue: adGroup = {
+    agroupId: 0,
+    agroupName: "",
+    regTime : "",
+    agroupActYn: "",
+    agroupUseYn: ""
 }
 
 export const itemDefaultValue: item = {
     key: Math.floor(Math.random() * 101),
+    itemId: 0,
     itemNo: "",
     itemName:"", 
-    adultYn: 0, 
+    adultYn: "", 
     itemOrgCost: 0, 
-    itemActYn: 0
+    itemActYn: ""
 }
 
 export type keywordTable = {
     key: number,
 	kwdName: string,
-	bidCost: string
+	bidCost: string,
 }
 
 export const KeywordTableDefaultValue: keywordTable = {
