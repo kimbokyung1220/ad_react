@@ -9,7 +9,7 @@ import RegAdBtn from './RegAdBtn';
 
 
 const AdKeywordList = () => {
-
+    // 등록 키워드 정보
     const keywordTableInfo = useSelector((state: State) => state.keywordTableInfo)
     const dispatch = useDispatch();
     const { showKeywordTableInfo } = bindActionCreators(actionCreators, dispatch);
@@ -19,18 +19,7 @@ const AdKeywordList = () => {
     const [bioCostIsModalOpen, setBioCostIsModalOpen] = useState(false);
     const [newKeywordTable, setNewKeywordTable] = useState<keywordTable>(KeywordTableDefaultValue);
 
-    const columns: TableColumnsType<keywordTable> = [
-        { title: '키워드명', dataIndex: 'kwdName', key: 'kwdName', align: 'center' },
-        { title: '입찰가', dataIndex: 'bidCost', key: 'bidCost', align: 'center' },
-        {
-            title: '키워드 삭제', dataIndex: 'kwdDeleteBtn', key: 'btn', align: 'center',
-            render: (text, record) => (
-                <Button size="small" className="pink" onClick={() => keywordDeleteEvent(record)} ><span>삭제</span></Button>
-            )
-
-        },
-    ];
-
+    // 키워드 등록 이벤트
     const regKeywordEvent = (newKeywordTable: keywordTable) => {
         if(Number(newKeywordTable.bidCost) < 90 || Number(newKeywordTable.bidCost) > 99000) {
             alert("입찰가는 최소 90원 최대 99000원까지 입력 가능합니다.");
@@ -47,6 +36,7 @@ const AdKeywordList = () => {
         setNewKeywordTable(KeywordTableDefaultValue);
     }
 
+    // 입찰가 일괄 설정 이벤트
     const regBioCostEvent = (newBidCost: keywordTable) => {
         if(Number(newBidCost.bidCost) < 90 || Number(newBidCost.bidCost) > 99000) {
             alert("입찰가는 최소 90원 최대 99000원까지 입력 가능합니다.");
@@ -59,17 +49,31 @@ const AdKeywordList = () => {
         setNewKeywordTable(KeywordTableDefaultValue);
     }
 
+    // 키워드 삭제
     const keywordDeleteEvent = (record: keywordTable) => {
         console.log(record)
         const deleteList = keywordTableInfo.filter(keyword => keyword.key !== record.key);
         return showKeywordTableInfo(deleteList);
     }
 
+    // 모달 닫기
     const modalCancleEvent = () => {
         setKwdIsModalOpen(false);
         setBioCostIsModalOpen(false);
         setNewKeywordTable(KeywordTableDefaultValue);
     }
+        
+    const columns: TableColumnsType<keywordTable> = [
+        { title: '키워드명', dataIndex: 'kwdName', key: 'kwdName', align: 'center' },
+        { title: '입찰가', dataIndex: 'bidCost', key: 'bidCost', align: 'center' },
+        {
+            title: '키워드 삭제', dataIndex: 'kwdDeleteBtn', key: 'btn', align: 'center',
+            render: (text, record) => (
+                <Button size="small" className="pink" onClick={() => keywordDeleteEvent(record)} ><span>삭제</span></Button>
+            )
+
+        },
+    ];
 
     return (
         <>

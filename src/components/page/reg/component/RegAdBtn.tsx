@@ -8,6 +8,7 @@ const RegAdBtn = () => {
     const keywordInfo = useSelector((state: State) => state.keywordTableInfo);
     const itemInfo = useSelector((state: State) => state.itemInfo);
     const selectGroup = useSelector((state: State) => state.selectAdGroup);
+    
 
     const regAdEvent = () => {
         console.log("광고등록 event click");
@@ -20,44 +21,47 @@ const RegAdBtn = () => {
             return false;
         }
 
-        // step1();
         step2();
     }
-    // 1. 키워드 등록
-    const step1 = () => {
-        console.log("[step 1] ====== 키워드 등록")
+    // // 1. 광고그룹 저장
+    // const step1 = () => {
+    //      createAgroup(
+    //         {
+    //             'agroupName': newAdGroupName
+    //         }
+    //     ).then(res => {
+    //         if (res !== null) {
+    //             console.log("광고그룹 생성")
+    //             console.log(res)
+    //             setIsModalOpen(false)
+    //             setNewAdGroupName("")
+    //         }
+    //     }).catch(error => {
+    //         console.log("login error");
+    //         console.log(error);
+
+    //     })
+    // }
+
+
+    // 1. 광고 
+    const step2 = () => {
+        console.log("[step 1] ====== 광고 등록")
+        console.log(selectGroup);
         keywordInfo.map((info) => {
-            createKwds(
-                {
-                    'kwdName': info.kwdName
-                }
-            ).then(res => {
+            createAd({
+                'agroupId': selectGroup,
+                'itemId': itemInfo.itemId,
+                'kwdName': info.kwdName
+            }).then(res => {
                 if (res !== null) {
-                    console.log("키워드 등록 성공")
+
                 }
             }).catch(error => {
-                console.log("광고 등록 시 키워드 저장 error")
+                console.log("광고 등록 시 error")
                 console.log(error)
             })
         });
-    }
-
-    // 2. 광고 등록
-    const step2 = () => {
-        console.log("[step 2] ====== 광고 등록")
-        console.log(selectGroup);
-        createAd({
-            'agroupId': selectGroup,
-            'itemId': itemInfo.itemId,
-        }).then(res => {
-            if (res !== null) {
-            
-
-            }
-        }).catch(error => {
-            console.log("광고 등록 시 error")
-            console.log(error)
-        })
     }
 
     return (

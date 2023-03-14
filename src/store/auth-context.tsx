@@ -43,15 +43,14 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
 
     // retrieveStoredToken로 받은 token값과, logoutHandler를 종속변수로 삼는 useEffect훅
     useEffect(() => {
+    
         if (token !== null && rfToken !== null && auth !== null && id !== null) {
             localStorage.setItem('Authorization', token);
             localStorage.setItem('Refresh_Token', rfToken);
             localStorage.setItem('auth', auth);
             localStorage.setItem('id', id);
             
-        } else {
-            localStorage.clear();
-        }
+        } 
     }, [token]);
 
 

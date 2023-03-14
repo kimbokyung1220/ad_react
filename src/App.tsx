@@ -23,9 +23,9 @@ function App() {
           </Routes>
           :
           <Routes>
-            <Route path="/*" element={<Navigate replace to="/home" />} />
-            <Route path="*" element={<Navigate replace to="/home" />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Navigate replace to="/adv/reg" />} />
+            <Route path="*" element={<Navigate replace to="/adv/reg" />} />
+            <Route path="/adv/reg" element={<Home />} />
           </Routes>
         }
 
