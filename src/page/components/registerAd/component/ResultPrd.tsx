@@ -1,14 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button, Table, TableColumnsType } from 'antd';
-import { item } from "../../RegContent";
 import { useDispatch, useSelector } from "react-redux"
 import { bindActionCreators } from "redux";
 import { actionCreators, State } from "../../../../state";
 import { getAgroupList } from '../../../../model/axios';
 import PrdInfo from "./PrdInfo";
-import SelectAdGroup from './SelectAdGroup';
-
-
+import { item } from '../../../../type/item';
 
 const ResultPrd = () => {
     // 컴포넌트 활성화
@@ -67,15 +64,15 @@ const ResultPrd = () => {
                     </div>
                 </div>
                 <div className="box-body">
-                    {items.length && 
-                    <Table
-                        dataSource={items}
-                        rowKey={(render)=> render.itemId}
-                        pagination={{ showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>) }}
-                        columns={columns}
-                        bordered={true}
-                    >
-                    </Table>
+                    {items.length &&
+                        <Table
+                            dataSource={items}
+                            rowKey={(render) => render.itemId}
+                            pagination={{ showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>) }}
+                            columns={columns}
+                            bordered={true}
+                        >
+                        </Table>
                     }
                 </div>
             </section>

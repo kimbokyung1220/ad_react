@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from "react-redux"
 import { State } from "../../../../state";
-import { item } from '../../RegContent';
 import SelectAdGroup from "./SelectAdGroup";
 
 const PrdInfo = () => {

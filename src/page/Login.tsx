@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Input, Button } from 'antd';
 import AuthContext from '../store/auth-context';
 import { requestLogin } from '../model/axios';

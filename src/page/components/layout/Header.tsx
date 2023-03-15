@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Button, Divider, Layout, Menu, MenuProps, Space } from 'antd';
-import AuthContext from '../../store/auth-context';
-
+import AuthContext from '../../../store/auth-context';
 
 const Header = () => {
     const { Header } = Layout;

@@ -2,22 +2,22 @@ import axios from "axios";
 import { getToken } from './token';
 import { BASE_URL } from '../config'
 
-const authorization = getToken("Authorization")
-const refreshToken = getToken("Refresh_Token")
+// const authorization = getToken("Authorization")
+// const refreshToken = getToken("Refresh_Token")
 
 const headers = {
     'Content-Type': 'application/json;charset=UTF-8',
     'Access-Control-Allow-Origin': '*',
-    Authorization: authorization,
-    Refresh_Token: refreshToken,
+    // Authorization: authorization,
+    // Refresh_Token: refreshToken,
 }
 
-if (authorization !== undefined && authorization !== null) {
-    headers.Authorization = authorization;
-}
-if (refreshToken !== undefined && refreshToken !== null) {
-    headers.Refresh_Token = refreshToken;
-}
+// if (authorization !== undefined && authorization !== null) {
+//     headers.Authorization = authorization;
+// }
+// if (refreshToken !== undefined && refreshToken !== null) {
+//     headers.Refresh_Token = refreshToken;
+// }
 
 export const instance = axios.create({
     baseURL: BASE_URL,
@@ -25,23 +25,23 @@ export const instance = axios.create({
 });
 
 // 요청시 AccessToken 계속 보내주기 [request 인터셉터 (클라이언트 -> 서버)]
-// instance.interceptors.request.use(
-//     ( config: any) => {
-//         //데이터 전송 시 토큰 필요하면 여기서 추가하던가 하자.
-//         if(!config.headers) return config;
-//         let accessToken: string | null = null;
-//         accessToken = localStorage.getItem('Authorization');
-//         if(accessToken !== null) {
-//             config.headers.Authorization = {accessToken}
-//         }
-//         return config;
-//     },
-//     ( err: any) => {
-//     console.log("api 요청 전 에러 발생했습니다.");
-//     console.log(err);
-//     return Promise.reject(err);
-//   },
-// );
+instance.interceptors.request.use(
+    ( config: any) => {
+        //데이터 전송 시 토큰 필요하면 여기서 추가하던가 하자.
+        if(!config.headers) return config;
+        let accessToken: string | null = null;
+        accessToken = localStorage.getItem('Authorization');
+        if(accessToken !== null) {
+            config.headers.Authorization = accessToken
+        }
+        return config;
+    },
+    ( err: any) => {
+    console.log("api 요청 전 에러 발생했습니다.");
+    console.log(err);
+    return Promise.reject(err);
+  },
+);
 
 /**
  * 로그인

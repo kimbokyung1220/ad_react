@@ -1,17 +1,16 @@
-import { item } from "../../components/page/RegContent";
-import { itemDefaultValue } from "../../model/type";
+import { item, itemDefaultValue } from "../../type/item";
 import { ActionType } from "../action-type";
 import { Action } from "../actions";
 // 실제 동작 함수
 
 const init = itemDefaultValue;
 
-const reducer = (state:item = init, action: Action) => {
+const reducer = (state: item = init, action: Action) => {
     switch (action.type) {
         case ActionType.ITEMINFO:
-            return action.payload      
-        default: 
-        return state
+            return action.payload
+        default:
+            return state
     }
 }
 

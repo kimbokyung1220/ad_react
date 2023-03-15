@@ -3,7 +3,6 @@ import { Button } from 'antd';
 import { useSelector } from "react-redux"
 import { State } from "../../../../state";
 import { createAd, createAgroup } from '../../../../model/axios';
-import { createAdGroup } from "../../../../state/action-creators";
 
 const RegAdBtn = () => {
     const keywordInfo = useSelector((state: State) => state.keywordTableInfo);
@@ -24,7 +23,7 @@ const RegAdBtn = () => {
 
         step1();
     }
-    
+
     const step1 = () => {
         // 1. 광고그룹 저장
         createAgroup(
@@ -49,11 +48,11 @@ const RegAdBtn = () => {
     const regAd = (agroupId: number) => {
         // 1. 광고그룹 저장
         createAd({
-                'agroupId': agroupId,
-                'kwds': keywordInfo,
-                'itemId': itemInfo.itemId
-                
-            }).then(res => {
+            'agroupId': agroupId,
+            'kwds': keywordInfo,
+            'itemId': itemInfo.itemId
+
+        }).then(res => {
             if (res !== null) {
                 console.log("광고그룹 생성")
                 console.log(res.data)
@@ -64,7 +63,7 @@ const RegAdBtn = () => {
 
         })
     }
-    
+
 
     return (
         <>

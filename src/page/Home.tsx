@@ -1,17 +1,16 @@
-import React, { PropsWithChildren } from 'react';
-import Footer from "./layout/Footer";
-import Header from "./layout/Header";
 import { Layout } from 'antd';
-import ContentHeader from "./page/content/ContentHeader";
-import RegContent from "./page/RegContent";
-import ResultPrd from "./page/reg/component/ResultPrd";
+import { useContext, useEffect, PropsWithChildren } from 'react';
+import Footer from './components/layout/Footer';
+import Header from './components/layout/Header';
+import RegContent from './components/registerAd/RegContent';
+import NavigateLanding from "./NavigateLanding";
 const { Content } = Layout;
 
 
 
 const Home = ({ children }: PropsWithChildren) => {
     return (
-        <>
+        <NavigateLanding>
             <Layout>
                 <Header />
                 <Content>
@@ -19,7 +18,7 @@ const Home = ({ children }: PropsWithChildren) => {
                 </Content>
                 <Footer />
             </Layout>
-        </>
+        </NavigateLanding>
     );
 }
 

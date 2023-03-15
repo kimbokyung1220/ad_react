@@ -1,19 +1,19 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Select, Modal, Input } from "antd";
-import { useDispatch, useSelector } from 'react-redux';
-import { actionCreators, State } from '../../../../state';
-import { createAgroup, getAgroupList } from '../../../../model/axios';
+import { useDispatch } from 'react-redux';
+import { actionCreators } from '../../../../state';
+import { getAgroupList } from '../../../../model/axios';
 import { bindActionCreators } from 'redux';
-import AdKeywordList from './AdKeywordList';
-import { adGroup, oneGroup } from "../../../../model/type";
+import { adGroup } from '../../../../type/adGroup';
 const { Option } = Select;
+import AdKeywordList from './AdKeywordList';
 
 const SelectAdGroup = () => {
     // 광고목록 
     const [adGroupList, setAdGroupList] = useState<adGroup[]>([]);
     const options = adGroupList.map((option) => {
         return { value: option.agroupName, label: option.agroupName }
-    }) 
+    })
     // 선택한 광고그룹 저장
     const dispatch = useDispatch();
     const { selectedAdGroup } = bindActionCreators(actionCreators, dispatch); // agroupName : string
@@ -32,7 +32,7 @@ const SelectAdGroup = () => {
     const regAdGroupEvent = () => {
         // 신규 그룹 input 값
         // const pushAgroup: adGroup = 
-        setAdGroupList([...adGroupList, {agroupName:newAdGroupName, agroupId:newAdGroupName}]);
+        setAdGroupList([...adGroupList, { agroupName: newAdGroupName, agroupId: newAdGroupName }]);
         setValue(newAdGroupName)
         // 모달이 닫히면 input 초기화
         setNewAdGroupName("");
@@ -40,9 +40,9 @@ const SelectAdGroup = () => {
 
         // 그룹 등록 시 그룹이름 focusing
         onChangeEvent(newAdGroupName)
-    
+
     }
-    
+
     const onChangeEvent = (value: string) => {
         setValue(value);
         selectedAdGroup(value);
@@ -56,13 +56,13 @@ const SelectAdGroup = () => {
 
     useEffect(() => {
         getAgroupList()
-        .then((res) => setAdGroupList(res))
-        .catch((e) => console.log(e))
+            .then((res) => setAdGroupList(res))
+            .catch((e) => console.log(e))
     }, [])
 
     useEffect(() => {
 
-    },[value])
+    }, [value])
 
     return (
         <>
@@ -106,7 +106,7 @@ const SelectAdGroup = () => {
             </section>
 
             <AdKeywordList />
-            
+
             {/* 광고그룹 생성 모달 */}
             <div>
                 <Modal title="신규 광고 그룹 생성"

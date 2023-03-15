@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import { bindActionCreators } from "redux";
 import { actionCreators, State } from "../../../../state";
-import { Button, Table, TableColumnsType, Modal, Input, InputNumber } from 'antd';
-import { keywordTable, KeywordTableDefaultValue } from '../../../../model/type';
+import { Button, Table, TableColumnsType, Modal, Input } from 'antd';
 import RegAdBtn from './RegAdBtn';
+import { keywordTable, KeywordTableDefaultValue } from '../../../../type/keyword';
 
 
 
@@ -21,16 +21,16 @@ const AdKeywordList = () => {
 
     // 키워드 등록 이벤트
     const regKeywordEvent = (newKeywordTable: keywordTable) => {
-        if(Number(newKeywordTable.bidCost) < 90 || Number(newKeywordTable.bidCost) > 99000) {
+        if (Number(newKeywordTable.bidCost) < 90 || Number(newKeywordTable.bidCost) > 99000) {
             alert("입찰가는 최소 90원 최대 99000원까지 입력 가능합니다.");
             return false;
         }
         const validationList = keywordTableInfo.filter(keyword => keyword.kwdName === newKeywordTable.kwdName)
-        if(validationList.length !== 0) {
+        if (validationList.length !== 0) {
             alert("현재 동일한 키워드 명이 존재합니다.");
             return false;
         }
-        
+
         showKeywordTableInfo([...keywordTableInfo, newKeywordTable]);
         setKwdIsModalOpen(false);
         setNewKeywordTable(KeywordTableDefaultValue);
@@ -38,7 +38,7 @@ const AdKeywordList = () => {
 
     // 입찰가 일괄 설정 이벤트
     const regBioCostEvent = (newBidCost: keywordTable) => {
-        if(Number(newBidCost.bidCost) < 90 || Number(newBidCost.bidCost) > 99000) {
+        if (Number(newBidCost.bidCost) < 90 || Number(newBidCost.bidCost) > 99000) {
             alert("입찰가는 최소 90원 최대 99000원까지 입력 가능합니다.");
             return false;
         }
@@ -62,7 +62,7 @@ const AdKeywordList = () => {
         setBioCostIsModalOpen(false);
         setNewKeywordTable(KeywordTableDefaultValue);
     }
-        
+
     const columns: TableColumnsType<keywordTable> = [
         { title: '키워드명', dataIndex: 'kwdName', key: 'kwdName', align: 'center' },
         { title: '입찰가', dataIndex: 'bidCost', key: 'bidCost', align: 'center' },
@@ -96,7 +96,7 @@ const AdKeywordList = () => {
                         dataSource={keywordTableInfo}
                         columns={columns}
                         bordered={true}
-                        pagination={{showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>)}}
+                        pagination={{ showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>) }}
                     >
 
                     </Table>
@@ -193,7 +193,7 @@ const AdKeywordList = () => {
             </div>
         </>
     );
-    
+
 }
 
 export default AdKeywordList;

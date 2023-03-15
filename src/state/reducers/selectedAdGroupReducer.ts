@@ -1,4 +1,3 @@
-import { keywordTable } from "../../model/type";
 import { ActionType } from "../action-type";
 import { Action } from "../actions";
 // 실제 동작 함수
@@ -8,9 +7,9 @@ const init = ""
 const reducer = (state: string = init, action: Action) => {
     switch (action.type) {
         case ActionType.SELECTED_ADGTOUP:
-            return action.payload      
-        default: 
-        return state
+            return action.payload
+        default:
+            return state
     }
 }
 

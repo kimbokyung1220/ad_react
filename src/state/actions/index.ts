@@ -1,5 +1,6 @@
-import { item } from "../../components/page/RegContent"
-import { adGroup, keywordTable, oneGroup } from "../../model/type"
+import { adGroup } from "../../type/adGroup"
+import { item } from "../../type/item"
+import { keywordTable } from "../../type/keyword"
 import { ActionType } from "../action-type"
 
 interface SearchAction {
@@ -39,11 +40,10 @@ interface SelectedGoup {
 }
 
 
-export type Action = SearchAction 
-                    | ItemInfoAction 
-                    | showAdGroup
-                    | AddAdGroup
-                    | AddKeywordInfo
-                    | KeywordTableInfo
-                    | SelectedGoup
-                    
+export type Action = SearchAction
+    | ItemInfoAction
+    | showAdGroup
+    | AddAdGroup
+    | AddKeywordInfo
+    | KeywordTableInfo
+    | SelectedGoup

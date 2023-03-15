@@ -1,5 +1,4 @@
-import { TitleProps } from "antd/es/typography/Title";
-import React from 'react';
+
 
 const ContentHeader = () => {
     return (

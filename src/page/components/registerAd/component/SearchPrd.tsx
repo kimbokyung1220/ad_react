@@ -1,42 +1,8 @@
-import React, { useState, useContext } from 'react';
 import { Input, Button } from 'antd';
-import { getItemList } from '../../../../model/axios';
-import AuthContext from '../../../../store/auth-context';
-import { item } from "../../RegContent";
-import { useDispatch } from "react-redux"
-import { bindActionCreators } from "redux";
-import { actionCreators } from "../../../../state";
+import { useSearchPrd } from '../hooks/useSearchPrd';
 
-
-interface itemProps {
-    setItems: React.Dispatch<React.SetStateAction<item[]>>
-}
-
-// const SearchPrd = ({setItems}:itemProps) => {
 const SearchPrd = () => {
-    
-    const dispatch = useDispatch();
-    const { showItemList } = bindActionCreators(actionCreators, dispatch);
-    
-    // const authCtx = useContext(AuthContext);
-    const [itemNo, setItemNo] = useState('');
-    const [itemName, setItemName] = useState('');
-
-    const searchEvent = () => {
-        console.log("searchEvent")
-        const data = {
-            'itemNo': itemNo,
-            'itemName': itemName
-        };
-        getItemList(data).then(res => {
-            if (res !== null) {
-                showItemList(res)
-            }
-        }).catch(error => {
-            console.log("search error");
-            console.log(error);
-        })
-    }
+    const { itemNo, setItemNo, itemName, setItemName, searchEvent } = useSearchPrd();
 
     return (
         <>
@@ -63,9 +29,9 @@ const SearchPrd = () => {
                                         onChange={(e) => setItemName(e.currentTarget.value)}
                                         type="text"
                                         value={itemName}
-                                        style={{ width: "500px" }} 
+                                        style={{ width: "500px" }}
                                         onPressEnter={searchEvent}
-                                        />
+                                    />
                                 </div>
                             </dd>
                         </dl>
@@ -82,9 +48,9 @@ const SearchPrd = () => {
                                         onChange={(e) => setItemNo(e.currentTarget.value)}
                                         type="text"
                                         value={itemNo}
-                                        style={{ width: "500px" }} 
+                                        style={{ width: "500px" }}
                                         onPressEnter={searchEvent}
-                                        />
+                                    />
                                 </div>
                             </dd>
                         </dl>

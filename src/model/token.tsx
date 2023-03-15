@@ -1,7 +1,5 @@
 export const advId = localStorage.getItem('id');
 
-
-
 export const getToken = (name: string) => {
     return localStorage.getItem(name)
 }
