@@ -1,10 +1,10 @@
 import { item } from "../components/page/RegContent";
 
 export type oneGroup = {
-    agroupId: number
+    agroupName: string
 }
 export const oneGroupDefaultValue: oneGroup = {
-    agroupId: 0
+    agroupName: ""
 }
 
 export type adGroup = {

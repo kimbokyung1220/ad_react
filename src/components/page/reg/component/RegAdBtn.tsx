@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'antd';
 import { useSelector } from "react-redux"
 import { State } from "../../../../state";
-import { createAd, createKwds } from '../../../../model/axios';
+import { createAd, createAgroup, createKwds } from '../../../../model/axios';
 
 const RegAdBtn = () => {
     const keywordInfo = useSelector((state: State) => state.keywordTableInfo);
@@ -12,7 +12,7 @@ const RegAdBtn = () => {
 
     const regAdEvent = () => {
         console.log("광고등록 event click");
-        if (selectGroup === 0) {
+        if (selectGroup === null) {
             alert("광고그룹을 선택해 주세요");
             return false;
         }
@@ -21,27 +21,26 @@ const RegAdBtn = () => {
             return false;
         }
 
-        step2();
+        step1();
     }
-    // // 1. 광고그룹 저장
-    // const step1 = () => {
-    //      createAgroup(
-    //         {
-    //             'agroupName': newAdGroupName
-    //         }
-    //     ).then(res => {
-    //         if (res !== null) {
-    //             console.log("광고그룹 생성")
-    //             console.log(res)
-    //             setIsModalOpen(false)
-    //             setNewAdGroupName("")
-    //         }
-    //     }).catch(error => {
-    //         console.log("login error");
-    //         console.log(error);
+    // 1. 광고그룹 저장
+    const step1 = () => {
+         createAgroup(
+            {
+                'agroupName': selectGroup
+            }
+        ).then(res => {
+            if (res !== null) {
+                console.log("광고그룹 생성")
+                console.log(res)
+              
+            }
+        }).catch(error => {
+            console.log("login error");
+            console.log(error);
 
-    //     })
-    // }
+        })
+    }
 
 
     // 1. 광고 
@@ -50,7 +49,7 @@ const RegAdBtn = () => {
         console.log(selectGroup);
         keywordInfo.map((info) => {
             createAd({
-                'agroupId': selectGroup,
+                // 'agroupName': selectGroup,
                 'itemId': itemInfo.itemId,
                 'kwdName': info.kwdName
             }).then(res => {

@@ -1,7 +1,7 @@
 
 import { Dispatch } from "redux";
 import { item } from "../../components/page/RegContent";
-import { adGroup, keywordTable } from "../../model/type";
+import { adGroup, keywordTable, oneGroup } from "../../model/type";
 import { ActionType } from "../action-type";
 import { Action } from "../actions/index"
 
@@ -41,11 +41,11 @@ export const createAdGroup = (adGroupArr: adGroup[]) => {
     }
 }
 
-export const selectAdGroup = (adGroup: adGroup) => {
+export const selectAdGroup = (one: oneGroup) => {
     return (dispatch: Dispatch<Action>) => {
         dispatch({
             type:ActionType.SELECT_ADGROUP,
-            payload: adGroup
+            payload: one
         })
     }
 }
