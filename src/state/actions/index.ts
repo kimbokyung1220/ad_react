@@ -22,11 +22,6 @@ interface AddAdGroup {
     payload: adGroup[]
 }
 
-interface SelectAdGroup {
-    type: ActionType.SELECT_ADGROUP
-    payload: oneGroup
-}
-
 interface AddKeywordInfo {
     type: ActionType.ADD_KEYWORDINFO
     payload: AddKeywordInfo[]
@@ -38,6 +33,11 @@ interface KeywordTableInfo {
     payload: keywordTable[]
 }
 
+interface SelectedGoup {
+    type: ActionType.SELECTED_ADGTOUP
+    payload: string
+}
+
 
 export type Action = SearchAction 
                     | ItemInfoAction 
@@ -45,4 +45,5 @@ export type Action = SearchAction
                     | AddAdGroup
                     | AddKeywordInfo
                     | KeywordTableInfo
-                    | SelectAdGroup
+                    | SelectedGoup
+                    

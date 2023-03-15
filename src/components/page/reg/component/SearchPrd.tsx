@@ -22,8 +22,6 @@ const SearchPrd = () => {
     const [itemNo, setItemNo] = useState('');
     const [itemName, setItemName] = useState('');
 
-    
-
     const searchEvent = () => {
         console.log("searchEvent")
         const data = {

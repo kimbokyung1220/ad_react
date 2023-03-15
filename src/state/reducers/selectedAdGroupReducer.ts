@@ -1,13 +1,13 @@
-import { adGroup, adGroupDefaultValue } from "../../model/type";
+import { keywordTable } from "../../model/type";
 import { ActionType } from "../action-type";
 import { Action } from "../actions";
 // 실제 동작 함수
 
-const init = adGroupDefaultValue
+const init = ""
 
-const reducer = (state: adGroup = init, action: Action) => {
+const reducer = (state: string = init, action: Action) => {
     switch (action.type) {
-        case ActionType.SELECT_ADGROUP:
+        case ActionType.SELECTED_ADGTOUP:
             return action.payload      
         default: 
         return state

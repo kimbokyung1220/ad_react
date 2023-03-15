@@ -1,26 +1,24 @@
 import { item } from "../components/page/RegContent";
 
-export type oneGroup = {
+// export type oneGroup = {
+//     agroupName: string
+// }
+// export const oneGroupDefaultValue: oneGroup = {
+//     agroupName: ""
+// }
+
+export interface oneGroup {
     agroupName: string
-}
-export const oneGroupDefaultValue: oneGroup = {
-    agroupName: ""
 }
 
 export type adGroup = {
-    agroupId: number,
+    agroupId: string,
     agroupName: string,
-    regTime : string,
-    agroupActYn: string,
-    agroupUseYn: string
 }
 
 export const adGroupDefaultValue: adGroup = {
-    agroupId: 0,
+    agroupId: "",
     agroupName: "",
-    regTime : "",
-    agroupActYn: "",
-    agroupUseYn: ""
 }
 
 export const itemDefaultValue: item = {
@@ -58,3 +56,4 @@ export interface keywordDefaultValue {
     manualCnrKwdYn: 0
 
 }
+

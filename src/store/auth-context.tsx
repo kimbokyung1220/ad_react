@@ -21,12 +21,12 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
     // 1. 로그인 함수
     const loginHandler = (res: any) => {
 
-        localStorage.setItem('Authorization', 'Bearer ' + res.data.accessToken);
+        localStorage.setItem('Authorization', `Bearer ${res.data.accessToken}`);
         localStorage.setItem('Refresh_Token', res.data.refreshToken);
         localStorage.setItem('auth', res.data.authority);
         localStorage.setItem('id', res.data.memberId);
 
-        setToken('Bearer ' + res.data.accessToken)
+        setToken(`Bearer ${res.data.accessToken}`)
 
 
         console.log(res.data)

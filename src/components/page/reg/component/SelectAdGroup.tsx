@@ -5,67 +5,64 @@ import { actionCreators, State } from '../../../../state';
 import { createAgroup, getAgroupList } from '../../../../model/axios';
 import { bindActionCreators } from 'redux';
 import AdKeywordList from './AdKeywordList';
-import { adGroupDefaultValue } from '../../../../model/type';
-import { getValue } from '@testing-library/user-event/dist/utils';
+import { adGroup, oneGroup } from "../../../../model/type";
 const { Option } = Select;
 
 const SelectAdGroup = () => {
     // 광고목록 
-    const adGroups = useSelector((state: State) => state.adGroup)
-    // 광고그룹 저장
+    const [adGroupList, setAdGroupList] = useState<adGroup[]>([]);
+    const options = adGroupList.map((option) => {
+        return { value: option.agroupName, label: option.agroupName }
+    }) 
+    // 선택한 광고그룹 저장
     const dispatch = useDispatch();
-    const { selectAdGroup } = bindActionCreators(actionCreators, dispatch);
+    const { selectedAdGroup } = bindActionCreators(actionCreators, dispatch); // agroupName : string
 
     // 모달
     const [isModalOpen, setIsModalOpen] = useState(false);
-    
-    // 옵션값
-    // const options = 
-    // const [adgroupList, setAdgroupList] = useState([{label:"광고그룹을 선택해 주세요.", value:0}]);
-
     const [newAdGroupName, setNewAdGroupName] = useState("");
-    const [selected, setSelected] = useState({label:"광고그룹을 선택해 주세요.", value:0});
-    // console.log(options)
+
+    // Btn 순서
+    const [value, setValue] = useState("");
+    const selected = value == "" ? null : value;
+
 
     // select-box
 
-     const regAdGroupEent = () => {
-        // const pushAgroup = {label:newAdGroupName, value:0}
-        // setAdgroupList([...adgroupList, pushAgroup])
-        // setSelected(pushAgroup)
-        // setIsModalOpen(false)
-        // setNewAdGroupName("")
+    const regAdGroupEvent = () => {
+        // 신규 그룹 input 값
+        // const pushAgroup: adGroup = 
+        setAdGroupList([...adGroupList, {agroupName:newAdGroupName, agroupId:newAdGroupName}]);
+        setValue(newAdGroupName)
+        // 모달이 닫히면 input 초기화
+        setNewAdGroupName("");
+        setIsModalOpen(false);
+
+        // 그룹 등록 시 그룹이름 focusing
+        onChangeEvent(newAdGroupName)
+    
     }
     
+    const onChangeEvent = (value: string) => {
+        setValue(value);
+        selectedAdGroup(value);
+        console.log(value)
+    }
+    // 모달 닫기
     const modalCancleEvent = () => {
         setIsModalOpen(false)
         setNewAdGroupName("")
     }
 
-    const selectedEvent = (value: string) => {
-        setSelected({label:value, value:0});
-        selectAdGroup({agroupName: value})
-        console.log(value)
-    }
+    useEffect(() => {
+        getAgroupList()
+        .then((res) => setAdGroupList(res))
+        .catch((e) => console.log(e))
+    }, [])
 
-    useEffect(()=> {
-        const { showAdGroup } = bindActionCreators(actionCreators, dispatch);
-        // console.log("options")
-        // console.log(options)
-        //     setAdgroupList(options)
-        //     console.log("eeeeee")
-        //     console.log(adgroupList)
-         // 광고그룹 API
-         getAgroupList().then(res => {
-            if (res !== null) {
-                showAdGroup(res)
-            }
-        }).catch(error => {
-            console.log("show AdGroup error")
-            console.log(error)
-        })
-    },[])
-    
+    useEffect(() => {
+
+    },[value])
 
     return (
         <>
@@ -93,11 +90,12 @@ const SelectAdGroup = () => {
                                     <Select
                                         style={{ width: "250px" }}
                                         placeholder="광고그룹을 선택해주세요"
-                                        // onChange={(value) => selectAdGroup(value)}
-                                        onChange={selectedEvent}
-                                        // value={selected.label}
-                                        // options={adgroupList}
-                                        options={adGroups.map((option) => { return { value: option.agroupName, label: option.agroupName }})}
+                                        onChange={onChangeEvent}
+                                        value={selected}
+                                        // options={adGroupList.map((option) => {
+                                        //     return { value: option.agroupId, label: option.agroupName }
+                                        // })}
+                                        options={options}
                                     >
                                     </Select>
                                 </div>
@@ -116,7 +114,7 @@ const SelectAdGroup = () => {
                     width={800}
                     footer={[
                         <Button key="back" type="primary" className="gray" size="large" onClick={modalCancleEvent}> {"취소"} </Button>,
-                        <Button key="submit" type="primary" className="pink" size="large" onClick={regAdGroupEent}> {"등록"} </Button>,
+                        <Button key="submit" type="primary" className="pink" size="large" onClick={regAdGroupEvent}> {"등록"} </Button>,
 
                     ]}
                 >

@@ -2,17 +2,18 @@ import React from 'react';
 import { Button } from 'antd';
 import { useSelector } from "react-redux"
 import { State } from "../../../../state";
-import { createAd, createAgroup, createKwds } from '../../../../model/axios';
+import { createAd, createAgroup } from '../../../../model/axios';
+import { createAdGroup } from "../../../../state/action-creators";
 
 const RegAdBtn = () => {
     const keywordInfo = useSelector((state: State) => state.keywordTableInfo);
     const itemInfo = useSelector((state: State) => state.itemInfo);
-    const selectGroup = useSelector((state: State) => state.selectAdGroup);
-    
+    const adGroupInfo = useSelector((state: State) => state.selectedAdGroup)
+
 
     const regAdEvent = () => {
         console.log("광고등록 event click");
-        if (selectGroup === null) {
+        if (adGroupInfo === "") {
             alert("광고그룹을 선택해 주세요");
             return false;
         }
@@ -23,17 +24,20 @@ const RegAdBtn = () => {
 
         step1();
     }
-    // 1. 광고그룹 저장
+    
     const step1 = () => {
-         createAgroup(
+        // 1. 광고그룹 저장
+        createAgroup(
             {
-                'agroupName': selectGroup
+                'agroupName': adGroupInfo
             }
         ).then(res => {
             if (res !== null) {
                 console.log("광고그룹 생성")
-                console.log(res)
-              
+                console.log(res.data)
+                // const adGroupId = ;
+                regAd(res.data.agroupId);
+
             }
         }).catch(error => {
             console.log("login error");
@@ -42,26 +46,25 @@ const RegAdBtn = () => {
         })
     }
 
-
-    // 1. 광고 
-    const step2 = () => {
-        console.log("[step 1] ====== 광고 등록")
-        console.log(selectGroup);
-        keywordInfo.map((info) => {
-            createAd({
-                // 'agroupName': selectGroup,
-                'itemId': itemInfo.itemId,
-                'kwdName': info.kwdName
+    const regAd = (agroupId: number) => {
+        // 1. 광고그룹 저장
+        createAd({
+                'agroupId': agroupId,
+                'kwds': keywordInfo,
+                'itemId': itemInfo.itemId
+                
             }).then(res => {
-                if (res !== null) {
+            if (res !== null) {
+                console.log("광고그룹 생성")
+                console.log(res.data)
+            }
+        }).catch(error => {
+            console.log("login error");
+            console.log(error);
 
-                }
-            }).catch(error => {
-                console.log("광고 등록 시 error")
-                console.log(error)
-            })
-        });
+        })
     }
+    
 
     return (
         <>

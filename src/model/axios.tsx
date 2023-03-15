@@ -12,12 +12,12 @@ const headers = {
     Refresh_Token: refreshToken,
 }
 
-// if (authorization !== undefined && authorization !== null) {
-//     headers.Authorization = authorization;
-// }
-// if (refreshToken !== undefined && refreshToken !== null) {
-//     headers.Refresh_Token = refreshToken;
-// }
+if (authorization !== undefined && authorization !== null) {
+    headers.Authorization = authorization;
+}
+if (refreshToken !== undefined && refreshToken !== null) {
+    headers.Refresh_Token = refreshToken;
+}
 
 export const instance = axios.create({
     baseURL: BASE_URL,
@@ -71,7 +71,7 @@ export const getItemList = async (data: {}) => {
 export const getAgroupList = async () => {
     const response = await instance.get(`/api/agroup`)
     console.log("[API] getAgroupList")
-    console.log(response)
+    // console.log(response)
     return response.data
 }
 /**
@@ -83,7 +83,7 @@ export const createAgroup = async (data: {}) => {
     const response = await instance.post(`/api/agroup`, data)
     console.log("[API] createAgroup")
     console.log(response)
-    return response.data
+    return response
 }
 /**
  * 키워드 생성
@@ -106,5 +106,5 @@ export const createAd = async (data: {}) => {
     const response = await instance.post(`/api/ad`, data)
     console.log("[API] createAgroup")
     console.log(response)
-    return response.data
+    return response
 }

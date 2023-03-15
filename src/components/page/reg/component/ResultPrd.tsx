@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Table, TableColumnsType } from 'antd';
 import { item } from "../../RegContent";
 import { useDispatch, useSelector } from "react-redux"
@@ -16,7 +16,7 @@ const ResultPrd = () => {
 
     // 상품 목록 조회
     const items = useSelector((state: State) => state.item)
-    
+
     const dispatch = useDispatch();
     const { showItemInfo } = bindActionCreators(actionCreators, dispatch);
     // 해당 광고주의 광고그룹
@@ -24,7 +24,7 @@ const ResultPrd = () => {
 
     // 상품 선택
     function selectItemEvent(record: item) {
-        if(record.itemActYn == '비활성화') {
+        if (record.itemActYn == '비활성화') {
             alert('비활성화된 상품은 광고 등록을 진행할 수 없습니다.');
             return false;
         }
@@ -67,22 +67,20 @@ const ResultPrd = () => {
                     </div>
                 </div>
                 <div className="box-body">
-
+                    {items.length && 
                     <Table
                         dataSource={items}
-                        pagination={{showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>)}}
+                        rowKey={(render)=> render.itemId}
+                        pagination={{ showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>) }}
                         columns={columns}
                         bordered={true}
                     >
                     </Table>
+                    }
                 </div>
             </section>
             <>
-            {showComponent == true && <PrdInfo />}
-                
-               
-               
-
+                {showComponent == true && <PrdInfo />}
             </>
         </>
     );
