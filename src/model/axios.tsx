@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getToken } from './token';
 import { BASE_URL } from '../config'
 
 // const authorization = getToken("Authorization")

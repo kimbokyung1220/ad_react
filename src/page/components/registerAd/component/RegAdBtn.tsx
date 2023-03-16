@@ -50,12 +50,11 @@ const RegAdBtn = () => {
         createAd({
             'agroupId': agroupId,
             'kwds': keywordInfo,
-            'itemId': itemInfo.itemId
-
+            'itemId': itemInfo.itemId,
         }).then(res => {
             if (res !== null) {
-                console.log("광고그룹 생성")
-                console.log(res.data)
+                alert("광고를 등록 완료 했습니다! :)")
+                window.location.reload();
             }
         }).catch(error => {
             console.log("login error");

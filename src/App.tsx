@@ -8,21 +8,23 @@ import Home from "./page/Home";
 import NavigateLanding from './page/NavigateLanding';
 import Notfound from './page/Notfound';
 import Login from './page/Login';
+import { useContext } from "react";
+import AuthContext from "./store/auth-context";
 
 
 function App() {
-
+  const authCtx = useContext(AuthContext);
   return (
     <>
       <BrowserRouter>
-        <Routes>
+        {/* <Routes>
           <Route path="/" element={<NavigateLanding />} />
           <Route path="/common/login" element={<Login />} />
           <Route path="/adv/reg" element={<Home />} />
           <Route path="/404" element={<Notfound />} />
           <Route path="*" element={<Navigate to="/404" replace />} />
-        </Routes>
-        {/* {!authCtx.isLoggedIn ?
+        </Routes> */}
+        {!authCtx.isLoggedIn ?
           <Routes>
             <Route path="/*" element={<Navigate replace to="/common/login" />} />
             <Route path="/common/login" element={<Login />} />
@@ -34,7 +36,7 @@ function App() {
             <Route path="/adv/reg" element={<Home />} />
            
           </Routes>
-        } */}
+        }
       </BrowserRouter>
       {/* switch, ecaxt, react-rout-dom */}
     </>

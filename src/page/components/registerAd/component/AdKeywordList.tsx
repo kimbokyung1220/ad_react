@@ -38,6 +38,7 @@ const AdKeywordList = () => {
 
     // 입찰가 일괄 설정 이벤트
     const regBioCostEvent = (newBidCost: keywordTable) => {
+        
         if (Number(newBidCost.bidCost) < 90 || Number(newBidCost.bidCost) > 99000) {
             alert("입찰가는 최소 90원 최대 99000원까지 입력 가능합니다.");
             return false;
@@ -181,7 +182,6 @@ const AdKeywordList = () => {
                                             <Input type="text" name="groupName"
                                                 value={newKeywordTable.bidCost}
                                                 onChange={(e) => setNewKeywordTable({ key: newKeywordTable.key, kwdName: newKeywordTable.kwdName, bidCost: e.target.value })}
-
                                             />
                                         </div>
                                     </dd>
