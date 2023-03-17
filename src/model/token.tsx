@@ -1,14 +1,14 @@
 export const advId = localStorage.getItem('id');
 
-export const getToken = (name: string) => {
+export const getData = (name: string) => {
     return localStorage.getItem(name)
 }
 
-export const setToken = (name: string, value: string) => {
+export const setData = (name: string, value: string) => {
     return localStorage.setItem(name, value)
 }
 
-export const removeToken = (name: string) => {
+export const removeData = (name: string) => {
     return localStorage.removeItem(name)
 }
 

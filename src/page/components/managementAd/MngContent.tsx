@@ -1,13 +1,10 @@
+import React from 'react';
 import Body from "../../layout/Body";
-import NavigateLanding from "../../NavigateLanding";
 import ContentHeader from "../../layout/content/ContentHeader";
-import ResultPrd from "./component/ResultPrd";
-import SearchPrd from "./component/SearchPrd";
-import { useRegContent } from "./hooks/useRegContent";
+import NavigateLanding from "../../NavigateLanding";
+import AdvInfo from "./component/AdvInfo";
 
-const RegContent = () => {
-    const { items } = useRegContent();
-
+const MngContent = () => {
     return (
         <>
             <NavigateLanding>
@@ -15,11 +12,11 @@ const RegContent = () => {
                     <div className="site-layout-content">
                         <div className="inner-content">
                             <>
-                                <ContentHeader headerTitle={"광고 등록"} />
+                                <ContentHeader headerTitle={"광고 관리"} />
                             </>
                             <div className="content-body">
-                                <SearchPrd />
-                                {items.length > 0 && <ResultPrd />}
+                                <AdvInfo />
+
                             </div>
                         </div>
                     </div>
@@ -29,4 +26,4 @@ const RegContent = () => {
     );
 }
 
-export default RegContent;
+export default MngContent;

@@ -10,6 +10,8 @@ import Notfound from './page/Notfound';
 import Login from './page/Login';
 import { useContext } from "react";
 import AuthContext from "./store/auth-context";
+import RegContent from "./page/components/registerAd/RegContent";
+import MngContent from "./page/components/managementAd/MngContent";
 
 
 function App() {
@@ -33,8 +35,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate replace to="/adv/reg" />} />
             <Route path="*" element={<Navigate replace to="/adv/reg" />} />
-            <Route path="/adv/reg" element={<Home />} />
-           
+            <Route path="/adv/reg" element={<RegContent />} />
+            <Route path="/adv/mng" element={<MngContent />} />
           </Routes>
         }
       </BrowserRouter>

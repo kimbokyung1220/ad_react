@@ -1,5 +1,5 @@
 import React from 'react';
-import ContentHeader from "../content/ContentHeader";
+import ContentHeader from "../../layout/content/ContentHeader";
 
 const IspContent = () => {
     return (
