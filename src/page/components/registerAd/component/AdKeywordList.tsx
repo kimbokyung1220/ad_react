@@ -130,7 +130,9 @@ const AdKeywordList = () => {
                                         <div className="form-group">
                                             <Input type="text" name="groupName"
                                                 value={newKeywordTable.kwdName}
+                                                // onPressEnter={regKeywordEvent}/
                                                 onChange={(e) => setNewKeywordTable({ key: Math.floor(Math.random() * 101), kwdName: e.target.value, bidCost: newKeywordTable.bidCost })}
+                                                
                                             />
                                         </div>
                                     </dd>

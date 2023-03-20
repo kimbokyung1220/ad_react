@@ -1,4 +1,5 @@
-import { adGroup } from "../../type/adGroup"
+import { adGroup, adGroupItem } from "../../type/adGroup"
+import { advInfo } from "../../type/adv"
 import { item } from "../../type/item"
 import { keywordTable } from "../../type/keyword"
 import { ActionType } from "../action-type"
@@ -39,6 +40,15 @@ interface SelectedGoup {
     payload: string
 }
 
+interface AdvInfoAction {
+    type: ActionType.ADV_INFO
+    payload: advInfo
+}
+interface AdgroupItem {
+    type: ActionType.ADGROUP_ITEM
+    payload: adGroupItem[]
+}
+
 
 export type Action = SearchAction
     | ItemInfoAction
@@ -47,3 +57,5 @@ export type Action = SearchAction
     | AddKeywordInfo
     | KeywordTableInfo
     | SelectedGoup
+    | AdvInfoAction
+    | AdgroupItem

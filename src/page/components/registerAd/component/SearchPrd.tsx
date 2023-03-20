@@ -25,7 +25,6 @@ const SearchPrd = () => {
                             <dd>
                                 <div className="form-group">
                                     <Input name="itemName" placeholder="상품명을 입력하세요."
-                                        // className="ant-input css-dev-only-do-not-override-1me4733" 
                                         onChange={(e) => setItemName(e.currentTarget.value)}
                                         type="text"
                                         value={itemName}
@@ -44,7 +43,6 @@ const SearchPrd = () => {
                             <dd>
                                 <div className="form-group">
                                     <Input name="itemNo" placeholder="상품번호을 입력하세요."
-                                        // className="ant-input css-dev-only-do-not-override-1me4733"
                                         onChange={(e) => setItemNo(e.currentTarget.value)}
                                         type="text"
                                         value={itemNo}

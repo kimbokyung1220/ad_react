@@ -1,10 +1,10 @@
 import React from 'react';
-import Body from "../../layout/Body";
-import ContentHeader from "../../layout/content/ContentHeader";
-import NavigateLanding from "../../NavigateLanding";
-import AdvInfo from "./component/AdvInfo";
+import Body from '../../../layout/Body';
+import ContentHeader from '../../../layout/content/ContentHeader';
+import NavigateLanding from '../../../NavigateLanding';
+import AdGroupInfo from './component/AdGroupInfo';
 
-const MngContent = () => {
+const AdGroupInfoContent = () => {
     return (
         <>
             <NavigateLanding>
@@ -15,8 +15,7 @@ const MngContent = () => {
                                 <ContentHeader headerTitle={"광고 관리"} />
                             </>
                             <div className="content-body">
-                                <AdvInfo />
-
+                                <AdGroupInfo />
                             </div>
                         </div>
                     </div>
@@ -26,4 +25,4 @@ const MngContent = () => {
     );
 }
 
-export default MngContent;
+export default AdGroupInfoContent;

@@ -107,3 +107,33 @@ export const createAd = async (data: {}) => {
     console.log(response)
     return response
 }
+
+/**
+ * 광고주 계정 정보 조회
+ */
+export const showAdvInfo = async () => {
+    const response = await instance.get(`/api/adv`)
+    console.log("[API] createAgroup")
+    console.log(response)
+    return response.data
+}
+
+/**
+ * 광고관리 - 그룹검색
+ */
+export const showAgroupItemList = async (data: {}) => {
+    const response = await instance.post(`/api/agroup/list`, data)
+    console.log("[API] AgroupSearch")
+    console.log(response)
+    return response.data
+}
+
+/**
+ * 광고관리 - 그룹검색
+ */
+export const updateIngActYn = async (data: {}) => {
+    const response = await instance.post(`/api/adv/ad-act`, data)
+    console.log("[API] updateIngActYn")
+    console.log(response)
+    return response.data
+}

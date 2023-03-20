@@ -1,6 +1,7 @@
 
 import { Dispatch } from "redux";
-import { adGroup } from "../../type/adGroup";
+import { adGroup, adGroupItem } from "../../type/adGroup";
+import { advInfo } from "../../type/adv";
 import { item } from "../../type/item";
 import { keywordTable } from "../../type/keyword";
 import { ActionType } from "../action-type";
@@ -60,5 +61,22 @@ export const selectedAdGroup = (adGroupNm: string) => {
     }
 }
 
+export const getAdvInfo = (advInfo: advInfo) => {
+    return (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type: ActionType.ADV_INFO,
+            payload: advInfo
+        })
+    }
+}
+
+export const getAdgroupItem = (adGroupItem: adGroupItem[]) => {
+    return (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type: ActionType.ADGROUP_ITEM,
+            payload: adGroupItem
+        })
+    }
+}
 
 

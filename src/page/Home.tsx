@@ -5,9 +5,9 @@ import Footer from './layout/Footer';
 import Header from './layout/Header';
 import RegContent from './components/registerAd/RegContent';
 import NavigateLanding from "./NavigateLanding";
-import MngContent from "./components/managementAd/MngContent";
 import { Route, Routes } from "react-router-dom";
 import Body from "./layout/Body";
+import AdvInfoContent from './components/managementAd/advInfo/AdvInfoContent';
 const { Content } = Layout;
 
 
@@ -17,7 +17,7 @@ const Home = () => {
             <Body>
                 <Routes>
                     <Route path="/adv/reg" element={<RegContent />} />
-                    <Route path="/adv/mng" element={<MngContent />} />
+                    <Route path="/adv/mng/advInfo" element={<AdvInfoContent />} />
                 </Routes>
             </Body>
         </NavigateLanding>

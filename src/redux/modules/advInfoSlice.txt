@@ -1,0 +1,47 @@
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { instance } from '../../model/axios';
+
+
+/**
+ * 광고주 계정 정보 조회
+ */
+export const __getAdvInfoThunk = createAsyncThunk(
+    'ADV_INFO', //action value
+    async (_, thunkAPI) => {
+        try {
+            const response = await instance.get(`api/adv`);
+            console.log(response)
+            return thunkAPI.fulfillWithValue(response.data);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+);
+
+const initialState = {
+    adv: { data: {}, isLoading: false, error: null }
+};
+
+export const advInfoSlice = createSlice({
+    name: 'adv', //모듈의 이름
+    initialState,
+    reducers: {
+    },
+    extraReducers: {
+        //get
+        [__getAdvInfoThunk.pending.type]: (state) => {
+            state.adv.isLoading = true;
+        },
+        [__getAdvInfoThunk.rejected.type]: (state, action) => {
+            state.adv.isLoading = false;
+            state.adv.error = action.payload;
+        },
+        [__getAdvInfoThunk.fulfilled.type]: (state, action) => {
+            state.adv.isLoading = false;
+            state.adv.data = action.payload;
+        },
+    }
+});
+
+export const { } = advInfoSlice.actions;
+export default advInfoSlice.reducer;

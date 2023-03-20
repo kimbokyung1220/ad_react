@@ -13,7 +13,7 @@ const Header = () => {
 
     const advMenu: MenuProps['items'] = [
         { label: <Link to="/adv/reg">광고 등록</Link>, key: 'reg', icon: <i className="ico ico-menu-01 ant-menu-item-icon" /> },
-        { label: <Link to="/adv/mng">광고 관리</Link>, key: 'mng', icon: <i className="ico ico-menu-02 ant-menu-item-icon" /> },
+        { label: <Link to="/adv/mng/advInfo">광고 관리</Link>, key: 'mng', icon: <i className="ico ico-menu-02 ant-menu-item-icon" /> },
     ]
 
     const admMenu: MenuProps['items'] = [

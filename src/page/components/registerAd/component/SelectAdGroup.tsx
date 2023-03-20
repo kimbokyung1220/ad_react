@@ -58,7 +58,7 @@ const SelectAdGroup = () => {
     useEffect(() => {
         getAgroupList()
             .then((res) => setAdGroupList(res))
-            .catch((e) => console.log(e))
+            .catch((err) => console.log(err))
     }, [])
 
     useEffect(() => {

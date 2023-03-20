@@ -5,6 +5,8 @@ type Props = { children?: React.ReactNode }
 // createContext는 각각의 컴포넌트에 포함되는 객체를 만드는 로직
 const AuthContext = React.createContext({
     token: localStorage.getItem('Authorization'),
+    moveMenu: (data: any) => { },
+    menu: sessionStorage.getItem('menu'),
     isLoggedIn: false,
     login: (data: any) => { },
     logout: () => { },
@@ -14,6 +16,7 @@ const AuthContext = React.createContext({
 export const AuthContextProvider: React.FC<Props> = (props) => {
 
     const [token, setToken] = useState(localStorage.getItem('Authorization'));
+    const [menu, setMenu] = useState(sessionStorage.getItem('menu'))
 
     // 토큰값으로 check
     const userIsLoggedIn = !!token;
@@ -25,6 +28,7 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
         localStorage.setItem('Refresh_Token', res.data.refreshToken);
         localStorage.setItem('auth', res.data.authority);
         localStorage.setItem('id', res.data.memberId);
+        sessionStorage.setItem('menu', 'res');
 
         setToken(`Bearer ${res.data.accessToken}`)
 
@@ -39,15 +43,21 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
      
     }, []);
 
+    // 메뉴 이동
+    const moveMenuHandler = (data: any) => {
+        sessionStorage.setItem('menu', data);
+    }
 
     // retrieveStoredToken로 받은 token값과, logoutHandler를 종속변수로 삼는 useEffect훅
     useEffect(() => {
 
-    }, [token]);
+    }, [token, menu]);
 
 
     const contextValue = {
         token,
+        moveMenu: moveMenuHandler,
+        menu,
         isLoggedIn: userIsLoggedIn,
         login: loginHandler,
         logout: logoutHandler,
