@@ -1,22 +1,10 @@
 import axios from "axios";
 import { BASE_URL } from '../config'
 
-// const authorization = getToken("Authorization")
-// const refreshToken = getToken("Refresh_Token")
-
 const headers = {
     'Content-Type': 'application/json;charset=UTF-8',
     'Access-Control-Allow-Origin': '*',
-    // Authorization: authorization,
-    // Refresh_Token: refreshToken,
 }
-
-// if (authorization !== undefined && authorization !== null) {
-//     headers.Authorization = authorization;
-// }
-// if (refreshToken !== undefined && refreshToken !== null) {
-//     headers.Refresh_Token = refreshToken;
-// }
 
 export const instance = axios.create({
     baseURL: BASE_URL,
@@ -44,17 +32,14 @@ instance.interceptors.request.use(
 
 /**
  * 로그인
- * @param data 
- * @returns 
  */
 export const requestLogin = async (data: {}) => {
     const response = await instance.post(`/common/login`, data)
     return response
 }
+
 /**
- * 상품목록 조회
- * @param data 
- * @returns 
+ * 광고등록 - 상품조회
  */
 export const getItemList = async (data: {}) => {
     const response = await instance.post(`/api/item`, data)
@@ -63,9 +48,7 @@ export const getItemList = async (data: {}) => {
     return response.data
 }
 /**
- * 광고그룹 리스트 조회
- * @param data 
- * @returns 
+ * 광고등록 - 광고그룹 선택 (광고그룹 리스트)
  */
 export const getAgroupList = async () => {
     const response = await instance.get(`/api/agroup`)
@@ -74,9 +57,8 @@ export const getAgroupList = async () => {
     return response.data
 }
 /**
- * 광고그룹 생성
- * @param data 
- * @returns 
+ * 광고등록 - 광고등록 시 광고그룹 생성
+ * 광고관리 - 그룹추가
  */
 export const createAgroup = async (data: {}) => {
     const response = await instance.post(`/api/agroup`, data)
@@ -85,9 +67,7 @@ export const createAgroup = async (data: {}) => {
     return response
 }
 /**
- * 키워드 생성
- * @param data 
- * @returns 
+ * 광고등록 - 광고 키워드 리스트 - 키워드 추가
  */
 export const createKwds = async (data: {}) => {
     const response = await instance.post(`/api/kwd`, data)
@@ -97,9 +77,7 @@ export const createKwds = async (data: {}) => {
 }
 
 /**
- * 광고 등록
- * @param data 
- * @returns 
+ * 광고등록 - 광고 등록
  */
 export const createAd = async (data: {}) => {
     const response = await instance.post(`/api/ad`, data)
@@ -109,7 +87,7 @@ export const createAd = async (data: {}) => {
 }
 
 /**
- * 광고주 계정 정보 조회
+ * 광고관리 - 광고주 계정 설정 및 정보 조회
  */
 export const showAdvInfo = async () => {
     const response = await instance.get(`/api/adv`)
@@ -119,7 +97,17 @@ export const showAdvInfo = async () => {
 }
 
 /**
- * 광고관리 - 그룹검색
+ * 광고관리 - 광고설정(광고 진행 활성 여부 변경)
+ */
+export const updateIngActYn = async (data: {}) => {
+    const response = await instance.post(`/api/adv/ad-act`, data)
+    console.log("[API] updateIngActYn")
+    console.log(response)
+    return response.data
+}
+
+/**
+ * 광고관리 - 그룹 조회
  */
 export const showAgroupItemList = async (data: {}) => {
     const response = await instance.post(`/api/agroup/list`, data)
@@ -129,11 +117,21 @@ export const showAgroupItemList = async (data: {}) => {
 }
 
 /**
- * 광고관리 - 그룹검색
+ * 광고관리 - 그룹리스트 - 광고그룹 사용설정여부 변경(1개)
  */
-export const updateIngActYn = async (data: {}) => {
-    const response = await instance.post(`/api/adv/ad-act`, data)
-    console.log("[API] updateIngActYn")
+export const updateAgUseConfig = async (data: {}) => {
+    const response = await instance.post(`api/agroup/useConfig`, data)
+    console.log("[API] updateAgUseConfig")
     console.log(response)
     return response.data
 }
+
+
+/**
+ * 광고관리 - 그룹리스트 - 광고그룹 사용설정여부 변경(체크박스로)
+ */
+
+
+
+
+

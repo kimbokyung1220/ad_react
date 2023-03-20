@@ -1,6 +1,5 @@
 import Reactm, { useEffect, useState } from 'react';
-import { Button, Switch } from 'antd';
-import { advInfoDefaultValue } from '../../../../../type/adv';
+import { Button, Switch, message} from 'antd';
 import { showAdvInfo, updateIngActYn } from '../../../../../model/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -11,18 +10,25 @@ const AdvInfo = () => {
     const { getAdvInfo } = bindActionCreators(actionCreators, dispatch);
     const advInfo = useSelector((state: State) => state.advInfo)
 
-    // todo)  확인
-    const adIngActYn = advInfo.adIngActYn !== 1 ? false : true;
-    console.log("adIngActYn ***********");
-    // console.log(adIngActYn);
-    const [switchState, setSwitchState] = useState<boolean>(adIngActYn);
+    const [switchState, setSwitchState] = useState<boolean>(advInfo.adIngActYn === 1 ? true : false);
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const SuccessBtn = () => {
+        messageApi.open({
+          type: 'success',
+          content: '변경 완료 했습니다',
+        });
+      };
 
     const swithchEvent = (checked: boolean) => {
         const data = checked ? 1 : 0;
         updateIngActYn({
             'adIngActYn': data
         })
-            .then((res) => getAdvInfo(res))
+            .then((res) => {
+                getAdvInfo(res)
+                SuccessBtn();
+            })
             .catch((err => console.log(err)))
         setSwitchState(checked)
 
@@ -30,11 +36,22 @@ const AdvInfo = () => {
 
     useEffect(() => {
         showAdvInfo()
-            .then((res) => getAdvInfo(res))
+            .then((res) => {
+                getAdvInfo(res)
+                if (res.adIngActYn === 1) {
+                    setSwitchState(true)
+                    console.log("res.adIngActYn == 1")
+                } else if (res.adIngActYn === 0) {
+                    setSwitchState(false)
+                    console.log("res.adIngActYn == 0")
+                }
+            })
             .catch((err) => console.log(err))
-    }, [])
+    }, [switchState])
+
     return (
         <>
+        { contextHolder }
             <section className="wrap-section wrap-tbl">
                 <div className="box-header">
                     <div className="box-left">
@@ -56,6 +73,7 @@ const AdvInfo = () => {
                                     <span className="comp-txt">
                                         <span className="table">
                                             <span className="table-cell">
+                                            <span>{advInfo.adIngActYn}</span>
                                                 <Switch className="pink"
                                                     size="small"
                                                     checkedChildren="on"
