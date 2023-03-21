@@ -20,13 +20,13 @@ const AdKeywordList = () => {
     const [newKeywordTable, setNewKeywordTable] = useState<keywordTable>(KeywordTableDefaultValue);
 
     // 키워드 등록 이벤트
-    const regKeywordEvent = (newKeywordTable: keywordTable) => {
+    const saveKeywordEvent = (newKeywordTable: keywordTable) => {
         if (Number(newKeywordTable.bidCost) < 90 || Number(newKeywordTable.bidCost) >= 99000) {
             alert("입찰가는 최소 90원 최대 99000원까지 입력 가능합니다.");
             return false;
         }
-        const validationList = keywordTableInfo.filter(keyword => keyword.kwdName === newKeywordTable.kwdName)
-        if (validationList.length !== 0) {
+        const sameKwdExist = keywordTableInfo.filter(keyword => keyword.kwdName === newKeywordTable.kwdName)
+        if (sameKwdExist.length !== 0) {
             alert("현재 동일한 키워드 명이 존재합니다.");
             return false;
         }
@@ -112,7 +112,7 @@ const AdKeywordList = () => {
                     width={800}
                     footer={[
                         <Button key="back" type="primary" className="gray" size="large" onClick={modalCancleEvent}> {"취소"} </Button>,
-                        <Button key="submit" type="primary" className="pink" size="large" onClick={() => regKeywordEvent(newKeywordTable)}> {"등록"} </Button>,
+                        <Button key="submit" type="primary" className="pink" size="large" onClick={() => saveKeywordEvent(newKeywordTable)}> {"등록"} </Button>,
 
                     ]}
                 >

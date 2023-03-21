@@ -8,6 +8,8 @@ const reducer = (state: advInfo = init, action: Action) => {
     switch (action.type) {
         case ActionType.ADV_INFO:
             return action.payload
+        case ActionType.RE_ADV_INFO:
+            return action.payload
         default:
             return state
     }

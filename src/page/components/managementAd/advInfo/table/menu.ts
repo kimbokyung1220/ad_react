@@ -1,4 +1,5 @@
 import { TableColumnsType } from "antd";
+import { useState } from "react";
 import { adGroupItem } from "../../../../../type/adGroup";
 
 // export const columns: TableColumnsType<adGroupItem> = [
@@ -8,13 +9,15 @@ import { adGroupItem } from "../../../../../type/adGroup";
 //     { title: '상품 수(LIVE/전체)', dataIndex: 'itemCnt', key: 'itemCnt', align: 'center' },
 
 // ];
+export const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
 
 export const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: adGroupItem[]) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        // setSelectionType(selectedRowKeys);
     },
-    getCheckboxProps: (record: adGroupItem) => ({
-        disabled: record.agroupName === 'Disabled User', // Column configuration not to be checked
-        name: record.agroupName,
-    }),
+    // getCheckboxProps: (record: adGroupItem) => ({
+    //     disabled: record.agroupName === '', // Column configuration not to be checked
+    //     name: record.agroupName,
+    // }),
 };

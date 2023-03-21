@@ -3,7 +3,7 @@ import { Button, Table, TableColumnsType } from 'antd';
 import { useDispatch, useSelector } from "react-redux"
 import { bindActionCreators } from "redux";
 import { actionCreators, State } from "../../../../state";
-import { getAgroupList } from '../../../../model/axios';
+import { requestAgroupAllList } from '../../../../model/axios';
 import PrdInfo from "./PrdInfo";
 import { item } from '../../../../type/item';
 
@@ -30,7 +30,8 @@ const ResultPrd = () => {
         setShowComponent(true)
 
         // 광고그룹 API
-        getAgroupList().then(res => {
+        requestAgroupAllList()
+        .then(res => {
             if (res !== null) {
                 showAdGroup(res)
             }

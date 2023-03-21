@@ -2,7 +2,7 @@ import React, { useEffect, useState, Dispatch } from 'react';
 import { Button, Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { showAgroupItemList } from '../../../../../model/axios';
+import { requestAgroupItemList } from '../../../../../model/axios';
 import { actionCreators } from '../../../../../state';
 interface Props{
     setIsAdGroupName: Dispatch<string>
@@ -17,7 +17,7 @@ const AdGroupSearch = ({setIsAdGroupName}:Props) => {
         const data = {
             'agroupName': adGroupName,
         };
-        showAgroupItemList(data)
+        requestAgroupItemList(data)
             .then((res) => getAdgroupItem(res))
             .catch((err) => console.log(err))
     }

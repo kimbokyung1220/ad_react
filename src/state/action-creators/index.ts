@@ -70,6 +70,15 @@ export const getAdvInfo = (advInfo: advInfo) => {
     }
 }
 
+export const getReAdvInfo = (advInfo: advInfo) => {
+    return (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type: ActionType.RE_ADV_INFO,
+            payload: advInfo
+        })
+    }
+}
+
 export const getAdgroupItem = (adGroupItem: adGroupItem[]) => {
     return (dispatch: Dispatch<Action>) => {
         dispatch({

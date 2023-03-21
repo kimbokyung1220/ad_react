@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'antd';
 import { useSelector } from "react-redux"
 import { State } from "../../../../state";
-import { createAd, requestCreateAgroup } from '../../../../model/axios';
+import { requestSaveAd, requesSaveAgroup } from '../../../../model/axios';
 
 const RegAdBtn = () => {
     const keywordInfo = useSelector((state: State) => state.keywordTableInfo);
@@ -21,33 +21,26 @@ const RegAdBtn = () => {
             return false;
         }
 
-        step1();
+        // 1. 광고그룹 저장
+        requesSaveAgroup({ 'agroupName': adGroupInfo })
+            .then(res => {
+                if (res !== null) {
+                    console.log("광고그룹 생성")
+                    console.log(res.data)
+                    // const adGroupId = ;
+                    resAdEvent(res.data.agroupId);
+                }
+            }).catch(error => {
+                console.log("login error");
+                console.log(error);
+
+            })
+
     }
 
-    const step1 = () => {
-        // 1. 광고그룹 저장
-        requestCreateAgroup(
-            {
-                'agroupName': adGroupInfo
-            }
-        ).then(res => {
-            if (res !== null) {
-                console.log("광고그룹 생성")
-                console.log(res.data)
-                // const adGroupId = ;
-                regAd(res.data.agroupId);
-
-            }
-        }).catch(error => {
-            console.log("login error");
-            console.log(error);
-
-        })
-    }
-
-    const regAd = (agroupId: number) => {
-        // 1. 광고그룹 저장
-        createAd({
+    const resAdEvent = (agroupId: number) => {
+        // 광고, 키워드 등록
+        requestSaveAd({
             'agroupId': agroupId,
             'kwds': keywordInfo,
             'itemId': itemInfo.itemId,

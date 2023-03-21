@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Button, Select, Modal, Input } from "antd";
 import { useDispatch } from 'react-redux';
 import { actionCreators } from '../../../../state';
-import { getAgroupList } from '../../../../model/axios';
+import { requestAgroupAllList } from '../../../../model/axios';
 import { bindActionCreators } from 'redux';
 import { adGroup } from '../../../../type/adGroup';
 import AdKeywordList from "./AdKeywordList";
@@ -56,7 +56,7 @@ const SelectAdGroup = () => {
     }
 
     useEffect(() => {
-        getAgroupList()
+        requestAgroupAllList()
             .then((res) => setAdGroupList(res))
             .catch((err) => console.log(err))
     }, [])

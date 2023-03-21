@@ -5,12 +5,13 @@ import NavigateLanding from '../../../NavigateLanding';
 import AdGroupList from './component/AdGroupList';
 import AdGroupSearch from './component/AdGroupSearch';
 import AdvInfo from "./component/AdvInfo";
-import { ModalContext } from "./hooks/ModalsContext";
+import AdGroupModal from "./modal/AdGroupModal";
 import DayBudgetModal from "./modal/DayBudgetModal";
 
 const AdvInfoContent = () => {
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [adGroupName, setIsAdGroupName] = useState<string>("");
+    const [dayLimitBudgetModalOpen, setDayLimitBudgetModalOpen] = useState<boolean>(false);
+    const [adGroupModalOpen, setAdGroupModalOpen] = useState<boolean>(false);
 
     return (
         <>
@@ -23,10 +24,11 @@ const AdvInfoContent = () => {
                                 <ContentHeader headerTitle={"광고 관리"} />
                             </>
                             <div className="content-body">
-                                <AdvInfo setIsModalOpen={setIsModalOpen}/>
+                                <AdvInfo setDayLimitBudgetModalOpen={setDayLimitBudgetModalOpen}/>
                                 <AdGroupSearch setIsAdGroupName={setIsAdGroupName}/>
-                                <AdGroupList adGroupName={adGroupName}/>
-                                <DayBudgetModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+                                <AdGroupList adGroupName={adGroupName} setAdGroupModalOpen={setAdGroupModalOpen}/>
+                                <DayBudgetModal dayLimitBudgetModalOpen={dayLimitBudgetModalOpen} setDayLimitBudgetModalOpen={setDayLimitBudgetModalOpen}/>
+                                <AdGroupModal adGroupModalOpen={adGroupModalOpen} setAdGroupModalOpen={setAdGroupModalOpen}/>
                             </div>
                         </div>
                     </div>

@@ -1,21 +1,21 @@
 import Reactm, { Dispatch, useEffect, useState } from 'react';
 import { Button, Switch, message } from 'antd';
-import { showAdvInfo, updateIngActYn } from '../../../../../model/axios';
+import { requestAdvInfo, requestUpdateIngActYn } from '../../../../../model/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators, State } from '../../../../../state';
 interface Props {
-    setIsModalOpen: Dispatch<boolean>
+    setDayLimitBudgetModalOpen: Dispatch<boolean>
 }
 
-const AdvInfo = ({setIsModalOpen}: Props) => {
+const AdvInfo = ({ setDayLimitBudgetModalOpen }: Props) => {
     const dispatch = useDispatch();
     const { getAdvInfo } = bindActionCreators(actionCreators, dispatch);
     const advInfo = useSelector((state: State) => state.advInfo)
 
     const [switchState, setSwitchState] = useState<boolean>(false);
     const [messageApi, contextHolder] = message.useMessage();
-  
+
 
     const SuccessBtn = () => {
         messageApi.open({
@@ -23,10 +23,10 @@ const AdvInfo = ({setIsModalOpen}: Props) => {
             content: '변경 완료 했습니다',
         });
     };
-
+    // 광고 설정 변경
     const swithchEvent = (checked: boolean) => {
         const data = checked ? 1 : 0;
-        updateIngActYn({
+        requestUpdateIngActYn({
             'adIngActYn': data
         })
             .then((res) => {
@@ -37,16 +37,17 @@ const AdvInfo = ({setIsModalOpen}: Props) => {
         setSwitchState(checked)
 
     }
+    // 모달 오픈
     const openModalEvent = () => {
-        setIsModalOpen(true)
+        setDayLimitBudgetModalOpen(true)
     }
 
     useEffect(() => {
-        if(advInfo.advId !== "") {
+        if (advInfo.advId !== "") {
             return;
         }
 
-        showAdvInfo()
+        requestAdvInfo()
             .then((res) => {
                 getAdvInfo(res);
                 if (res.adIngActYn === 1) {
@@ -82,7 +83,6 @@ const AdvInfo = ({setIsModalOpen}: Props) => {
                                     <span className="comp-txt">
                                         <span className="table">
                                             <span className="table-cell">
-                                                <span>{advInfo.adIngActYn}</span>
                                                 <Switch className="pink"
                                                     size="small"
                                                     checkedChildren="on"
@@ -152,7 +152,7 @@ const AdvInfo = ({setIsModalOpen}: Props) => {
                         <dl>
                             <dt style={{ width: '50%', textAlign: 'center' }}>
                                 <div className="dt-inner">
-                                    <span className="fz-15 fc-gray-500">일일 허용예산</span>
+                                    <span className="fz-15 fc-gray-500">일일 허용 예산</span>
                                 </div>
                             </dt>
                             <dd>
@@ -162,7 +162,7 @@ const AdvInfo = ({setIsModalOpen}: Props) => {
                                             <span className="table-cell">
 
                                                 <b className="fz-14 fc-gray-400">{advInfo.dayLimitBudget === 0 ? advInfo.dayLimitBudgetStatus : `${advInfo.dayLimitBudget}원`}</b>
-                                                <Button className="pink" size="small" style={{ marginLeft: "10px" }} onClick={openModalEvent}>일일 허용 예산 설정</Button>
+                                                <Button className="pink" size="middle" style={{ marginLeft: "20px" }} onClick={openModalEvent}>일일 허용 예산 설정</Button>
                                             </span>
                                         </span>
                                     </span>

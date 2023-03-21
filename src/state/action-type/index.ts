@@ -7,6 +7,7 @@ export enum ActionType {
     KEWORD_TABLE_INFO = "keyword_table_info",
     SELECTED_ADGTOUP = "selected_adgroup",
     ADV_INFO = "adv_info",
+    RE_ADV_INFO = "re_adv_info",
     ADGROUP_ITEM = "adgroup_item",
     RE_ADGROUP_ITEM = "re_adgroup_item"
 }

@@ -44,6 +44,10 @@ interface AdvInfoAction {
     type: ActionType.ADV_INFO
     payload: advInfo
 }
+interface reAdvInfoAction {
+    type: ActionType.RE_ADV_INFO
+    payload: advInfo
+}
 interface AdgroupItem {
     type: ActionType.ADGROUP_ITEM
     payload: adGroupItem[]
@@ -61,5 +65,6 @@ export type Action = SearchAction
     | KeywordTableInfo
     | SelectedGoup
     | AdvInfoAction
+    | reAdvInfoAction
     | AdgroupItem
     | reAdgroupItem

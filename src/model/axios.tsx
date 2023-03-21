@@ -13,21 +13,21 @@ export const instance = axios.create({
 
 // 요청시 AccessToken 계속 보내주기 [request 인터셉터 (클라이언트 -> 서버)]
 instance.interceptors.request.use(
-    ( config: any) => {
+    (config: any) => {
         //데이터 전송 시 토큰 필요하면 여기서 추가하던가 하자.
-        if(!config.headers) return config;
+        if (!config.headers) return config;
         let accessToken: string | null = null;
         accessToken = localStorage.getItem('Authorization');
-        if(accessToken !== null) {
+        if (accessToken !== null) {
             config.headers.Authorization = accessToken
         }
         return config;
     },
-    ( err: any) => {
-    console.log("api 요청 전 에러 발생했습니다.");
-    console.log(err);
-    return Promise.reject(err);
-  },
+    (err: any) => {
+        console.log("api 요청 전 에러 발생했습니다.");
+        console.log(err);
+        return Promise.reject(err);
+    },
 );
 
 /**
@@ -51,16 +51,16 @@ export const requestItemAllList = async (data: {}) => {
  * 광고등록 - 광고등록 시 광고그룹 생성
  * 광고관리 - 그룹추가
  */
-export const requestCreateAgroup = async (data: {}) => {
+export const requesSaveAgroup = async (data: {}) => {
     const response = await instance.post(`/api/agroup`, data)
-    console.log("[API] createAgroup")
+    console.log("[API] requesSaveAgroup")
     console.log(response)
     return response
 }
 /**
  * 광고등록 - 광고그룹 선택 (광고그룹 리스트)
  */
-export const getAgroupList = async () => {
+export const requestAgroupAllList = async () => {
     const response = await instance.get(`/api/agroup`)
     console.log("[API] getAgroupList")
     // console.log(response)
@@ -71,7 +71,7 @@ export const getAgroupList = async () => {
  */
 export const createKwds = async (data: {}) => {
     const response = await instance.post(`/api/kwd`, data)
-    console.log("[API] createAgroup")
+    console.log("[API] createKwds")
     console.log(response)
     return response.data
 }
@@ -79,9 +79,9 @@ export const createKwds = async (data: {}) => {
 /**
  * 광고등록 - 광고 등록
  */
-export const createAd = async (data: {}) => {
+export const requestSaveAd = async (data: {}) => {
     const response = await instance.post(`/api/ad`, data)
-    console.log("[API] createAgroup")
+    console.log("[API] requestSaveAd")
     console.log(response)
     return response
 }
@@ -89,9 +89,9 @@ export const createAd = async (data: {}) => {
 /**
  * 광고관리 - 광고주 계정 설정 및 정보 조회
  */
-export const showAdvInfo = async () => {
+export const requestAdvInfo = async () => {
     const response = await instance.get(`/api/adv`)
-    console.log("[API] createAgroup")
+    console.log("[API] requestAdvInfo")
     console.log(response)
     return response.data
 }
@@ -99,19 +99,19 @@ export const showAdvInfo = async () => {
 /**
  * 광고관리 - 광고설정(광고 진행 활성 여부 변경)
  */
-export const updateIngActYn = async (data: {}) => {
+export const requestUpdateIngActYn = async (data: {}) => {
     const response = await instance.post(`/api/adv/ad-act`, data)
-    console.log("[API] updateIngActYn")
+    console.log("[API] requestUpdateIngActYn")
     console.log(response)
     return response.data
 }
 
 /**
- * 광고관리 - 그룹 조회
+ * 광고관리 - 그룹 검색 조회
  */
-export const showAgroupItemList = async (data: {}) => {
+export const requestAgroupItemList = async (data: {}) => {
     const response = await instance.post(`/api/agroup/list`, data)
-    console.log("[API] AgroupSearch")
+    console.log("[API] requestAgroupItemList")
     console.log(response)
     return response.data
 }
@@ -119,9 +119,9 @@ export const showAgroupItemList = async (data: {}) => {
 /**
  * 광고관리 - 그룹리스트 - 광고그룹 사용설정여부 변경(1개)
  */
-export const updateAgUseConfig = async (data: {}) => {
+export const requestUpdateAgUseConfig = async (data: {}) => {
     const response = await instance.post(`api/agroup/useConfig`, data)
-    console.log("[API] updateAgUseConfig")
+    console.log("[API] requestUpdateAgUseConfig")
     console.log(response)
     return response
 }
@@ -132,6 +132,15 @@ export const updateAgUseConfig = async (data: {}) => {
  */
 
 
+/**
+ * 광고관리 - 광고주 계정 설정 및 정보 - 일일 허용 예산 변경
+ */
+export const requestUpdateLimitBudget = async (data: {}) => {
+    const response = await instance.post(`api/adv/ad-budget`, data)
+    console.log("[API] requestUpdateLimitBudget")
+    console.log(response)
+    return response
+}
 
 
 
