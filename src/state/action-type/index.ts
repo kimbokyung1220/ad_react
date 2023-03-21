@@ -8,4 +8,5 @@ export enum ActionType {
     SELECTED_ADGTOUP = "selected_adgroup",
     ADV_INFO = "adv_info",
     ADGROUP_ITEM = "adgroup_item",
+    RE_ADGROUP_ITEM = "re_adgroup_item"
 }

@@ -1,33 +1,46 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Dispatch } from 'react';
 import { Button, Input, Modal } from "antd";
 import { ModalContext } from "../hooks/ModalsContext";
+interface Props {
+    isModalOpen: boolean,
+    setIsModalOpen: Dispatch<boolean>
+}
 
-
-const DayBudgetModal = () => {
+const DayBudgetModal = ({isModalOpen, setIsModalOpen}:Props) => {
 
     const [dayLimitBudget, setDayLimitBudget] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+
+    const cancleModalEvent = () => {
+        setIsOpen(false); 
+        setIsModalOpen(false);
+    }
 
     useEffect(() => {
+        if(isModalOpen) {
+            setIsOpen(true)
+        } else {
+            setIsOpen(false)
+        }
     }, [isModalOpen])
-
+    console.log("isOpen******")
+    console.log(isOpen)
     return (
         <>
             <div>
                 <Modal title="일일 허용 예산 설정"
-                    open={isModalOpen}
-                    onOk={() => setIsModalOpen(false)}
-                    onCancel={() => { setIsModalOpen(false); setDayLimitBudget(0); }}
+                    open={isOpen}
+                    onOk={() => setIsOpen(false)}
+                    onCancel={cancleModalEvent}
                     maskClosable={false}
                     width={800}
                     footer={[
                         <Button key="back" type="primary" className="gray" size="large"
-                            onClick={() => { setIsModalOpen(false); setDayLimitBudget(0); }}> {"취소"} </Button>,
+                            onClick={cancleModalEvent}> {"취소"} </Button>,
                         <Button key="submit" type="primary" className="pink" size="large" > {"변경"} </Button>,
 
                     ]}
                 >
-
                     <section className="wrap-section wrap-tbl">
                         <div className="box-body">
                             <div className="tbl">
@@ -43,8 +56,9 @@ const DayBudgetModal = () => {
                                                 name="dayLimitBudget"
                                                 placeholder="일일 허용 예산을 입력해주세요."
                                                 value={dayLimitBudget}
-                                                onChange={(e) => setDayLimitBudget(Number(e.currentTarget.value))}
-                                            > {"원"}</Input>
+                                                onChange={(e) => console.log(e)}
+                                            />
+                                            <span>원</span>
                                         </div>
                                     </dd>
                                 </dl>

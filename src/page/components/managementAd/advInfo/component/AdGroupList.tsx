@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { Button, message, Popconfirm, Space, Table } from 'antd';
-import { useSelector } from 'react-redux';
-import { State } from '../../../../../state';
+import { useDispatch, useSelector } from 'react-redux';
+import { actionCreators, State } from '../../../../../state';
 import { rowSelection } from '../table/menu';
 import Column from "antd/es/table/Column";
 import { adGroupItem } from "../../../../../type/adGroup";
-import { updateAgUseConfig } from "../../../../../model/axios";
-import { CSVLink } from "react-csv";
+import { showAgroupItemList, updateAgUseConfig } from "../../../../../model/axios";
+import { getReAdgroupItem } from '../../../../../state/action-creators';
+import { bindActionCreators } from 'redux';
+// import { CSVLink } from "react-csv";
 
-interface Iprops {
-
+interface Props {
+    adGroupName: string
 }
 
-const AdGroupList = () => {
+const AdGroupList = ({adGroupName}: Props) => {
     // 광고그룹 리스트
+    const dispatch = useDispatch();
+    const { getReAdgroupItem } = bindActionCreators(actionCreators, dispatch);
     const adGroupItemList = useSelector((state: State) => state.adGroupItem);
     const [reload, setReload] = useState<boolean>(false);
     const [messageApi, contextHolder] = message.useMessage();
     const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
+    console.log("adGroupItemList//////");
+    console.log(adGroupItemList);
 
     const headers = [
         { label: "번호", key: "index" },
@@ -28,6 +34,7 @@ const AdGroupList = () => {
 
     // 광고그룹 사용설정여부 변경(1개)
     const updateAgUseConfigEvent = (recode: any) => {
+        console.log("ADFAD", recode);
         const param = recode.agroupUseConfigYn === 1 ? 0 : 1
 
         updateAgUseConfig({
@@ -39,7 +46,15 @@ const AdGroupList = () => {
                     type: 'success',
                     content: '변경 완료 했습니다',
                 });
-                setReload(true)
+                const data = {
+                    'agroupName': adGroupName,
+                };
+                showAgroupItemList(data)
+                    .then((res) => getReAdgroupItem(res))
+                    .catch((err) => console.log(err))
+                
+                // getReAdgroupItem(recode);
+                // getReAdgroupItem(res.data);
             })
             .catch((err) => setReload(false))
     }
@@ -71,13 +86,13 @@ const AdGroupList = () => {
                             <span>그룹 삭제</span>
                         </Button>
 
-                        <CSVLink filename={"Expense_Table.csv"} data={adGroupItemList} headers={headers} className="btn btn-primary"
+                        {/* <CSVLink filename={"ADGroupList.csv"} data={adGroupItemList} headers={headers} className="btn btn-primary"
                             onClick={() => { message.success("The file is downloading") }}
                         >
                             <Button className="pink" size="large" style={{ marginLeft: '30px' }}> 
                                 <span> 그룹 다운로드 </span>
                             </Button>
-                        </CSVLink>
+                        </CSVLink> */}
 
                     </div>
                 </div>

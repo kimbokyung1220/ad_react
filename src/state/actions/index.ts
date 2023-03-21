@@ -48,7 +48,10 @@ interface AdgroupItem {
     type: ActionType.ADGROUP_ITEM
     payload: adGroupItem[]
 }
-
+interface reAdgroupItem {
+    type: ActionType.RE_ADGROUP_ITEM
+    payload: adGroupItem[]
+}
 
 export type Action = SearchAction
     | ItemInfoAction
@@ -59,3 +62,4 @@ export type Action = SearchAction
     | SelectedGoup
     | AdvInfoAction
     | AdgroupItem
+    | reAdgroupItem

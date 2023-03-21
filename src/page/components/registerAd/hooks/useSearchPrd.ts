@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { getItemList } from "../../../../model/axios";
+import { requestItemAllList } from "../../../../model/axios";
 import { actionCreators } from "../../../../state";
 
 export const useSearchPrd = () => {
@@ -19,7 +19,7 @@ export const useSearchPrd = () => {
             'itemNo': itemNo,
             'itemName': itemName
         };
-        getItemList(data).then(res => {
+        requestItemAllList(data).then(res => {
             if (res !== null) {
                 showItemList(res)
             }

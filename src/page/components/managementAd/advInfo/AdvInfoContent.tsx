@@ -10,6 +10,7 @@ import DayBudgetModal from "./modal/DayBudgetModal";
 
 const AdvInfoContent = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [adGroupName, setIsAdGroupName] = useState<string>("");
 
     return (
         <>
@@ -22,10 +23,10 @@ const AdvInfoContent = () => {
                                 <ContentHeader headerTitle={"광고 관리"} />
                             </>
                             <div className="content-body">
-                                <AdvInfo />
-                                <AdGroupSearch />
-                                <AdGroupList />
-                                <DayBudgetModal />
+                                <AdvInfo setIsModalOpen={setIsModalOpen}/>
+                                <AdGroupSearch setIsAdGroupName={setIsAdGroupName}/>
+                                <AdGroupList adGroupName={adGroupName}/>
+                                <DayBudgetModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
                             </div>
                         </div>
                     </div>

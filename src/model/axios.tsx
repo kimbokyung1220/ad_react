@@ -41,11 +41,21 @@ export const requestLogin = async (data: {}) => {
 /**
  * 광고등록 - 상품조회
  */
-export const getItemList = async (data: {}) => {
+export const requestItemAllList = async (data: {}) => {
     const response = await instance.post(`/api/item`, data)
     console.log("[API] getItemList")
     console.log(response)
     return response.data
+}
+/**
+ * 광고등록 - 광고등록 시 광고그룹 생성
+ * 광고관리 - 그룹추가
+ */
+export const requestCreateAgroup = async (data: {}) => {
+    const response = await instance.post(`/api/agroup`, data)
+    console.log("[API] createAgroup")
+    console.log(response)
+    return response
 }
 /**
  * 광고등록 - 광고그룹 선택 (광고그룹 리스트)
@@ -55,16 +65,6 @@ export const getAgroupList = async () => {
     console.log("[API] getAgroupList")
     // console.log(response)
     return response.data
-}
-/**
- * 광고등록 - 광고등록 시 광고그룹 생성
- * 광고관리 - 그룹추가
- */
-export const createAgroup = async (data: {}) => {
-    const response = await instance.post(`/api/agroup`, data)
-    console.log("[API] createAgroup")
-    console.log(response)
-    return response
 }
 /**
  * 광고등록 - 광고 키워드 리스트 - 키워드 추가
@@ -123,7 +123,7 @@ export const updateAgUseConfig = async (data: {}) => {
     const response = await instance.post(`api/agroup/useConfig`, data)
     console.log("[API] updateAgUseConfig")
     console.log(response)
-    return response.data
+    return response
 }
 
 

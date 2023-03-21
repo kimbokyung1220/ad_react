@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Dispatch } from 'react';
 import { Button, Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { showAgroupItemList } from '../../../../../model/axios';
 import { actionCreators } from '../../../../../state';
+interface Props{
+    setIsAdGroupName: Dispatch<string>
+}
 
-
-const AdGroupSearch = () => {
+const AdGroupSearch = ({setIsAdGroupName}:Props) => {
     const [adGroupName, setAdGroupName] = useState<string>("");
     const dispatch = useDispatch();
     const { getAdgroupItem } = bindActionCreators(actionCreators, dispatch);
@@ -45,7 +47,7 @@ const AdGroupSearch = () => {
                             <dd>
                                 <div className="form-group">
                                     <Input name="itemName" placeholder="그룹명을 입력하세요."
-                                        onChange={(e) => setAdGroupName(e.currentTarget.value)}
+                                        onChange={(e) => {setAdGroupName(e.currentTarget.value); setIsAdGroupName(e.currentTarget.value)}}
                                         type="text"
                                         // value={itemName}
                                         style={{ width: "500px" }}

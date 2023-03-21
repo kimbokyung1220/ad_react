@@ -1,24 +1,28 @@
-import Reactm, { useEffect, useState } from 'react';
-import { Button, Switch, message} from 'antd';
+import Reactm, { Dispatch, useEffect, useState } from 'react';
+import { Button, Switch, message } from 'antd';
 import { showAdvInfo, updateIngActYn } from '../../../../../model/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators, State } from '../../../../../state';
+interface Props {
+    setIsModalOpen: Dispatch<boolean>
+}
 
-const AdvInfo = () => {
+const AdvInfo = ({setIsModalOpen}: Props) => {
     const dispatch = useDispatch();
     const { getAdvInfo } = bindActionCreators(actionCreators, dispatch);
     const advInfo = useSelector((state: State) => state.advInfo)
 
-    const [switchState, setSwitchState] = useState<boolean>(advInfo.adIngActYn === 1 ? true : false);
+    const [switchState, setSwitchState] = useState<boolean>(false);
     const [messageApi, contextHolder] = message.useMessage();
+  
 
     const SuccessBtn = () => {
         messageApi.open({
-          type: 'success',
-          content: '변경 완료 했습니다',
+            type: 'success',
+            content: '변경 완료 했습니다',
         });
-      };
+    };
 
     const swithchEvent = (checked: boolean) => {
         const data = checked ? 1 : 0;
@@ -33,25 +37,30 @@ const AdvInfo = () => {
         setSwitchState(checked)
 
     }
+    const openModalEvent = () => {
+        setIsModalOpen(true)
+    }
 
     useEffect(() => {
+        if(advInfo.advId !== "") {
+            return;
+        }
+
         showAdvInfo()
             .then((res) => {
-                getAdvInfo(res)
+                getAdvInfo(res);
                 if (res.adIngActYn === 1) {
                     setSwitchState(true)
-                    console.log("res.adIngActYn == 1")
                 } else if (res.adIngActYn === 0) {
                     setSwitchState(false)
-                    console.log("res.adIngActYn == 0")
                 }
             })
             .catch((err) => console.log(err))
-    }, [switchState])
+    }, [])
 
     return (
         <>
-        { contextHolder }
+            {contextHolder}
             <section className="wrap-section wrap-tbl">
                 <div className="box-header">
                     <div className="box-left">
@@ -73,12 +82,12 @@ const AdvInfo = () => {
                                     <span className="comp-txt">
                                         <span className="table">
                                             <span className="table-cell">
-                                            <span>{advInfo.adIngActYn}</span>
+                                                <span>{advInfo.adIngActYn}</span>
                                                 <Switch className="pink"
                                                     size="small"
                                                     checkedChildren="on"
                                                     unCheckedChildren="off"
-                                                    defaultChecked={switchState}
+                                                    checked={switchState}
                                                     onChange={(checked: boolean) => swithchEvent(checked)} />
                                             </span>
                                         </span>
@@ -153,7 +162,7 @@ const AdvInfo = () => {
                                             <span className="table-cell">
 
                                                 <b className="fz-14 fc-gray-400">{advInfo.dayLimitBudget === 0 ? advInfo.dayLimitBudgetStatus : `${advInfo.dayLimitBudget}원`}</b>
-                                                <Button className="pink" size="small" style={{ marginLeft: "10px" }}>일일 허용 예산 설정</Button>
+                                                <Button className="pink" size="small" style={{ marginLeft: "10px" }} onClick={openModalEvent}>일일 허용 예산 설정</Button>
                                             </span>
                                         </span>
                                     </span>
