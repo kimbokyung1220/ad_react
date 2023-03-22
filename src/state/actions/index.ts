@@ -36,8 +36,12 @@ interface KeywordTableInfo {
 }
 
 interface SelectedGoup {
-    type: ActionType.SELECTED_ADGTOUP
+    type: ActionType.SELECTED_ADGROUP
     payload: string
+}
+interface SelectedGoupId {
+    type: ActionType.SELECTED_ADGROUP_ID
+    payload: number
 }
 
 interface AdvInfoAction {
@@ -48,15 +52,23 @@ interface reAdvInfoAction {
     type: ActionType.RE_ADV_INFO
     payload: advInfo
 }
-interface AdgroupItem {
-    type: ActionType.ADGROUP_ITEM
+interface AdgroupItemListAction {
+    type: ActionType.ADGROUP_ITEM_LIST
     payload: adGroupItem[]
 }
-interface reAdgroupItem {
-    type: ActionType.RE_ADGROUP_ITEM
+interface reAdgroupItemListAction {
+    type: ActionType.RE_ADGROUP_ITEM_LIST
     payload: adGroupItem[]
+}
+interface AdgroupItemAction {
+    type: ActionType.ADGROUP_ITEM
+    payload: adGroupItem
 }
 
+interface reAdgroupItemAction {
+    type: ActionType.RE_ADGROUP_ITEM
+    payload: adGroupItem
+}
 export type Action = SearchAction
     | ItemInfoAction
     | showAdGroup
@@ -66,5 +78,8 @@ export type Action = SearchAction
     | SelectedGoup
     | AdvInfoAction
     | reAdvInfoAction
-    | AdgroupItem
-    | reAdgroupItem
+    | AdgroupItemListAction
+    | reAdgroupItemListAction
+    | AdgroupItemAction
+    | reAdgroupItemAction
+    | SelectedGoupId

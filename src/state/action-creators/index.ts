@@ -55,8 +55,16 @@ export const showKeywordTableInfo = (tableInfoArr: keywordTable[]) => {
 export const selectedAdGroup = (adGroupNm: string) => {
     return (dispatch: Dispatch<Action>) => {
         dispatch({
-            type: ActionType.SELECTED_ADGTOUP,
+            type: ActionType.SELECTED_ADGROUP,
             payload: adGroupNm
+        })
+    }
+}
+export const selectedAdGroupId = (adGroupId: number) => {
+    return (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type: ActionType.SELECTED_ADGROUP_ID,
+            payload: adGroupId
         })
     }
 }
@@ -79,7 +87,25 @@ export const getReAdvInfo = (advInfo: advInfo) => {
     }
 }
 
-export const getAdgroupItem = (adGroupItem: adGroupItem[]) => {
+export const getAdgroupItemList = (adGroupItem: adGroupItem[]) => {
+    return (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type: ActionType.ADGROUP_ITEM_LIST,
+            payload: adGroupItem
+        })
+    }
+}
+
+export const getReAdgroupItemList = (adGroupItem: adGroupItem[]) => {
+    return (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type: ActionType.RE_ADGROUP_ITEM_LIST,
+            payload: adGroupItem
+        })
+    }
+}
+
+export const getAdgroupItem = (adGroupItem: adGroupItem) => {
     return (dispatch: Dispatch<Action>) => {
         dispatch({
             type: ActionType.ADGROUP_ITEM,
@@ -88,7 +114,7 @@ export const getAdgroupItem = (adGroupItem: adGroupItem[]) => {
     }
 }
 
-export const getReAdgroupItem = (adGroupItem: adGroupItem[]) => {
+export const getReAdgroupItem = (adGroupItem: adGroupItem) => {
     return (dispatch: Dispatch<Action>) => {
         dispatch({
             type: ActionType.RE_ADGROUP_ITEM,
@@ -96,5 +122,4 @@ export const getReAdgroupItem = (adGroupItem: adGroupItem[]) => {
         })
     }
 }
-
 

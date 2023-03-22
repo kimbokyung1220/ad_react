@@ -12,21 +12,6 @@ export const adGroupDefaultValue: adGroup = {
     agroupName: "",
 }
 
-// export interface adGroupItemList {
-//     number: number,
-//     agroupId: number,
-//     agroupName: string,
-//     agroupUseConfigYn: number,
-
-// }
-
-// export const adGroupItemListDefaultValue: adGroupItemList = {
-//     number: 0,
-//     agroupId: 0,
-//     agroupName: "",
-//     agroupUseConfigYn: 0,
-// }
-
 export interface adGroupItem {
     agroupId: number,
     agroupName: string,

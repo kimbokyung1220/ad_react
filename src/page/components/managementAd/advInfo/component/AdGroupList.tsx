@@ -1,5 +1,5 @@
 import React, { Dispatch, useState } from 'react';
-import { Button, Checkbox, message, Popconfirm, Space, Table } from 'antd';
+import { Button, message, Popconfirm, Space, Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators, State } from '../../../../../state';
 import Column from "antd/es/table/Column";
@@ -18,9 +18,10 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
     const navigate = useNavigate();
     // 광고그룹 리스트
     const dispatch = useDispatch();
-    const { getReAdgroupItem } = bindActionCreators(actionCreators, dispatch);
-    const { selectedAdGroup } = bindActionCreators(actionCreators, dispatch);
-    const adGroupItemList = useSelector((state: State) => state.adGroupItem);
+    const { getReAdgroupItemList } = bindActionCreators(actionCreators, dispatch);
+    const { selectedAdGroupId } = bindActionCreators(actionCreators, dispatch);
+
+    const adGroupItemList = useSelector((state: State) => state.adGroupItemList);
     const [messageApi, contextHolder] = message.useMessage();
     const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
     const [checkedAdGroup, setCheckedAdGroup] = useState(adGroupItemList);
@@ -49,11 +50,10 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
                     content: '변경 완료 했습니다',
                 });
                 requestAgroupItemList({ 'agroupName': adGroupName })
-                    .then((res) => getReAdgroupItem(res))
+                    .then((res) => getReAdgroupItemList(res))
                     .catch((err) => console.log(err))
 
-                // getReAdgroupItem(recode);
-                // getReAdgroupItem(res.data);
+
             })
             .catch((err) => console.log(err))
     }
@@ -70,7 +70,7 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
         requestUpdateAgUseConfigs({'code': newUpdateUseConfig, 'agUseConfigList': checkedAdGroup})
         .then((res) => 
             requestAgroupItemList({ 'agroupName': adGroupName })
-                    .then((res) => getReAdgroupItem(res))
+                    .then((res) => getReAdgroupItemList(res))
                     .catch((err) => console.log(err))
         )
         .catch((err) => console.log(err))
@@ -85,7 +85,7 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
         requestUpdateOffActYns({'deleteGroupList': checkedAdGroup})
         .then((res) => 
             requestAgroupItemList({ 'agroupName': adGroupName })
-                    .then((res) => getReAdgroupItem(res))
+                    .then((res) => getReAdgroupItemList(res))
                     .catch((err) => console.log(err))
         )
         .catch((err) => console.log("500"))
@@ -96,9 +96,10 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
         setAdGroupModalOpen(true)
     }
 
-    const movePageEvent = (agroupName: string) => {
-        selectedAdGroup(agroupName);
-        navigate('/adv/mng/agInfo')
+    // 그룹 상세페이지로 이동
+    const movePageEvent = (agroupId: number) => {
+        selectedAdGroupId(agroupId);
+        navigate('/adv/mng/agInfo',{state: agroupId})
     }
    
     const rowSelection = {
@@ -156,7 +157,7 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
                         <Column title="상품번호" dataIndex="index" key="index" align="center" render={(_: any, recode: any, index: number) => (<a>{index + 1}</a>)} />
                         <Column title="그룹명" dataIndex="agroupName" key="agroupName" align="center"
                             render={(_: any, record: adGroupItem) => (
-                                <Space size="middle" onClick={() => movePageEvent(record.agroupName)}>
+                                <Space size="middle" onClick={() => movePageEvent(record.agroupId)}>
                                     <a>{record.agroupName}</a>
                                 </Space>
                             )}

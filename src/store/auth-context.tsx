@@ -6,7 +6,6 @@ type Props = { children?: React.ReactNode }
 const AuthContext = React.createContext({
     token: localStorage.getItem('Authorization'),
     moveMenu: (data: any) => { },
-    menu: sessionStorage.getItem('menu'),
     isLoggedIn: false,
     login: (data: any) => { },
     logout: () => { },
@@ -16,7 +15,6 @@ const AuthContext = React.createContext({
 export const AuthContextProvider: React.FC<Props> = (props) => {
 
     const [token, setToken] = useState(localStorage.getItem('Authorization'));
-    const [menu, setMenu] = useState(sessionStorage.getItem('menu'))
 
     // 토큰값으로 check
     const userIsLoggedIn = !!token;
@@ -51,13 +49,12 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
     // retrieveStoredToken로 받은 token값과, logoutHandler를 종속변수로 삼는 useEffect훅
     useEffect(() => {
 
-    }, [token, menu]);
+    }, [token]);
 
 
     const contextValue = {
         token,
         moveMenu: moveMenuHandler,
-        menu,
         isLoggedIn: userIsLoggedIn,
         login: loginHandler,
         logout: logoutHandler,

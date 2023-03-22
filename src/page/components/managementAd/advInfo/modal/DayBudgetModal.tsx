@@ -31,9 +31,10 @@ const DayBudgetModal = ({dayLimitBudgetModalOpen, setDayLimitBudgetModalOpen}:Pr
 
         requestUpdateLimitBudget({ 'dayLimitBudget': newDayLimitBudget })
         .then((res) => { 
+            getReAdvInfo(res.data);
             cancleModalEvent(); 
             successAlert("변경이 완료 되었습니다.");
-            getReAdvInfo(res.data);
+            
         })    
         .catch((err) => errorAlert("변경하지 못하였습니다."))
     }

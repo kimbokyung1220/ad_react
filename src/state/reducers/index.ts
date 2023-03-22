@@ -6,7 +6,9 @@ import addAdGroupReducer from "./addAdGroupReducer"
 import addKeywordInfoReducer from './addKeywordInfoReducer';
 import keywordTableReducer from './keywordTableReducer';
 import selectedAdGroupReducer from './selectedAdGroupReducer';
+import selectedAdGroupIdReducer from './selectedAdGroupIdReducer';
 import advInfoReducer from './advInfoReducer';
+import adGroupItemListReducer from './adGroupItemListReducer';
 import adGroupItemReducer from './adGroupItemReducer';
 
 const reducers = combineReducers({
@@ -17,7 +19,9 @@ const reducers = combineReducers({
     addKeywordInfo: addKeywordInfoReducer,
     keywordTableInfo: keywordTableReducer,
     selectedAdGroup: selectedAdGroupReducer,
+    selectedAdGroupId: selectedAdGroupIdReducer,
     advInfo: advInfoReducer,
+    adGroupItemList: adGroupItemListReducer,
     adGroupItem: adGroupItemReducer,
 });
 

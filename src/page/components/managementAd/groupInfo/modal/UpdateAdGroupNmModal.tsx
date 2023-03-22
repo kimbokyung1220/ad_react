@@ -1,69 +1,70 @@
+import React, { useState, useEffect, Dispatch } from 'react';
 import { Button, Input, Modal } from "antd";
-import React, { Dispatch, useEffect, useState } from 'react';
+import { requestAgroupItem, requestUpdateAgName } from "../../../../../model/axios";
 import { useDispatch, useSelector } from "react-redux";
-import { actionCreators, State } from "../../../../../state";
-import { successAlert, warningAlert } from "../../../../alerts/alert";
-import { requesSaveAgroup, requestAgroupItemList } from '../../../../../model/axios';
 import { bindActionCreators } from "redux";
+import { actionCreators, State } from "../../../../../state";
 
 interface Props {
-    adGroupModalOpen: boolean,
-    setAdGroupModalOpen: Dispatch<boolean>
+    updateAdGroupNmModalOpen: boolean,
+    setUpdateAdGroupNmModalOpen: Dispatch<boolean>
+    adGroupName: string
+    adGroupId: number
 }
 
-const AdGroupModal = ({ adGroupModalOpen, setAdGroupModalOpen }: Props) => {
-    const adGroupItemList = useSelector((state: State) => state.adGroupItemList);
+
+const UpdateAdGroupNmModal = ({ updateAdGroupNmModalOpen, setUpdateAdGroupNmModalOpen, adGroupName, adGroupId }: Props) => {
+
+    const [isOpen, setIsOpen] = useState(false);
+    const [newAdGroupName, setNewAdGroupName] = useState<string>("");
 
     const dispatch = useDispatch();
-    const { getReAdgroupItemList } = bindActionCreators(actionCreators, dispatch);
-    const [isOpen, setIsOpen] = useState(false);
-    const [newAdGroupName, setNewAdGroupName] = useState("");
+    const { getReAdgroupItem } = bindActionCreators(actionCreators, dispatch);
 
-    // 광고그룹 등록
-    const saveAdGroupEvent = () => {
-        const sameAdGroupExist = adGroupItemList.filter(adGroup => adGroup.agroupName === newAdGroupName);
-        if (sameAdGroupExist.length !== 0) {
-            warningAlert("동일한 그룹명이 존재합니다.");
-        }
-
-        // todo) 다시 확인
-        requesSaveAgroup({ 'agroupName': newAdGroupName })
-            .then(res => {
-                if (res.data !== null) {
-                    console.log("광고그룹 생성 완료" + res.data);
-                    cancleModalEvent();
-                    successAlert("등록이 완료 되었습니다.");
-
-                    requestAgroupItemList({ 'agroupName': "" })
-                        .then((res) => getReAdgroupItemList(res))
-                        .catch((err) => console.log(err))
-                }
-            }).catch(error => {
-                console.log("login error");
-                console.log(error);
-
-            })
-    }
 
     //모달 닫기
     const cancleModalEvent = () => {
         setIsOpen(false);
         setNewAdGroupName("");
-        setAdGroupModalOpen(false);
+        setUpdateAdGroupNmModalOpen(false);
     };
 
+    // 광고그룹명 변경
+    const updateAdGroupNameEvent = () => {
+        requestUpdateAgName({
+            'agroupName': adGroupName,
+            'newAgroupName': newAdGroupName,
+        })
+            .then((res) => {
+
+                requestAgroupItem({
+                    'agroupId': adGroupId,
+                })
+                    .then((res) => {
+                        getReAdgroupItem(res);
+                        cancleModalEvent();
+
+                    })
+                    .catch((err) => console.log(err))
+
+            })
+            .catch((err) => console.log(err))
+    }
+
     useEffect(() => {
-        if (adGroupModalOpen) {
+        if (updateAdGroupNmModalOpen) {
+            setNewAdGroupName(adGroupName)
             setIsOpen(true)
         } else {
+            setNewAdGroupName("")
             setIsOpen(false)
         }
-    }, [adGroupModalOpen])
+    }, [updateAdGroupNmModalOpen])
 
     return (
         <>
             <div>
-                <Modal title="광고그룹 등록"
+                <Modal title="광고그룹명 변경"
                     open={isOpen}
                     onOk={() => setIsOpen(false)}
                     onCancel={cancleModalEvent}
@@ -72,7 +73,9 @@ const AdGroupModal = ({ adGroupModalOpen, setAdGroupModalOpen }: Props) => {
                     footer={[
                         <Button key="back" type="primary" className="gray" size="large"
                             onClick={cancleModalEvent}> {"취소"} </Button>,
-                        <Button key="submit" type="primary" className="pink" size="large" onClick={saveAdGroupEvent}> {"등록"} </Button>,
+                        <Button key="submit" type="primary" className="pink" size="large"
+                            onClick={updateAdGroupNameEvent}
+                        > {"변경"} </Button>,
 
                     ]}
                 >
@@ -90,10 +93,10 @@ const AdGroupModal = ({ adGroupModalOpen, setAdGroupModalOpen }: Props) => {
                                             <Input type="text"
                                                 style={{ width: 380 }}
                                                 name="dayLimitBudget"
-                                                placeholder="등록할 광고그룹 명을 입력하세요."
+                                                placeholder="변경할 광고그룹 명을 입력하세요."
                                                 value={newAdGroupName}
                                                 onChange={(e) => setNewAdGroupName(e.currentTarget.value)}
-                                                onPressEnter={saveAdGroupEvent}
+                                            // onPressEnter={}
                                             />
                                         </div>
                                     </dd>
@@ -107,4 +110,4 @@ const AdGroupModal = ({ adGroupModalOpen, setAdGroupModalOpen }: Props) => {
     );
 }
 
-export default AdGroupModal;
+export default UpdateAdGroupNmModal;

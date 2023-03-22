@@ -112,7 +112,17 @@ export const requestUpdateIngActYn = async (data: {}) => {
 export const requestAgroupItemList = async (data: {}) => {
     const response = await instance.post(`/api/agroup/list`, data)
     console.log("[API] requestAgroupItemList")
-    console.log(response)
+    console.log(response.data)
+    return response.data
+}
+
+/**
+ * 광고관리 - 그룹 상세조회
+ */
+export const requestAgroupItem = async (data: {}) => {
+    const response = await instance.post(`/api/agroup/aginfo`, data)
+    console.log("[API] requestAgroupItem")
+    console.log(response.data)
     return response.data
 }
 
@@ -153,6 +163,15 @@ export const requestUpdateLimitBudget = async (data: {}) => {
 export const requestUpdateOffActYns = async (data: {}) => {
     const response = await instance.post(`api/agroup/agayns`, data)
     console.log("[API] requestUpdateAgUseConfigs")
+    console.log(response)
+    return response
+}
+/**
+ * 광고관리 - 광고그룹명 변경
+ */
+export const requestUpdateAgName = async (data: {}) => {
+    const response = await instance.post(`api/agroup/agname`, data)
+    console.log("[API] requestUpdateAgName")
     console.log(response)
     return response
 }

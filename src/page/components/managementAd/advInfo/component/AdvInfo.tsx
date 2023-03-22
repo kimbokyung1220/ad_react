@@ -44,17 +44,19 @@ const AdvInfo = ({ setDayLimitBudgetModalOpen }: Props) => {
 
     useEffect(() => {
         if (advInfo.advId !== "") {
+            advInfo.adIngActYn === 1 
+            ? setSwitchState(true) 
+            : setSwitchState(false);
             return;
         }
 
         requestAdvInfo()
             .then((res) => {
                 getAdvInfo(res);
-                if (res.adIngActYn === 1) {
-                    setSwitchState(true)
-                } else if (res.adIngActYn === 0) {
-                    setSwitchState(false)
-                }
+
+                res.adIngActYn === 1 
+                ? setSwitchState(true) 
+                : setSwitchState(false);
             })
             .catch((err) => console.log(err))
     }, [])
