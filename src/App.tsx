@@ -12,6 +12,7 @@ import { useContext } from "react";
 import AuthContext from "./store/auth-context";
 import RegContent from "./page/components/registerAd/RegContent";
 import AdvInfoContent from './page/components/managementAd/advInfo/AdvInfoContent';
+import AdGroupInfoContent from './page/components/managementAd/groupInfo/AdGroupInfoContent';
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
             {/* <Route path="*" element={<Navigate replace to="/adv/reg" />} /> */}
             <Route path="/adv/reg" element={<RegContent />} />
             <Route path="/adv/mng/advInfo" element={<AdvInfoContent />} />
+            <Route path="/adv/mng/agInfo" element={<AdGroupInfoContent />} />
           </Routes>
         }
       </BrowserRouter>

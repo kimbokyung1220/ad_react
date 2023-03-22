@@ -7,7 +7,6 @@ import { requestAgroupAllList } from '../../../../model/axios';
 import { bindActionCreators } from 'redux';
 import { adGroup } from '../../../../type/adGroup';
 import AdKeywordList from "./AdKeywordList";
-const { Option } = Select;
 
 const SelectAdGroup = () => {
     // 광고목록 
@@ -25,7 +24,7 @@ const SelectAdGroup = () => {
 
     // Btn 순서
     const [value, setValue] = useState("");
-    const selected = value == "" ? null : value;
+    const selected = value === "" ? null : value;
 
 
     // select-box

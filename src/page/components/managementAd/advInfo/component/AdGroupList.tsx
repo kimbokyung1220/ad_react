@@ -1,13 +1,13 @@
-import React, { Dispatch, useEffect, useState } from 'react';
-import { Button, message, Popconfirm, Space, Table } from 'antd';
+import React, { Dispatch, useState } from 'react';
+import { Button, Checkbox, message, Popconfirm, Space, Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators, State } from '../../../../../state';
-import { rowSelection, selectionType } from '../table/menu';
 import Column from "antd/es/table/Column";
 import { adGroupItem } from "../../../../../type/adGroup";
-import { requestAgroupItemList, requestUpdateAgUseConfig } from "../../../../../model/axios";
+import { requestAgroupItemList, requestUpdateAgUseConfig, requestUpdateAgUseConfigs, requestUpdateOffActYns } from "../../../../../model/axios";
 import { bindActionCreators } from 'redux';
 import { CSVLink } from "react-csv";
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
     adGroupName: string
@@ -15,12 +15,16 @@ interface Props {
 }
 
 const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
-
+    const navigate = useNavigate();
     // 광고그룹 리스트
     const dispatch = useDispatch();
     const { getReAdgroupItem } = bindActionCreators(actionCreators, dispatch);
+    const { selectedAdGroup } = bindActionCreators(actionCreators, dispatch);
     const adGroupItemList = useSelector((state: State) => state.adGroupItem);
     const [messageApi, contextHolder] = message.useMessage();
+    const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
+    const [checkedAdGroup, setCheckedAdGroup] = useState(adGroupItemList);
+
 
     const headers = [
         { label: "번호", key: "index" },
@@ -44,7 +48,7 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
                     type: 'success',
                     content: '변경 완료 했습니다',
                 });
-                requestAgroupItemList({'agroupName': adGroupName})
+                requestAgroupItemList({ 'agroupName': adGroupName })
                     .then((res) => getReAdgroupItem(res))
                     .catch((err) => console.log(err))
 
@@ -55,14 +59,54 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
     }
 
     // 광고그룹 사용설정여부 변경(체크박스)
-     const updateAgUseConfigListEvent = () => {
-
-     } 
+    const updateOn_AgUseConfigListEvent = (param: number) => {
+        if(checkedAdGroup.length === 0) {
+            console.log("asdfasd")
+            alert("선택한 그룹이 없습니다.")
+            return null;
+        }
+        const newUpdateUseConfig = (param === 1 ? 1 : 0)
+        console.log(checkedAdGroup)
+        requestUpdateAgUseConfigs({'code': newUpdateUseConfig, 'agUseConfigList': checkedAdGroup})
+        .then((res) => 
+            requestAgroupItemList({ 'agroupName': adGroupName })
+                    .then((res) => getReAdgroupItem(res))
+                    .catch((err) => console.log(err))
+        )
+        .catch((err) => console.log(err))
+    }
+    // 그룹 삭제
+    const deleteAdGroup = () => {
+        if(checkedAdGroup.length === 0) {
+            console.log("asdfasd")
+            alert("선택한 그룹이 없습니다.")
+            return null;
+        }
+        requestUpdateOffActYns({'deleteGroupList': checkedAdGroup})
+        .then((res) => 
+            requestAgroupItemList({ 'agroupName': adGroupName })
+                    .then((res) => getReAdgroupItem(res))
+                    .catch((err) => console.log(err))
+        )
+        .catch((err) => console.log("500"))
+    }
 
     // 모달 오픈
     const openModalEvent = () => {
         setAdGroupModalOpen(true)
     }
+
+    const movePageEvent = (agroupName: string) => {
+        selectedAdGroup(agroupName);
+        navigate('/adv/mng/agInfo')
+    }
+   
+    const rowSelection = {
+        onChange: (selectedRowKeys: React.Key[], selectedRows: adGroupItem[]) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            setCheckedAdGroup(selectedRows)
+        },
+    };
 
     return (
         <>
@@ -73,16 +117,16 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
                         <h2 className="fz-24 fc-gray-700">그룹 리스트</h2>
                     </div>
                     <div className="box-right">
-                        <Button type="primary" className="pink" size="large">
+                        <Button type="primary" className="pink" size="large" onClick={() => updateOn_AgUseConfigListEvent(1)}>
                             <span>ON</span>
                         </Button>
-                        <Button type="primary" className="gray" size="large">
+                        <Button type="primary" className="gray" size="large"onClick={() => updateOn_AgUseConfigListEvent(0)}>
                             <span>OFF</span>
                         </Button>
                         <Button type="primary" className="pink" size="large" style={{ marginLeft: '25px' }} onClick={openModalEvent}>
                             <span>그룹 추가</span>
                         </Button>
-                        <Button type="primary" className="gray" size="large">
+                        <Button type="primary" className="gray" size="large" onClick={deleteAdGroup}>
                             <span>그룹 삭제</span>
                         </Button>
 
@@ -107,13 +151,12 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
                         dataSource={adGroupItemList}
                         rowKey={(render) => render.agroupId}
                         pagination={{ showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>) }}
-                        // columns={columns}
                         bordered={true}
                     >
                         <Column title="상품번호" dataIndex="index" key="index" align="center" render={(_: any, recode: any, index: number) => (<a>{index + 1}</a>)} />
                         <Column title="그룹명" dataIndex="agroupName" key="agroupName" align="center"
                             render={(_: any, record: adGroupItem) => (
-                                <Space size="middle">
+                                <Space size="middle" onClick={() => movePageEvent(record.agroupName)}>
                                     <a>{record.agroupName}</a>
                                 </Space>
                             )}

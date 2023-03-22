@@ -26,7 +26,7 @@ const AdGroupModal = ({ adGroupModalOpen, setAdGroupModalOpen }: Props) => {
             warningAlert("동일한 그룹명이 존재합니다.");
         }
 
-        // 1. 광고그룹 등록
+        // todo) 다시 확인
         requesSaveAgroup({ 'agroupName': newAdGroupName })
             .then(res => {
                 if (res.data !== null) {

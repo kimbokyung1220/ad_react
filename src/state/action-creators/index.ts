@@ -90,8 +90,6 @@ export const getAdgroupItem = (adGroupItem: adGroupItem[]) => {
 
 export const getReAdgroupItem = (adGroupItem: adGroupItem[]) => {
     return (dispatch: Dispatch<Action>) => {
-        console.log("adGroupItem-+++++++")
-        console.log(adGroupItem)
         dispatch({
             type: ActionType.RE_ADGROUP_ITEM,
             payload: adGroupItem

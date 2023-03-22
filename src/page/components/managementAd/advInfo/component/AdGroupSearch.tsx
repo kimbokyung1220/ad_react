@@ -14,10 +14,9 @@ const AdGroupSearch = ({setIsAdGroupName}:Props) => {
     const { getAdgroupItem } = bindActionCreators(actionCreators, dispatch);
 
     const searchAdGroup = () => {
-        const data = {
+        requestAgroupItemList({
             'agroupName': adGroupName,
-        };
-        requestAgroupItemList(data)
+        })
             .then((res) => getAdgroupItem(res))
             .catch((err) => console.log(err))
     }

@@ -21,7 +21,8 @@ const ResultPrd = () => {
 
     // 상품 선택
     function selectItemEvent(record: item) {
-        if (record.itemActYn == '비활성화') {
+        console.log(record)
+        if (record.itemActYn === '비활성화') {
             alert('비활성화된 상품은 광고 등록을 진행할 수 없습니다.');
             return false;
         }
@@ -78,7 +79,7 @@ const ResultPrd = () => {
                 </div>
             </section>
             <>
-                {showComponent == true && <PrdInfo />}
+                {showComponent === true && <PrdInfo />}
             </>
         </>
     );

@@ -120,7 +120,7 @@ export const requestAgroupItemList = async (data: {}) => {
  * 광고관리 - 그룹리스트 - 광고그룹 사용설정여부 변경(1개)
  */
 export const requestUpdateAgUseConfig = async (data: {}) => {
-    const response = await instance.post(`api/agroup/useConfig`, data)
+    const response = await instance.post(`api/agroup/aguc`, data)
     console.log("[API] requestUpdateAgUseConfig")
     console.log(response)
     return response
@@ -130,7 +130,12 @@ export const requestUpdateAgUseConfig = async (data: {}) => {
 /**
  * 광고관리 - 그룹리스트 - 광고그룹 사용설정여부 변경(체크박스로)
  */
-
+export const requestUpdateAgUseConfigs = async (data: {}) => {
+    const response = await instance.post(`api/agroup/agucs`, data)
+    console.log("[API] requestUpdateAgUseConfigs")
+    console.log(response)
+    return response
+}
 
 /**
  * 광고관리 - 광고주 계정 설정 및 정보 - 일일 허용 예산 변경
@@ -142,5 +147,14 @@ export const requestUpdateLimitBudget = async (data: {}) => {
     return response
 }
 
+/**
+ * 광고관리 - 그룹리스트 - 광고그룹 사용설정여부 변경(체크박스로)
+ */
+export const requestUpdateOffActYns = async (data: {}) => {
+    const response = await instance.post(`api/agroup/agayns`, data)
+    console.log("[API] requestUpdateAgUseConfigs")
+    console.log(response)
+    return response
+}
 
 
