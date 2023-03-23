@@ -22,6 +22,7 @@ export const useSearchPrd = () => {
         requestItemAllList(data).then(res => {
             if (res !== null) {
                 showItemList(res)
+                console.log(res)
             }
         }).catch(error => {
             console.log("search error");

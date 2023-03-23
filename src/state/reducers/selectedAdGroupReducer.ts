@@ -6,7 +6,8 @@ const init = ""
 
 const reducer = (state: string = init, action: Action) => {
     switch (action.type) {
-        case ActionType.ADD_ADGRUOP:
+        case ActionType.SELECTED_ADGROUP:
+            console.log("dddd")
             return action.payload
         default:
             return state

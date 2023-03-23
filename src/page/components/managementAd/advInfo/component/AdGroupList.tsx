@@ -154,7 +154,7 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
                         pagination={{ showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>) }}
                         bordered={true}
                     >
-                        <Column title="상품번호" dataIndex="index" key="index" align="center" render={(_: any, recode: any, index: number) => (<a>{index + 1}</a>)} />
+                        <Column title="번호" dataIndex="index" key="index" align="center" render={(_: any, recode: any, index: number) => (<a>{index + 1}</a>)} />
                         <Column title="그룹명" dataIndex="agroupName" key="agroupName" align="center"
                             render={(_: any, record: adGroupItem) => (
                                 <Space size="middle" onClick={() => movePageEvent(record.agroupId)}>

@@ -3,6 +3,8 @@ import Body from '../../../layout/Body';
 import ContentHeader from '../../../layout/content/ContentHeader';
 import NavigateLanding from '../../../NavigateLanding';
 import AdGroupInfo from './component/AdGroupInfo';
+import ItemList from './component/ItemList';
+import ItemSearch from './component/ItemSearch';
 import UpdateAdGroupNmModal from "./modal/UpdateAdGroupNmModal";
 
 const AdGroupInfoContent = () => {
@@ -25,7 +27,8 @@ const AdGroupInfoContent = () => {
                                              setAdGroupName={setAdGroupName}
                                              setAdGroupId={setAdGroupId}             
                                 />
-
+                                <ItemSearch />
+                                <ItemList />
                                 <UpdateAdGroupNmModal updateAdGroupNmModalOpen={updateAdGroupNmModalOpen}
                                                       setUpdateAdGroupNmModalOpen={setUpdateAdGroupNmModalOpen} 
                                                       adGroupName={adGroupName}

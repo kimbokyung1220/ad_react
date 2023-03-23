@@ -169,11 +169,19 @@ export const requestUpdateOffActYns = async (data: {}) => {
 /**
  * 광고관리 - 광고그룹명 변경
  */
-export const requestUpdateAgName = async (data: {}) => {
+export const requestUpdateAgName = async ( data: {}) => {
     const response = await instance.post(`api/agroup/agname`, data)
     console.log("[API] requestUpdateAgName")
     console.log(response)
     return response
 }
-
+/**
+ * 광고관리 - 상품 조건조회
+ */
+export const requestMngItemList = async (param:string, data:{}) => {
+    const response = await instance.post(`api/item/list/${param}`, data )
+    console.log("[API] requestMngItemList")
+    console.log(response)
+    return response
+}
 

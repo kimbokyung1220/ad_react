@@ -1,8 +1,8 @@
 
 import { useState, useEffect } from 'react';
 import { Button, Select, Modal, Input } from "antd";
-import { useDispatch } from 'react-redux';
-import { actionCreators } from '../../../../state';
+import { useDispatch, useSelector } from 'react-redux';
+import { actionCreators, State } from '../../../../state';
 import { requestAgroupAllList } from '../../../../model/axios';
 import { bindActionCreators } from 'redux';
 import { adGroup } from '../../../../type/adGroup';
@@ -17,14 +17,14 @@ const SelectAdGroup = () => {
     // 선택한 광고그룹 저장
     const dispatch = useDispatch();
     const { selectedAdGroup } = bindActionCreators(actionCreators, dispatch); // agroupName : string
-
+    
     // 모달
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [newAdGroupName, setNewAdGroupName] = useState("");
 
     // Btn 순서
-    const [value, setValue] = useState("");
-    const selected = value === "" ? null : value;
+    const [btnValue, setBtnValue] = useState("");
+    const selected = btnValue === "" ? null : btnValue;
 
 
     // select-box
@@ -33,7 +33,7 @@ const SelectAdGroup = () => {
         // 신규 그룹 input 값
         // const pushAgroup: adGroup = 
         setAdGroupList([...adGroupList, { agroupName: newAdGroupName, agroupId: newAdGroupName }]);
-        setValue(newAdGroupName)
+        setBtnValue(newAdGroupName)
         // 모달이 닫히면 input 초기화
         setNewAdGroupName("");
         setIsModalOpen(false);
@@ -44,7 +44,7 @@ const SelectAdGroup = () => {
     }
 
     const onChangeEvent = (value: string) => {
-        setValue(value);
+        setBtnValue(value);
         selectedAdGroup(value);
         console.log(value)
     }
@@ -62,7 +62,7 @@ const SelectAdGroup = () => {
 
     useEffect(() => {
 
-    }, [value])
+    }, [btnValue])
 
     return (
         <>

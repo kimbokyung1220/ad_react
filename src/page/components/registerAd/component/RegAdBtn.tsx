@@ -11,7 +11,7 @@ const RegAdBtn = () => {
 
 
     const regAdEvent = () => {
-        console.log("광고등록 event click");
+        console.log(adGroupInfo);
         if (adGroupInfo === "") {
             alert("광고그룹을 선택해 주세요");
             return false;

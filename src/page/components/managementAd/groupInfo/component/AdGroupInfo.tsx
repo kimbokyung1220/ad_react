@@ -15,6 +15,7 @@ interface Props {
 const AdGroupInfo = ({ setUpdateAdGroupNmModalOpen, setAdGroupName, setAdGroupId }: Props) => {
     const navigate = useNavigate();
     const { state } = useLocation();
+    console.log(state)
 
     const dispatch = useDispatch();
     const { getAdgroupItem } = bindActionCreators(actionCreators, dispatch);
