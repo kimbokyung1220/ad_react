@@ -5,7 +5,7 @@ import { actionCreators, State } from '../../../../../state';
 import { CSVLink } from 'react-csv';
 import { mngItem } from "../../../../../type/item";
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { bindActionCreators } from "redux";
 import { requestAgroupItemList, requestMngItemList, requestUpdateAdUseConfig, requestUpdateAdUseConfigs } from "../../../../../model/axios";
 interface Props {
@@ -15,6 +15,8 @@ interface Props {
 
 const ItemList = ({itemNo, itemName}: Props) => {
     const navigate = useNavigate();
+    const { state } = useLocation();
+    console.log(state + ' state')
     
     // 상품 리스트 
     const ItemTable = useSelector((state: State) => state.mngItemList);
@@ -27,6 +29,7 @@ const ItemList = ({itemNo, itemName}: Props) => {
     // 광고그룹 사용설정여부 변경 이벤트
     const updateAdUseConfigEvent = (recode: any) => {
         const param = recode.adUseConfigYn === 1 ? 0 : 1;
+        console.log(recode)
         console.log("param")
         console.log(recode.adUseConfigYn)
 
@@ -35,14 +38,14 @@ const ItemList = ({itemNo, itemName}: Props) => {
             {'adId': recode.adId, 'adUseConfigYn': param}
         )
         .then((res) => {
-            const agroupId = res.data
+           console.log(res)
             // reload
-            requestMngItemList(
-                agroupId,
-                { 'itemNo': itemNo, 'itemName': itemName, }
-            )
-                .then((res) => getReMngItemList(res.data))
-                .catch((err) => console.log(err))
+            // requestMngItemList(
+            //     agroupId,
+            //     { 'itemNo': itemNo, 'itemName': itemName, }
+            // )
+            //     .then((res) => getReMngItemList(res.data))
+            //     .catch((err) => console.log(err))
 
         })
         .catch((err) => console.log(err))
