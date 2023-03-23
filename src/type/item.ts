@@ -9,7 +9,7 @@ export type item = {
 }
 
 export const itemDefaultValue: item = {
-    key: Math.floor(Math.random() * 101),
+    key: 0,
     itemId: 0,
     itemNo: "",
     itemName:"", 
@@ -18,7 +18,7 @@ export const itemDefaultValue: item = {
     itemActYn: ""
 }
 
-export type mngItemList = {
+export type mngItem = {
     adId: number,
     agroupId: number,
     advId: string,
@@ -31,7 +31,7 @@ export type mngItemList = {
     itemActYn: number,
 }
 
-export const mngItemListDefaultValue: mngItemList = {
+export const mngItemDefaultValue: mngItem = {
     adId: 0,
     agroupId: 0,
     advId: "",

@@ -23,7 +23,6 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
 
     const adGroupItemList = useSelector((state: State) => state.adGroupItemList);
     const [messageApi, contextHolder] = message.useMessage();
-    const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
     const [checkedAdGroup, setCheckedAdGroup] = useState(adGroupItemList);
 
 
@@ -34,7 +33,7 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
         { label: "상품수(LIVE/전체)", key: "itemCnt" }
     ];
 
-    // 광고그룹 사용설정여부 변경(1개)
+    // 광고그룹 사용설정여부 변경 
     const updateAgUseConfigEvent = (recode: any) => {
         console.log("ADFAD", recode);
         const param = recode.agroupUseConfigYn === 1 ? 0 : 1
@@ -145,10 +144,7 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
 
 
                     <Table
-                        rowSelection={{
-                            type: selectionType,
-                            ...rowSelection,
-                        }}
+                        rowSelection={rowSelection}
                         dataSource={adGroupItemList}
                         rowKey={(render) => render.agroupId}
                         pagination={{ showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>) }}
@@ -157,6 +153,7 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
                         <Column title="번호" dataIndex="index" key="index" align="center" render={(_: any, recode: any, index: number) => (<a>{index + 1}</a>)} />
                         <Column title="그룹명" dataIndex="agroupName" key="agroupName" align="center"
                             render={(_: any, record: adGroupItem) => (
+                                
                                 <Space size="middle" onClick={() => movePageEvent(record.agroupId)}>
                                     <a>{record.agroupName}</a>
                                 </Space>

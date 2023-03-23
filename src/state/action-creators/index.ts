@@ -2,7 +2,7 @@
 import { Dispatch } from "redux";
 import { adGroup, adGroupItem } from "../../type/adGroup";
 import { advInfo } from "../../type/adv";
-import { item } from "../../type/item";
+import { item, mngItem } from "../../type/item";
 import { keywordTable } from "../../type/keyword";
 import { ActionType } from "../action-type";
 import { Action } from "../actions/index"
@@ -119,6 +119,23 @@ export const getReAdgroupItem = (adGroupItem: adGroupItem) => {
         dispatch({
             type: ActionType.RE_ADGROUP_ITEM,
             payload: adGroupItem
+        })
+    }
+}
+
+export const getMngItemList = (mngItemList: mngItem[]) => {
+    return (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type: ActionType.MNG_ITEM_LIST,
+            payload: mngItemList
+        })
+    }
+}
+export const getReMngItemList = (mngItemList: mngItem[]) => {
+    return (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type: ActionType.RE_MNG_ITEM_LIST,
+            payload: mngItemList
         })
     }
 }

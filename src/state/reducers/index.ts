@@ -10,6 +10,7 @@ import selectedAdGroupIdReducer from './selectedAdGroupIdReducer';
 import advInfoReducer from './advInfoReducer';
 import adGroupItemListReducer from './adGroupItemListReducer';
 import adGroupItemReducer from './adGroupItemReducer';
+import mngItemListReducer from './mngItemListReducer';
 
 const reducers = combineReducers({
     item: itemReducer,
@@ -23,6 +24,9 @@ const reducers = combineReducers({
     advInfo: advInfoReducer,
     adGroupItemList: adGroupItemListReducer,
     adGroupItem: adGroupItemReducer,
+    mngItemList: mngItemListReducer,
+
+
 });
 
 export default reducers

@@ -9,10 +9,11 @@ interface Props{
 }
 
 const AdGroupSearch = ({setIsAdGroupName}:Props) => {
-    const [adGroupName, setAdGroupName] = useState<string>("");
     const dispatch = useDispatch();
     const { getAdgroupItemList } = bindActionCreators(actionCreators, dispatch);
-
+    
+    const [adGroupName, setAdGroupName] = useState<string>("");
+    
     const searchAdGroup = () => {
         requestAgroupItemList({
             'agroupName': adGroupName,

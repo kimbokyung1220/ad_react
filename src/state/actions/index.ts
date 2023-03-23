@@ -1,6 +1,6 @@
 import { adGroup, adGroupItem } from "../../type/adGroup"
 import { advInfo } from "../../type/adv"
-import { item } from "../../type/item"
+import { item, mngItem } from "../../type/item"
 import { keywordTable } from "../../type/keyword"
 import { ActionType } from "../action-type"
 
@@ -69,6 +69,21 @@ interface reAdgroupItemAction {
     type: ActionType.RE_ADGROUP_ITEM
     payload: adGroupItem
 }
+
+interface MngItemListAction {
+    type: ActionType.MNG_ITEM_LIST
+    payload: mngItem[]
+}
+
+interface reMngItemListAction {
+    type: ActionType.RE_MNG_ITEM_LIST
+    payload: mngItem[]
+}
+
+
+
+
+
 export type Action = SearchAction
     | ItemInfoAction
     | showAdGroup
@@ -83,3 +98,5 @@ export type Action = SearchAction
     | AdgroupItemAction
     | reAdgroupItemAction
     | SelectedGoupId
+    | MngItemListAction
+    | reMngItemListAction
