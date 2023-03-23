@@ -12,6 +12,10 @@ const AdGroupInfoContent = () => {
     const [adGroupName, setAdGroupName] = useState("");
     const [adGroupId, setAdGroupId] = useState(0);
 
+    const [itemNo, setItemNo] = useState("");
+    const [itemName, setItemName] = useState("");
+
+
     return (
         <>
             <NavigateLanding>
@@ -27,8 +31,8 @@ const AdGroupInfoContent = () => {
                                              setAdGroupName={setAdGroupName}
                                              setAdGroupId={setAdGroupId}             
                                 />
-                                <ItemSearch />
-                                <ItemList />
+                                <ItemSearch setItemNo={setItemNo} setItemName={setItemName}/>
+                                <ItemList itemNo={itemNo} itemName={itemName}/>
                                 <UpdateAdGroupNmModal updateAdGroupNmModalOpen={updateAdGroupNmModalOpen}
                                                       setUpdateAdGroupNmModalOpen={setUpdateAdGroupNmModalOpen} 
                                                       adGroupName={adGroupName}

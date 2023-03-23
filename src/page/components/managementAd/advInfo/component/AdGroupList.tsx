@@ -66,7 +66,10 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
         }
         const newUpdateUseConfig = (param === 1 ? 1 : 0)
         console.log(checkedAdGroup)
-        requestUpdateAgUseConfigs({'code': newUpdateUseConfig, 'agUseConfigList': checkedAdGroup})
+        requestUpdateAgUseConfigs(
+            {'code': newUpdateUseConfig, 
+            'agUseConfigList': checkedAdGroup
+        })
         .then((res) => 
             requestAgroupItemList({ 'agroupName': adGroupName })
                     .then((res) => getReAdgroupItemList(res))

@@ -184,4 +184,22 @@ export const requestMngItemList = async (param:string, data:{}) => {
     console.log(response)
     return response
 }
+/**
+ * 광고 관리 - 1.광고 사용설정 여부 변경 2. 관련 직접 광고 사용 설정 여부 변경
+ */
+export const requestUpdateAdUseConfig = async (data:{}) => {
+    const response = await instance.post(`api/ad/list`, data )
+    console.log("[API] requestUpdateAdUseConfig")
+    console.log(response)
+    return response
+}
 
+/**
+ * 광고 관리 - 1.광고 사용설정 여부 변경(체크박스) 2. 관련 직접 광고 사용 설정 여부 변경
+ */
+export const requestUpdateAdUseConfigs = async (data:{}) => {
+    const response = await instance.post(`api/ad/lists`, data )
+    console.log("[API] requestUpdateAdUseConfigs")
+    console.log(response)
+    return response
+}

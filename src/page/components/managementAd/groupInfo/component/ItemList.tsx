@@ -7,10 +7,13 @@ import { mngItem } from "../../../../../type/item";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { bindActionCreators } from "redux";
-import { cp } from "fs";
+import { requestAgroupItemList, requestMngItemList, requestUpdateAdUseConfig, requestUpdateAdUseConfigs } from "../../../../../model/axios";
+interface Props {
+    itemNo: string,
+    itemName: string
+}
 
-
-const ItemList = () => {
+const ItemList = ({itemNo, itemName}: Props) => {
     const navigate = useNavigate();
     
     // 상품 리스트 
@@ -21,11 +24,54 @@ const ItemList = () => {
 
     const [selectedRowKeys, setSelectedRowKeys] = useState(ItemTable);
 
+    // 광고그룹 사용설정여부 변경 이벤트
     const updateAdUseConfigEvent = (recode: any) => {
-        const param = (recode.adUseConfigYn === 1 ? 0 : 1);
-        console.log('param /// ' + param)
-        console.log('adUseConfigYn /// ' + recode.adUseConfigYn)
+        const param = recode.adUseConfigYn === 1 ? 0 : 1;
+        console.log("param")
+        console.log(recode.adUseConfigYn)
+
+        // 광고 사용여부 변경 (1개)
+        requestUpdateAdUseConfig(
+            {'adId': recode.adId, 'adUseConfigYn': param}
+        )
+        .then((res) => {
+            const agroupId = res.data
+            // reload
+            requestMngItemList(
+                agroupId,
+                { 'itemNo': itemNo, 'itemName': itemName, }
+            )
+                .then((res) => getReMngItemList(res.data))
+                .catch((err) => console.log(err))
+
+        })
+        .catch((err) => console.log(err))
     }
+
+    // 광고그룹 사용설정여부 변경 이벤트
+    const updateOn_AdUseConfigListEvent = (param: number) => {
+        if(selectedRowKeys.length === 0) {
+            console.log("asdfasd")
+            alert("선택한 그룹이 없습니다.")
+            return null;
+        }
+        const newUpdateIseConfig = (param === 1 ? 1 : 0)
+        requestUpdateAdUseConfigs({
+            'code': param,
+            'adUseConfigYnList': selectedRowKeys
+        })
+        .then((res) => 
+            requestAgroupItemList({ 'itemNo': itemNo, 'itemName': itemName })
+            .then((res) => getReMngItemList(res))
+            .catch((err) => console.log(err))
+        )
+        .catch((err) => console.log(err))
+    }
+
+
+
+
+
 
 
     const rowSelection = {
@@ -42,10 +88,10 @@ const ItemList = () => {
                         <h2 className="fz-24 fc-gray-700">상품 리스트</h2>
                     </div>
                     <div className="box-right">
-                        <Button type="primary" className="pink" size="large">
+                        <Button type="primary" className="pink" size="large" onClick={() => updateOn_AdUseConfigListEvent(1)}>
                             <span>ON</span>
                         </Button>
-                        <Button type="primary" className="gray" size="large">
+                        <Button type="primary" className="gray" size="large" onClick={() => updateOn_AdUseConfigListEvent(0)}>
                             <span>OFF</span>
                         </Button>
                         <Button type="primary" className="gray" size="large">
