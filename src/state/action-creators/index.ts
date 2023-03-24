@@ -3,7 +3,7 @@ import { Dispatch } from "redux";
 import { adGroup, adGroupItem } from "../../type/adGroup";
 import { advInfo } from "../../type/adv";
 import { item, mngItem } from "../../type/item";
-import { keywordTable } from "../../type/keyword";
+import { keywordTable, mngKeywordList } from "../../type/keyword";
 import { ActionType } from "../action-type";
 import { Action } from "../actions/index"
 
@@ -139,4 +139,28 @@ export const getReMngItemList = (mngItemList: mngItem[]) => {
         })
     }
 }
+export const selectedAdId = (adId: number) => {
+    return (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type: ActionType.SELECTED_AD_ID,
+            payload: adId
+        })
+    }
+}
+export const getKeywordList = (mngKewordList: mngKeywordList[]) => {
+    return (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type: ActionType.MNG_KEYWORD_LIST,
+            payload: mngKewordList
+        })
+    }
+}
 
+export const getReKeywordList = (mngKewordList: mngKeywordList[]) => {
+    return (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type: ActionType.RE_MNG_KEYWORD_LIST,
+            payload: mngKewordList
+        })
+    }
+}

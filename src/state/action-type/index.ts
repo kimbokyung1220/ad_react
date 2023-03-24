@@ -14,5 +14,8 @@ export enum ActionType {
     ADGROUP_ITEM = "adgroup_item",
     RE_ADGROUP_ITEM = "re_adgroup_item",
     MNG_ITEM_LIST = "mng_item_list",
-    RE_MNG_ITEM_LIST = "re_mng_item_list,"
+    RE_MNG_ITEM_LIST = "re_mng_item_list",
+    SELECTED_AD_ID = "selected_ad_id",
+    MNG_KEYWORD_LIST = "mng_keyword_list",
+    RE_MNG_KEYWORD_LIST = "re_mng_keyword_list",
 }

@@ -164,7 +164,7 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
                         />
                         <Column title="그룹 ON/OFF" dataIndex="agroupUseConfigYnSrt" key="agroupUseConfigYnSrt" align="center"
                             render={(_: any, record: adGroupItem) => (
-                                <Popconfirm title="그룹의 사용 설정 여부를 변경하시겠습니까?" onConfirm={() => updateAgUseConfigEvent(record)}>
+                                <Popconfirm title="직접광고 설정 여부를 변경하시겠습니까?" onConfirm={() => updateAgUseConfigEvent(record)}>
                                     <a>{record.agroupUseConfigYnSrt}</a>
                                 </Popconfirm>
                             )}

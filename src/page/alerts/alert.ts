@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal } from 'antd';
+
 
 export const successAlert = (msg: string) => {
     Modal.success({

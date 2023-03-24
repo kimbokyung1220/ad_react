@@ -6,6 +6,7 @@ import { actionCreators, State } from "../../../../state";
 import { requestAgroupAllList } from '../../../../model/axios';
 import PrdInfo from "./PrdInfo";
 import { item } from '../../../../type/item';
+import { successAlert } from "../../../alerts/alert";
 
 const ResultPrd = () => {
     // 컴포넌트 활성화
@@ -23,7 +24,7 @@ const ResultPrd = () => {
     function selectItemEvent(record: item) {
         console.log(record)
         if (record.itemActYn === '비활성화') {
-            alert('비활성화된 상품은 광고 등록을 진행할 수 없습니다.');
+            successAlert("비활성화된 상품은 광고 등록을 진행할 수 없습니다.")
             return false;
         }
         // 레코드정보 담기

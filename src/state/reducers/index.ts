@@ -11,6 +11,8 @@ import advInfoReducer from './advInfoReducer';
 import adGroupItemListReducer from './adGroupItemListReducer';
 import adGroupItemReducer from './adGroupItemReducer';
 import mngItemListReducer from './mngItemListReducer';
+import selectedAdIdReducer from './selectedAdIdReducer';
+import mngKeyworldListReducer from './mngKeyworldListReducer';
 
 const reducers = combineReducers({
     item: itemReducer,
@@ -25,6 +27,8 @@ const reducers = combineReducers({
     adGroupItemList: adGroupItemListReducer,
     adGroupItem: adGroupItemReducer,
     mngItemList: mngItemListReducer,
+    selectedAdId: selectedAdIdReducer,
+    mngKeyworldList: mngKeyworldListReducer
 
 
 });

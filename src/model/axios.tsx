@@ -169,7 +169,7 @@ export const requestUpdateOffActYns = async (data: {}) => {
 /**
  * 광고관리 - 광고그룹명 변경
  */
-export const requestUpdateAgName = async ( data: {}) => {
+export const requestUpdateAgName = async (data: {}) => {
     const response = await instance.post(`api/agroup/agname`, data)
     console.log("[API] requestUpdateAgName")
     console.log(response)
@@ -178,8 +178,8 @@ export const requestUpdateAgName = async ( data: {}) => {
 /**
  * 광고관리 - 상품 조건조회
  */
-export const requestMngItemList = async (param:string, data:{}) => {
-    const response = await instance.post(`api/item/list/${param}`, data )
+export const requestMngItemList = async (param: string, data: {}) => {
+    const response = await instance.post(`api/item/list/${param}`, data)
     console.log("[API] requestMngItemList")
     console.log(response)
     return response
@@ -187,8 +187,8 @@ export const requestMngItemList = async (param:string, data:{}) => {
 /**
  * 광고 관리 - 1.광고 사용설정 여부 변경 2. 관련 직접 광고 사용 설정 여부 변경
  */
-export const requestUpdateAdUseConfig = async (data:{}) => {
-    const response = await instance.post(`api/ad/list`, data )
+export const requestUpdateAdUseConfig = async (data: {}) => {
+    const response = await instance.post(`api/ad/aduc`, data)
     console.log("[API] requestUpdateAdUseConfig")
     console.log(response)
     return response
@@ -197,9 +197,57 @@ export const requestUpdateAdUseConfig = async (data:{}) => {
 /**
  * 광고 관리 - 1.광고 사용설정 여부 변경(체크박스) 2. 관련 직접 광고 사용 설정 여부 변경
  */
-export const requestUpdateAdUseConfigs = async (data:{}) => {
-    const response = await instance.post(`api/ad/lists`, data )
+export const requestUpdateAdUseConfigs = async (data: {}) => {
+    const response = await instance.post(`api/ad/aducs`, data)
     console.log("[API] requestUpdateAdUseConfigs")
+    console.log(response)
+    return response
+}
+/**
+ * 광고 관리 - 광고 활성 여부 변경
+ */
+export const requestUpdateOffAdActYns = async (data: {}) => {
+    const response = await instance.post(`api/ad/adayns`, data)
+    console.log("[API] requestUpdateAdUseConfigs")
+    console.log(response)
+    return response
+}
+
+/**
+ * 광고 관리 - 키워드 조건 검색
+ */
+export const requestKeywordList = async (param: string, data: {}) => {
+    const response = await instance.post(`api/kwd/list/${param}`, data)
+    console.log("[API] requestKeywordList")
+    console.log(response)
+    return response
+}
+
+/**
+ * 키워드 직접광고 사용 여부 변경
+ */
+export const requestUpdateDadUseConfig = async (data: {}) => {
+    const response = await instance.post(`api/dad/aduc`, data)
+    console.log("[API] requestUpdateDadUseConfig")
+    console.log(response)
+    return response
+}
+/**
+ * 광고 관리 - 직접광고 사용 여부 변경(체크박스)
+ */
+export const requestUpdateDadUseConfigs = async (data: {}) => {
+    const response = await instance.post(`api/dad/aducs`, data)
+    console.log("[API] requestUpdateDadUseConfigs")
+    console.log(response)
+    return response
+}
+
+/**
+ * 광고 관리 - 직접광고 활성 여부 변경(체크박스)
+ */
+export const requestUpdateDadActs = async (data: {}) => {
+    const response = await instance.post(`api/dad/agayns`, data)
+    console.log("[API] requestUpdateDadActs")
     console.log(response)
     return response
 }

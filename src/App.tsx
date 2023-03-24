@@ -13,6 +13,7 @@ import AuthContext from "./store/auth-context";
 import RegContent from "./page/components/registerAd/RegContent";
 import AdvInfoContent from './page/components/managementAd/advInfo/AdvInfoContent';
 import AdGroupInfoContent from './page/components/managementAd/groupInfo/AdGroupInfoContent';
+import KeywordContent from "./page/components/managementAd/kwdInfo/KeywordContent";
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
             <Route path="/adv/reg" element={<RegContent />} />
             <Route path="/adv/mng/advInfo" element={<AdvInfoContent />} />
             <Route path="/adv/mng/agInfo" element={<AdGroupInfoContent />} />
+            <Route path="/adv/mng/kwdInfo" element={<KeywordContent />} />
           </Routes>
         }
       </BrowserRouter>

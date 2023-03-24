@@ -1,7 +1,7 @@
 import { adGroup, adGroupItem } from "../../type/adGroup"
 import { advInfo } from "../../type/adv"
 import { item, mngItem } from "../../type/item"
-import { keywordTable } from "../../type/keyword"
+import { keywordTable, mngKeywordList } from "../../type/keyword"
 import { ActionType } from "../action-type"
 
 interface SearchAction {
@@ -79,9 +79,18 @@ interface reMngItemListAction {
     type: ActionType.RE_MNG_ITEM_LIST
     payload: mngItem[]
 }
-
-
-
+interface SelectedAdId {
+    type: ActionType.SELECTED_AD_ID
+    payload: number
+}
+interface MngKeywordListAction {
+    type: ActionType.MNG_KEYWORD_LIST
+    payload: mngKeywordList[]
+}
+interface reMngKeywordListAction {
+    type: ActionType.RE_MNG_KEYWORD_LIST
+    payload: mngKeywordList[]
+}
 
 
 export type Action = SearchAction
@@ -100,3 +109,6 @@ export type Action = SearchAction
     | SelectedGoupId
     | MngItemListAction
     | reMngItemListAction
+    | SelectedAdId
+    | MngKeywordListAction
+    | reMngKeywordListAction
