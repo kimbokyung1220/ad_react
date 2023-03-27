@@ -7,9 +7,12 @@ import { requesSaveAgroup, requestAgroupAllList } from '../../../../model/axios'
 import { bindActionCreators } from 'redux';
 import { adGroup } from '../../../../type/adGroup';
 import AdKeywordList from "./AdKeywordList";
-import { errorAlert, warningAlert } from '../../../alerts/alert';
+import { errorAlert, successAlert, warningAlert } from '../../../alerts/alert';
+import { validation } from "../../../../store/validation";
 
 const SelectAdGroup = () => {
+    // validation
+    const { checkInputSpecial, checkSpace } = validation();
     // 광고목록 
     const [adGroupList, setAdGroupList] = useState<adGroup[]>([]);
     const options = adGroupList.map((option) => {
@@ -29,12 +32,21 @@ const SelectAdGroup = () => {
 
 
     // select-box
-
     const saveAdGroupEvent = () => {
         if(newAdGroupName === "" ){
             warningAlert("광고그룹명을 입력해 주세요.")
             return false;
         }
+
+       if(checkInputSpecial(newAdGroupName)) {
+            warningAlert("특수문자는 제외해주세요.")
+            return false;
+        }
+        if(checkSpace(newAdGroupName)) {
+            warningAlert("공백은 제외해주세요.")
+            return false;
+        }
+
         requesSaveAgroup({
             'agroupName': newAdGroupName
         })
@@ -43,6 +55,8 @@ const SelectAdGroup = () => {
                     errorAlert(res.error.message)
                     return false;
                 }
+
+                successAlert("광고그룹 생성 완료!")
 
                 // 신규 그룹 input 값
                 // const pushAgroup: adGroup = 
@@ -141,6 +155,7 @@ const SelectAdGroup = () => {
                                             <Input type="text" name="groupName"
                                                 value={newAdGroupName}
                                                 onChange={(e) => setNewAdGroupName(e.currentTarget.value)}
+                                                onPressEnter={saveAdGroupEvent}
                                             />
                                         </div>
                                     </dd>

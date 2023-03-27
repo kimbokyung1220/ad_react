@@ -1,24 +1,32 @@
 import { Layout } from 'antd';
-import { PropsWithChildren } from 'react';
-import IspContent from "./components/inspectAd/IspContent";
-import Footer from './layout/Footer';
-import Header from './layout/Header';
 import RegContent from './components/registerAd/RegContent';
 import NavigateLanding from "./NavigateLanding";
 import { Route, Routes } from "react-router-dom";
 import Body from "./layout/Body";
 import AdvInfoContent from './components/managementAd/advInfo/AdvInfoContent';
-const { Content } = Layout;
-
+import { getData } from "../model/token";
+import IspContent from "./components/inspectAd/IspContent";
+import { useContext } from "react";
+import AuthContext from "../store/auth-context";
 
 const Home = () => {
+    const roleGroups = getData('auth');
     return (
         <NavigateLanding>
             <Body>
-                <Routes>
-                    <Route path="/adv/reg" element={<RegContent />} />
-                    <Route path="/adv/mng/advInfo" element={<AdvInfoContent />} />
-                </Routes>
+                {roleGroups === "ROLE_ADV" &&
+                    <Routes>
+                        <Route element={<RegContent />} />
+                        <Route element={<AdvInfoContent />} />
+                    </Routes>
+                }
+
+                {roleGroups === "ROLE_ADMIN" &&
+                    <Routes>
+                        <Route element={<IspContent />} />
+                    </Routes>
+                }
+
             </Body>
         </NavigateLanding>
     );

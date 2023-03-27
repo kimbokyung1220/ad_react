@@ -13,6 +13,7 @@ export const adGroupDefaultValue: adGroup = {
 }
 
 export interface adGroupItem {
+    index: number,
     agroupId: number,
     agroupName: string,
     regTime: string,
@@ -24,6 +25,7 @@ export interface adGroupItem {
 }
 
 export const adGroupItemDefaultValue: adGroupItem = {
+    index: 0,
     agroupId: 0,
     agroupName: "",
     regTime: "",

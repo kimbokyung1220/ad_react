@@ -2,9 +2,8 @@ import React from 'react';
 import { Button } from 'antd';
 import { useSelector } from "react-redux"
 import { State } from "../../../../state";
-import { requestSaveAd, requesSaveAgroup } from '../../../../model/axios';
-import { errorAlert, successAlert } from '../../../alerts/alert';
-import { ok } from 'assert';
+import { requestSaveAd } from '../../../../model/axios';
+import { errorAlert, successReloadAlert, warningAlert } from '../../../alerts/alert';
 
 const RegAdBtn = () => {
     const keywordInfo = useSelector((state: State) => state.keywordTableInfo);
@@ -15,11 +14,11 @@ const RegAdBtn = () => {
     const regAdEvent = () => {
         console.log(adGroupInfo);
         if (adGroupInfo === "") {
-            alert("광고그룹을 선택해 주세요");
+            warningAlert("광고그룹을 선택해 주세요");
             return false;
         }
         if (keywordInfo.length <= 0) {
-            alert("키워드를 입력해주세요");
+            warningAlert("키워드를 입력해주세요");
             return false;
         }
         console.log(adGroupInfo);
@@ -34,8 +33,8 @@ const RegAdBtn = () => {
                 console.log(res.sucscess)
                 return false;
             } else {
-                successAlert("광고 등록 완료! :-)")
-                return window.location.reload();
+                successReloadAlert("광고 등록 완료! :-)", window.location.reload())
+                
             }
            
         }).catch(error => {

@@ -14,10 +14,14 @@ import RegContent from "./page/components/registerAd/RegContent";
 import AdvInfoContent from './page/components/managementAd/advInfo/AdvInfoContent';
 import AdGroupInfoContent from './page/components/managementAd/groupInfo/AdGroupInfoContent';
 import KeywordContent from "./page/components/managementAd/kwdInfo/KeywordContent";
+import { getData } from "./model/token";
+import IspContent from "./page/components/inspectAd/IspContent";
 
 
 function App() {
   const authCtx = useContext(AuthContext);
+  const roleGroups = getData('auth');
+  const path = roleGroups === "ROLE_ADV" ? "/adv/reg": "/adm/isp"
   return (
     <>
       <BrowserRouter>
@@ -34,14 +38,16 @@ function App() {
             <Route path="/common/login" element={<Login />} />
           </Routes>
           :
+          
           <Routes>
-            <Route path="/common/login" element={<Navigate replace to="/adv/reg" />} />
-            <Route path="/" element={<Navigate replace to="/adv/reg" />} />
+            <Route path="/common/login" element={<Navigate replace to={path} />} />
+            <Route path="/" element={<Navigate replace to={path} />} />
             {/* <Route path="*" element={<Navigate replace to="/adv/reg" />} /> */}
             <Route path="/adv/reg" element={<RegContent />} />
             <Route path="/adv/mng/advInfo" element={<AdvInfoContent />} />
-            <Route path="/adv/mng/agInfo" element={<AdGroupInfoContent />} />
+            <Route path="/adv/mng/agInfo/:agroupId" element={<AdGroupInfoContent />} />
             <Route path="/adv/mng/kwdInfo" element={<KeywordContent />} />
+            <Route path="/adm/isp" element={<IspContent />} />
           </Routes>
         }
       </BrowserRouter>

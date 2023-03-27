@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Popconfirm, Space, Table } from 'antd';
+import { Button, Popconfirm, Space, Table, TablePaginationConfig } from 'antd';
 import Column from 'antd/es/table/Column';
 import { actionCreators, State } from '../../../../../state';
 import { CSVLink } from 'react-csv';
@@ -14,6 +14,9 @@ interface Props {
     itemNo: string,
     itemName: string
 }
+interface TableParams {
+    pagination?: TablePaginationConfig;
+}
 
 const ItemList = ({ itemNo, itemName }: Props) => {
     const navigate = useNavigate();
@@ -27,6 +30,19 @@ const ItemList = ({ itemNo, itemName }: Props) => {
     const { selectedAdId } = bindActionCreators(actionCreators, dispatch);
 
     const [selectedRowKeys, setSelectedRowKeys] = useState(ItemTable);
+    const [tableParams, setTableParams] = useState<TableParams>({
+        pagination: {
+            current: 1,
+            pageSize: 10,
+        },
+    });
+
+        // 테이블 index
+    let index = 1;
+    ItemTable.forEach((res) => {
+        res.index = index++;
+        res.adUseConfigYnStr = res.adUseConfigYn === 1 ? "ON" : "OFF"
+    });
 
     // 광고그룹 사용설정여부 변경 이벤트
     const updateAdUseConfigEvent = (recode: any) => {
@@ -113,6 +129,18 @@ const ItemList = ({ itemNo, itemName }: Props) => {
             setSelectedRowKeys(selectedRows)
         },
     };
+
+    
+    const handleTableChange = (pagination: TablePaginationConfig) => {
+        setTableParams({ pagination });
+        setSelectedRowKeys([]);
+
+        // `dataSource` is useless since `pageSize` changed
+        if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+            
+            console.log(123)
+        }
+    };
     // 광고 상품 다운로드
     const headers = [
         { label: "번호", key: "index" },
@@ -139,7 +167,7 @@ const ItemList = ({ itemNo, itemName }: Props) => {
                         </Button>
 
                         <CSVLink filename={"ADItemList.csv"} data={ItemTable} headers={headers} className="btn btn-primary"
-                            onClick={() => alert("다운완료")}
+                            onClick={() => successAlert("다운로드 완료 👀👍")}
                         >
                             <Button className="pink" size="large" style={{ marginLeft: '25px' }}>
                                 <span> 그룹 다운로드 </span>
@@ -157,6 +185,7 @@ const ItemList = ({ itemNo, itemName }: Props) => {
                         rowKey={(render) => render.adId}
                         pagination={{ showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>) }}
                         bordered={true}
+                        onChange={handleTableChange}
                     >
                         <Column title="번호" dataIndex="index" key="index" align="center" render={(_: any, recode: any, index: number) => (<a>{index + 1}</a>)} />
                         <Column title="상품번호" dataIndex="itemNo" key="itemNo" align="center"
@@ -176,7 +205,8 @@ const ItemList = ({ itemNo, itemName }: Props) => {
                         <Column title="광고 상품 ON/OFF" dataIndex="adUseConfigYn" key="adUseConfigYn" align="center"
                             render={(_: any, record: mngItem) => (
                                 <Popconfirm title="광고 사용 설정 여부를 변경하시겠습니까?" onConfirm={() => updateAdUseConfigEvent(record)}>
-                                    <a>{record.adUseConfigYn === 1 ? "ON" : "OFF"}</a>
+                                    {/* <a>{record.adUseConfigYn === 1 ? "ON" : "OFF"}</a> */}
+                                    <a>{record.adUseConfigYnStr}</a>
                                 </Popconfirm>
                             )}
                         />

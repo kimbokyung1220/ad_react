@@ -1,11 +1,10 @@
-import { warningAlert } from "../page/alerts/alert";
 
 export const validation = () => {
     const checkInputSpecial = (str: string) => {
         const specialRegExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
-        // const specialRegExp = /[!?@#$%^&*():;+-=~{}<>\_\[\]\|\\\"\'\,\.\/\`\₩]/g;
         if (specialRegExp.test(str)) {
-            return true;       
+            str.replace(/\s/g, "");
+            return true;
         }
         else {
             console.log("f");
@@ -15,7 +14,7 @@ export const validation = () => {
 
     const checkInputNumber = (param: any) => {
         const numberRegExp = /[0-9]/g;
-        if(numberRegExp.test(param)) {
+        if (numberRegExp.test(param)) {
             param.replace(numberRegExp, "")
             return true;
         } else {
@@ -23,7 +22,23 @@ export const validation = () => {
         }
     }
 
-    const handlers = { checkInputSpecial, checkInputNumber };
+    const checkSpace = (str: string) => {
+        const spaceRegExp = /\s/g;;
+        if (spaceRegExp.test(str)) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    const chekIsNan = (num: number) => {
+        if (isNaN(num)) {
+            return num = 0;
+        }
+    }
+
+    const handlers = { checkInputSpecial, checkInputNumber, checkSpace, chekIsNan };
 
     return {
         ...handlers

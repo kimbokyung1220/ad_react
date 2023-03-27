@@ -1,10 +1,11 @@
-import { Button, message, Switch } from 'antd';
+import { Button, Switch } from 'antd';
 import React, { Dispatch, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { requestAgroupItem, requestUpdateAgUseConfig } from '../../../../../model/axios';
 import { actionCreators, State } from '../../../../../state';
+import { successAlert } from "../../../../alerts/alert";
 interface Props {
     setUpdateAdGroupNmModalOpen: Dispatch<boolean>
     setAdGroupName: Dispatch<string>
@@ -22,14 +23,6 @@ const AdGroupInfo = ({ setUpdateAdGroupNmModalOpen, setAdGroupName, setAdGroupId
     const adGroupItemInfo = useSelector((state: State) => state.adGroupItem);
 
     const [switchState, setSwitchState] = useState<boolean>(false);
-    const [messageApi, contextHolder] = message.useMessage();
-
-    const SuccessBtn = () => {
-        messageApi.open({
-            type: 'success',
-            content: '변경 완료 했습니다',
-        });
-    };
 
     // 광고 설정 변경
     const swithchEvent = (checked: boolean) => {
@@ -41,8 +34,8 @@ const AdGroupInfo = ({ setUpdateAdGroupNmModalOpen, setAdGroupName, setAdGroupId
             'agroupUseConfigYn': data
         })
             .then((res) => {
-                SuccessBtn()
-                requestAgroupItem({ 'agroupName': adGroupItemInfo.agroupName })
+                successAlert("변경 완료! 🙌")
+                requestAgroupItem({ 'agroupId': adGroupItemInfo.agroupId })
                     .then((res) => getReAdgroupItem(res))
                     .catch((err) => console.log(err))
                 setSwitchState(checked)
@@ -80,7 +73,6 @@ const AdGroupInfo = ({ setUpdateAdGroupNmModalOpen, setAdGroupName, setAdGroupId
 
     return (
         <>
-            {contextHolder}
             <section className="wrap-section wrap-tbl">
                 <div className="box-header">
                     <div className="box-left">

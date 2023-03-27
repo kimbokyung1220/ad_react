@@ -19,10 +19,12 @@ export const itemDefaultValue: item = {
 }
 
 export type mngItem = {
+    index: number,
     adId: number,
     agroupId: number,
     advId: string,
     adUseConfigYn: number,
+    adUseConfigYnStr: string,
     adActYn: number,
     regTime: string,
     itemId: number,
@@ -32,10 +34,12 @@ export type mngItem = {
 }
 
 export const mngItemDefaultValue: mngItem = {
+    index: 0,
     adId: 0,
     agroupId: 0,
     advId: "",
     adUseConfigYn: 0,
+    adUseConfigYnStr: "",
     adActYn: 0,
     regTime: "",
     itemId: 0,

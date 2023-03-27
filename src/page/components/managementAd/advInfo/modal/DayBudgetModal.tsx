@@ -20,13 +20,17 @@ const DayBudgetModal = ({dayLimitBudgetModalOpen, setDayLimitBudgetModalOpen}:Pr
     // 일일 허용 예산 변경
     const updateBudgetEvent = () => {
         const dayLimitBudgetStr = newDayLimitBudget.toString();
+        
+        if(newDayLimitBudget > 100000) {
+            return warningAlert("일일 허용 예산은 10만원 미만으로 가능합니다.");
+        }
 
         if(dayLimitBudgetStr.length >= 2 && dayLimitBudgetStr.substring(dayLimitBudgetStr.length -2, dayLimitBudgetStr.length) !== "00") {
             return  warningAlert("일일 허용 예산은 100원 단위로 변경 가능합니다.");
         }
 
         if(newDayLimitBudget < 100 && newDayLimitBudget >= 1) {
-            return warningAlert("일일 허용 예산은 100원 단위로 변경 가능합니다.");
+            return warningAlert("일일 허용 예산은 100원 단위로 변경 가능합니다. ");
         }
 
         requestUpdateLimitBudget({ 'dayLimitBudget': newDayLimitBudget })

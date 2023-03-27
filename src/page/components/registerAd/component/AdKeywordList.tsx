@@ -6,13 +6,13 @@ import { Button, Table, TableColumnsType, Modal, Input } from 'antd';
 import RegAdBtn from './RegAdBtn';
 import { keywordTable, KeywordTableDefaultValue } from '../../../../type/keyword';
 import { validation } from '../../../../store/validation';
-import { warningAlert } from '../../../alerts/alert';
+import { successAlert, warningAlert } from '../../../alerts/alert';
 
 
 
 const AdKeywordList = () => {
     // validation
-    const { checkInputSpecial } = validation();
+    const { checkInputSpecial, checkSpace, chekIsNan } = validation();
     // 등록 키워드 정보
     const keywordTableInfo = useSelector((state: State) => state.keywordTableInfo)
     const dispatch = useDispatch();
@@ -27,18 +27,28 @@ const AdKeywordList = () => {
     // 키워드 등록 이벤트
     const saveKeywordEvent = (newKeywordTable: keywordTable) => {
         if (Number(newKeywordTable.bidCost) < 90 || Number(newKeywordTable.bidCost) >= 99000) {
-            alert("입찰가는 최소 90원 최대 99000원까지 입력 가능합니다.");
+
+            if(isNaN(newKeywordTable.bidCost)) {
+                return newKeywordTable.bidCost = 0;
+            }
+    
+            warningAlert("입찰가는 최소 90원 최대 99000원까지 입력 가능합니다.");
             return false;
         }
         const sameKwdExist = keywordTableInfo.filter(keyword => keyword.kwdName === newKeywordTable.kwdName)
         if (sameKwdExist.length !== 0) {
-            alert("현재 동일한 키워드 명이 존재합니다.");
+            warningAlert("현재 동일한 키워드 명이 존재합니다.");
             return false;
         }
-        if(!checkInputSpecial) {
-            warningAlert("특수문자는 제외해주세요.")
+        if(checkInputSpecial(newKeywordTable.kwdName)) {
+            warningAlert("특수문자는 제외해주세요.");
             return false;
         }
+        if(checkSpace(newKeywordTable.kwdName)) {
+            warningAlert("공백을 제거해주세요.");
+            return false;
+        };
+
 
         showKeywordTableInfo([...keywordTableInfo, newKeywordTable]);
         setKwdIsModalOpen(false);
@@ -48,8 +58,14 @@ const AdKeywordList = () => {
     // 입찰가 일괄 설정 이벤트
     const regBioCostEvent = (newBidCost: keywordTable) => {
         
+        
         if (Number(newBidCost.bidCost) < 90 || Number(newBidCost.bidCost) >= 99000) {
-            alert("입찰가는 최소 90원 최대 99000원까지 입력 가능합니다.");
+            
+            if(isNaN(newKeywordTable.bidCost)) {
+                return newKeywordTable.bidCost = 0;
+            }
+            
+            warningAlert("입찰가는 최소 90원 최대 99000원까지 입력 가능합니다.");
             return false;
         }
         let copyList = [...keywordTableInfo];
@@ -141,7 +157,6 @@ const AdKeywordList = () => {
                                                 value={newKeywordTable.kwdName}
                                                 // onPressEnter={regKeywordEvent}/
                                                 onChange={(e) => setNewKeywordTable({ key: Math.floor(Math.random() * 101), kwdName: e.target.value, bidCost: newKeywordTable.bidCost })}
-                                                
                                             />
                                         </div>
                                     </dd>
@@ -158,7 +173,7 @@ const AdKeywordList = () => {
                                                 // value={newKeywordTable.bidCost}
                                                 value={isNaN(newKeywordTable.bidCost) ? 0 : newKeywordTable.bidCost}
                                                 onChange={(e) => setNewKeywordTable({ key: Math.floor(Math.random() * 101), kwdName: newKeywordTable.kwdName, bidCost: Number(e.target.value)})}
-
+                                                
                                             />
                                         </div>
                                     </dd>

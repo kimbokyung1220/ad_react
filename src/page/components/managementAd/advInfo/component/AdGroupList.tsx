@@ -1,5 +1,6 @@
-import React, { Dispatch, useState } from 'react';
+import React, { Dispatch, useState, useEffect } from 'react';
 import { Button, message, Popconfirm, Space, Table } from 'antd';
+import type { TablePaginationConfig } from 'antd/es/table';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators, State } from '../../../../../state';
 import Column from "antd/es/table/Column";
@@ -15,8 +16,12 @@ interface Props {
     setAdGroupModalOpen: Dispatch<boolean>
 }
 
+interface TableParams {
+    pagination?: TablePaginationConfig;
+}
+
 const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
-    
+
     const navigate = useNavigate();
     // 광고그룹 리스트
     const dispatch = useDispatch();
@@ -24,12 +29,24 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
     const { selectedAdGroupId } = bindActionCreators(actionCreators, dispatch);
 
     const adGroupItemList = useSelector((state: State) => state.adGroupItemList);
-    const [messageApi, contextHolder] = message.useMessage();
-    const [checkedAdGroup, setCheckedAdGroup] = useState(adGroupItemList);
+    const [checkedAdGroups, setCheckedAdGroups] = useState(adGroupItemList);
+    const [tableParams, setTableParams] = useState<TableParams>({
+        pagination: {
+            current: 1,
+            pageSize: 10,
+        },
+    });
+
+    // 테이블 index
+    let index = 1;
+    adGroupItemList.forEach((res) => {
+        res.index = index++;
+    });
+
 
     // 광고그룹 사용설정여부 변경 
     const updateAgUseConfigEvent = (recode: any) => {
-        console.log("ADFAD", recode);
+        console.log("ADFAD", recode.index);
         const param = recode.agroupUseConfigYn === 1 ? 0 : 1
 
         // 광고그룹 사용설정여부 변경(1개)
@@ -53,14 +70,14 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
     // 광고그룹 사용설정여부 변경(체크박스)
     const updateAgUseConfigListEvent = (param: number) => {
 
-        if (checkedAdGroup.length === 0) {
+        if (checkedAdGroups.length === 0) {
             warningAlert("선택한 그룹이 없습니다.")
             return false;
         }
 
         requestUpdateAgUseConfigs({
             'code': param,
-            'agUseConfigList': checkedAdGroup
+            'agUseConfigList': checkedAdGroups
         })
             .then((res) => {
                 if (res.data !== null) {
@@ -78,11 +95,13 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
     }
     // 그룹 삭제
     const deleteAdGroup = () => {
-        // if (checkedAdGroup.length === 0) {
-        //     warningAlert("선택한 그룹이 없습니다.")
-        //     return false;
-        // }
-        requestUpdateOffActYns({ 'deleteGroupList': checkedAdGroup })
+        if (checkedAdGroups.length === 0) {
+            warningAlert("선택한 그룹이 없습니다.")
+            return false;
+        }
+
+        // showConfirm("정말로 삭제하시겠습니까?")
+        requestUpdateOffActYns({ 'deleteGroupList': checkedAdGroups })
             .then((res) => {
                 if (res.data === null) {
                     warningAlert(res.error.message);
@@ -94,19 +113,33 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
                     .catch((err) => console.log(err))
             })
             .catch((err) => console.log("500"))
+
     }
 
     // 그룹 상세페이지로 이동
     const movePageEvent = (agroupId: number) => {
         selectedAdGroupId(agroupId);
-        navigate('/adv/mng/agInfo', { state: agroupId })
+        navigate(`/adv/mng/agInfo/${agroupId}`, { state: agroupId })
     }
 
     const rowSelection = {
+        checkedAdGroups,
         onChange: (selectedRowKeys: React.Key[], selectedRows: adGroupItem[]) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            setCheckedAdGroup(selectedRows)
+            setCheckedAdGroups(selectedRows)
         },
+    };
+
+    const handleTableChange = (pagination: TablePaginationConfig) => {
+        setTableParams({ pagination });
+        setCheckedAdGroups([]);
+        
+
+        // `dataSource` is useless since `pageSize` changed
+        if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+            
+            console.log(123)
+        }
     };
 
     const headers = [
@@ -115,11 +148,12 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
         { label: "그룹ON/OFF", key: "agroupUseConfigYnSrt" },
         { label: "상품수(LIVE/전체)", key: "itemCnt" }
     ];
+    useEffect(() => {
 
+    },[checkedAdGroups])
 
     return (
         <>
-            {contextHolder}
             <section className="wrap-section wrap-datagrid">
                 <div className="box-header">
                     <div className="box-left">
@@ -140,7 +174,7 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
                         </Button>
 
                         <CSVLink filename={"ADGroupList.csv"} data={adGroupItemList} headers={headers} className="btn btn-primary"
-                            onClick={() => { message.success("The file is downloading") }}
+                            onClick={() => { successAlert("다운로드 완료 👀👍")}}
                         >
                             <Button className="pink" size="large" style={{ marginLeft: '25px' }}>
                                 <span> 그룹 다운로드 </span>
@@ -151,33 +185,36 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
                 </div>
                 <div className="box-body">
 
+                    {adGroupItemList &&
+                        <Table
+                           rowSelection={rowSelection}
+                            dataSource={adGroupItemList}
+                            rowKey={(render) => render.agroupId}
+                            pagination={{showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>) }}
+                            bordered={true}
+                            onChange={handleTableChange}
+                        >
+                            <Column title="번호" dataIndex="index" key="index" align="center"
+                            // render={(_: any, recode: any, index: number) => (<a>{index + 1}</a>)} 
+                            />
+                            <Column title="그룹명" dataIndex="agroupName" key="agroupName" align="center"
+                                render={(_: any, record: adGroupItem) => (
 
-                    <Table
-                        rowSelection={rowSelection}
-                        dataSource={adGroupItemList}
-                        rowKey={(render) => render.agroupId}
-                        pagination={{ showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>) }}
-                        bordered={true}
-                    >
-                        <Column title="번호" dataIndex="index" key="index" align="center" render={(_: any, recode: any, index: number) => (<a>{index + 1}</a>)} />
-                        <Column title="그룹명" dataIndex="agroupName" key="agroupName" align="center"
-                            render={(_: any, record: adGroupItem) => (
-
-                                <Space size="middle" onClick={() => movePageEvent(record.agroupId)}>
-                                    <a>{record.agroupName}</a>
-                                </Space>
-                            )}
-                        />
-                        <Column title="그룹 ON/OFF" dataIndex="agroupUseConfigYnSrt" key="agroupUseConfigYnSrt" align="center"
-                            render={(_: any, record: adGroupItem) => (
-                                <Popconfirm title="직접광고 설정 여부를 변경하시겠습니까?" onConfirm={() => updateAgUseConfigEvent(record)}>
-                                    <a>{record.agroupUseConfigYnSrt}</a>
-                                </Popconfirm>
-                            )}
-                        />
-                        <Column title="상품 수(LIVE/전체)" dataIndex="itemCnt" key="itemCnt" align="center" />
-                    </Table>
-                    {/* } */}
+                                    <Space size="middle" onClick={() => movePageEvent(record.agroupId)}>
+                                        <a>{record.agroupName}</a>
+                                    </Space>
+                                )}
+                            />
+                            <Column title="그룹 ON/OFF" dataIndex="agroupUseConfigYnSrt" key="agroupUseConfigYnSrt" align="center"
+                                render={(_: any, record: adGroupItem) => (
+                                    <Popconfirm title="그룹 사용여부를 변경하시겠습니까?" onConfirm={() => updateAgUseConfigEvent(record)}>
+                                        <a>{record.agroupUseConfigYnSrt}</a>
+                                    </Popconfirm>
+                                )}
+                            />
+                            <Column title="상품 수(LIVE/전체)" dataIndex="itemCnt" key="itemCnt" align="center" />
+                        </Table>
+                    }
                 </div>
             </section>
         </>

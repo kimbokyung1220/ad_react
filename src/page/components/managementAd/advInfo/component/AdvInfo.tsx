@@ -4,6 +4,7 @@ import { requestAdvInfo, requestUpdateIngActYn } from '../../../../../model/axio
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators, State } from '../../../../../state';
+import { successAlert } from "../../../../alerts/alert";
 interface Props {
     setDayLimitBudgetModalOpen: Dispatch<boolean>
 }
@@ -14,15 +15,7 @@ const AdvInfo = ({ setDayLimitBudgetModalOpen }: Props) => {
     const advInfo = useSelector((state: State) => state.advInfo)
 
     const [switchState, setSwitchState] = useState<boolean>(false);
-    const [messageApi, contextHolder] = message.useMessage();
 
-
-    const SuccessBtn = () => {
-        messageApi.open({
-            type: 'success',
-            content: '변경 완료 했습니다',
-        });
-    };
     // 광고 설정 변경
     const swithchEvent = (checked: boolean) => {
         const data = checked ? 1 : 0;
@@ -31,7 +24,7 @@ const AdvInfo = ({ setDayLimitBudgetModalOpen }: Props) => {
         })
             .then((res) => {
                 getAdvInfo(res)
-                SuccessBtn();
+                successAlert("변경 완료! 🙌")
             })
             .catch((err => console.log(err)))
         setSwitchState(checked)
@@ -44,9 +37,9 @@ const AdvInfo = ({ setDayLimitBudgetModalOpen }: Props) => {
 
     useEffect(() => {
         if (advInfo.advId !== "") {
-            advInfo.adIngActYn === 1 
-            ? setSwitchState(true) 
-            : setSwitchState(false);
+            advInfo.adIngActYn === 1
+                ? setSwitchState(true)
+                : setSwitchState(false);
             return;
         }
 
@@ -54,16 +47,15 @@ const AdvInfo = ({ setDayLimitBudgetModalOpen }: Props) => {
             .then((res) => {
                 getAdvInfo(res);
 
-                res.adIngActYn === 1 
-                ? setSwitchState(true) 
-                : setSwitchState(false);
+                res.adIngActYn === 1
+                    ? setSwitchState(true)
+                    : setSwitchState(false);
             })
             .catch((err) => console.log(err))
     }, [])
 
     return (
         <>
-            {contextHolder}
             <section className="wrap-section wrap-tbl">
                 <div className="box-header">
                     <div className="box-left">

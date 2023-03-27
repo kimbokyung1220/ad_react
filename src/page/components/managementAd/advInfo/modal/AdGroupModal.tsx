@@ -14,7 +14,7 @@ interface Props {
 
 const AdGroupModal = ({ adGroupModalOpen, setAdGroupModalOpen }: Props) => {
    // validation
-   const { checkInputSpecial } = validation();
+   const { checkInputSpecial, checkSpace } = validation();
    
     const adGroupItemList = useSelector((state: State) => state.adGroupItemList);
 
@@ -25,6 +25,7 @@ const AdGroupModal = ({ adGroupModalOpen, setAdGroupModalOpen }: Props) => {
 
     // 광고그룹 등록
     const saveAdGroupEvent = () => {
+
         const sameAdGroupExist = adGroupItemList.filter(adGroup => adGroup.agroupName === newAdGroupName);
         if (sameAdGroupExist.length !== 0) {
             warningAlert("동일한 그룹명이 존재합니다.");
@@ -40,7 +41,13 @@ const AdGroupModal = ({ adGroupModalOpen, setAdGroupModalOpen }: Props) => {
            warningAlert("특수문자는 제외해주세요.")
             return false;
         }
-        // todo) 다시 확인
+
+        if(checkSpace(newAdGroupName)) {
+            warningAlert("공백은 제외해주세요.")
+            return false;
+        }
+
+        
         requesSaveAgroup({ 'agroupName': newAdGroupName })
             .then((res) => {
                 if (res.data === null) {
