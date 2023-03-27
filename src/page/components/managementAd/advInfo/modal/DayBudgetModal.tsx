@@ -30,7 +30,12 @@ const DayBudgetModal = ({dayLimitBudgetModalOpen, setDayLimitBudgetModalOpen}:Pr
         }
 
         requestUpdateLimitBudget({ 'dayLimitBudget': newDayLimitBudget })
-        .then((res) => { 
+        .then((res) => {
+            if(res.data === null){
+                errorAlert(res.error.message);
+                return false;
+            }
+
             getReAdvInfo(res.data);
             cancleModalEvent(); 
             successAlert("변경이 완료 되었습니다.");
@@ -86,7 +91,7 @@ const DayBudgetModal = ({dayLimitBudgetModalOpen, setDayLimitBudgetModalOpen}:Pr
                                                 maxLength={10}
                                                 name="dayLimitBudget"
                                                 placeholder="일일 허용 예산을 입력해주세요."
-                                                value={newDayLimitBudget}
+                                                value={isNaN(newDayLimitBudget) ? 0 : newDayLimitBudget}
                                                 onChange={(e) => setNewDayLimitBudget(Number(e.currentTarget.value))}
                                                 onPressEnter={updateBudgetEvent}
                                             />

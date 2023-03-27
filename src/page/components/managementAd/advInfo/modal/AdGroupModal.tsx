@@ -2,9 +2,10 @@ import { Button, Input, Modal } from "antd";
 import React, { Dispatch, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators, State } from "../../../../../state";
-import { successAlert, warningAlert } from "../../../../alerts/alert";
+import { errorAlert, successAlert, warningAlert } from "../../../../alerts/alert";
 import { requesSaveAgroup, requestAgroupItemList } from '../../../../../model/axios';
 import { bindActionCreators } from "redux";
+import { validation } from "../../../../../store/validation";
 
 interface Props {
     adGroupModalOpen: boolean,
@@ -12,6 +13,9 @@ interface Props {
 }
 
 const AdGroupModal = ({ adGroupModalOpen, setAdGroupModalOpen }: Props) => {
+   // validation
+   const { checkInputSpecial } = validation();
+   
     const adGroupItemList = useSelector((state: State) => state.adGroupItemList);
 
     const dispatch = useDispatch();
@@ -24,20 +28,31 @@ const AdGroupModal = ({ adGroupModalOpen, setAdGroupModalOpen }: Props) => {
         const sameAdGroupExist = adGroupItemList.filter(adGroup => adGroup.agroupName === newAdGroupName);
         if (sameAdGroupExist.length !== 0) {
             warningAlert("동일한 그룹명이 존재합니다.");
+            return false;
+        }
+        if(newAdGroupName === "") {
+            warningAlert("광고그룹명을 입력해주세요.");
+            return false;
         }
 
+        // 특수문자 정규식 check
+        if(checkInputSpecial(newAdGroupName)) {
+           warningAlert("특수문자는 제외해주세요.")
+            return false;
+        }
         // todo) 다시 확인
         requesSaveAgroup({ 'agroupName': newAdGroupName })
-            .then(res => {
-                if (res.data !== null) {
-                    console.log("광고그룹 생성 완료" + res.data);
-                    cancleModalEvent();
-                    successAlert("등록이 완료 되었습니다.");
-
-                    requestAgroupItemList({ 'agroupName': "" })
-                        .then((res) => getReAdgroupItemList(res))
-                        .catch((err) => console.log(err))
+            .then((res) => {
+                if (res.data === null) {
+                    errorAlert(res.error.message);
+                    return false;
                 }
+                cancleModalEvent();
+                successAlert("광고그룹을 등록했습니다.");
+
+                requestAgroupItemList({ 'agroupName': "" })
+                    .then((res) => getReAdgroupItemList(res))
+                    .catch((err) => console.log(err))
             }).catch(error => {
                 console.log("login error");
                 console.log(error);
@@ -91,9 +106,11 @@ const AdGroupModal = ({ adGroupModalOpen, setAdGroupModalOpen }: Props) => {
                                                 style={{ width: 380 }}
                                                 name="dayLimitBudget"
                                                 placeholder="등록할 광고그룹 명을 입력하세요."
+                                                // onKeyUp={(e) => checkInput(e.currentTarget.value)}
                                                 value={newAdGroupName}
                                                 onChange={(e) => setNewAdGroupName(e.currentTarget.value)}
-                                                onPressEnter={saveAdGroupEvent}
+                                                onPressEnter={saveAdGroupEvent
+                                                }
                                             />
                                         </div>
                                     </dd>

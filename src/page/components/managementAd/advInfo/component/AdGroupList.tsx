@@ -8,6 +8,7 @@ import { requestAgroupItemList, requestUpdateAgUseConfig, requestUpdateAgUseConf
 import { bindActionCreators } from 'redux';
 import { CSVLink } from "react-csv";
 import { useNavigate } from 'react-router-dom';
+import { errorAlert, successAlert, warningAlert } from '../../../../alerts/alert';
 
 interface Props {
     adGroupName: string
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
+    
     const navigate = useNavigate();
     // 광고그룹 리스트
     const dispatch = useDispatch();
@@ -24,14 +26,6 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
     const adGroupItemList = useSelector((state: State) => state.adGroupItemList);
     const [messageApi, contextHolder] = message.useMessage();
     const [checkedAdGroup, setCheckedAdGroup] = useState(adGroupItemList);
-
-
-    const headers = [
-        { label: "번호", key: "index" },
-        { label: "그룹 이름", key: "agroupName" },
-        { label: "그룹ON/OFF", key: "agroupUseConfigYnSrt" },
-        { label: "상품수(LIVE/전체)", key: "itemCnt" }
-    ];
 
     // 광고그룹 사용설정여부 변경 
     const updateAgUseConfigEvent = (recode: any) => {
@@ -44,72 +38,84 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
             'agroupUseConfigYn': param
         })
             .then((res) => {
-                messageApi.open({
-                    type: 'success',
-                    content: '변경 완료 했습니다',
-                });
+
+                successAlert(res.data)
+                // reload
                 requestAgroupItemList({ 'agroupName': adGroupName })
                     .then((res) => getReAdgroupItemList(res))
-                    .catch((err) => console.log(err))
+                    .catch((error) => errorAlert(error.message))
 
 
             })
-            .catch((err) => console.log(err))
+            .catch((err) => errorAlert("광고그룹 사용여부가 변경되지 않았습니다."))
     }
 
     // 광고그룹 사용설정여부 변경(체크박스)
-    const updateOn_AgUseConfigListEvent = (param: number) => {
-        if(checkedAdGroup.length === 0) {
-            console.log("asdfasd")
-            alert("선택한 그룹이 없습니다.")
-            return null;
+    const updateAgUseConfigListEvent = (param: number) => {
+
+        if (checkedAdGroup.length === 0) {
+            warningAlert("선택한 그룹이 없습니다.")
+            return false;
         }
-        const newUpdateUseConfig = (param === 1 ? 1 : 0)
-        console.log(checkedAdGroup)
-        requestUpdateAgUseConfigs(
-            {'code': newUpdateUseConfig, 
+
+        requestUpdateAgUseConfigs({
+            'code': param,
             'agUseConfigList': checkedAdGroup
         })
-        .then((res) => 
-            requestAgroupItemList({ 'agroupName': adGroupName })
-                    .then((res) => getReAdgroupItemList(res))
-                    .catch((err) => console.log(err))
-        )
-        .catch((err) => console.log(err))
+            .then((res) => {
+                if (res.data !== null) {
+                    successAlert(res.data)
+                    // reload
+                    return requestAgroupItemList({ 'agroupName': adGroupName })
+                        .then((res) => getReAdgroupItemList(res))
+                        .catch((err) => console.log(err))
+                } else {
+                    warningAlert(res.error.message)
+                }
+            }
+            )
+            .catch((err) => errorAlert("변경하지 못했습니다."))
     }
     // 그룹 삭제
     const deleteAdGroup = () => {
-        if(checkedAdGroup.length === 0) {
-            console.log("asdfasd")
-            alert("선택한 그룹이 없습니다.")
-            return null;
-        }
-        requestUpdateOffActYns({'deleteGroupList': checkedAdGroup})
-        .then((res) => 
-            requestAgroupItemList({ 'agroupName': adGroupName })
+        // if (checkedAdGroup.length === 0) {
+        //     warningAlert("선택한 그룹이 없습니다.")
+        //     return false;
+        // }
+        requestUpdateOffActYns({ 'deleteGroupList': checkedAdGroup })
+            .then((res) => {
+                if (res.data === null) {
+                    warningAlert(res.error.message);
+                    return false;
+                }
+                successAlert(res.data);
+                requestAgroupItemList({ 'agroupName': adGroupName })
                     .then((res) => getReAdgroupItemList(res))
                     .catch((err) => console.log(err))
-        )
-        .catch((err) => console.log("500"))
-    }
-
-    // 모달 오픈
-    const openModalEvent = () => {
-        setAdGroupModalOpen(true)
+            })
+            .catch((err) => console.log("500"))
     }
 
     // 그룹 상세페이지로 이동
     const movePageEvent = (agroupId: number) => {
         selectedAdGroupId(agroupId);
-        navigate('/adv/mng/agInfo',{state: agroupId})
+        navigate('/adv/mng/agInfo', { state: agroupId })
     }
-   
+
     const rowSelection = {
         onChange: (selectedRowKeys: React.Key[], selectedRows: adGroupItem[]) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
             setCheckedAdGroup(selectedRows)
         },
     };
+
+    const headers = [
+        { label: "번호", key: "index" },
+        { label: "그룹 이름", key: "agroupName" },
+        { label: "그룹ON/OFF", key: "agroupUseConfigYnSrt" },
+        { label: "상품수(LIVE/전체)", key: "itemCnt" }
+    ];
+
 
     return (
         <>
@@ -120,13 +126,13 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
                         <h2 className="fz-24 fc-gray-700">그룹 리스트</h2>
                     </div>
                     <div className="box-right">
-                        <Button type="primary" className="pink" size="large" onClick={() => updateOn_AgUseConfigListEvent(1)}>
+                        <Button type="primary" className="pink" size="large" onClick={() => updateAgUseConfigListEvent(1)}>
                             <span>ON</span>
                         </Button>
-                        <Button type="primary" className="gray" size="large"onClick={() => updateOn_AgUseConfigListEvent(0)}>
+                        <Button type="primary" className="gray" size="large" onClick={() => updateAgUseConfigListEvent(0)}>
                             <span>OFF</span>
                         </Button>
-                        <Button type="primary" className="pink" size="large" style={{ marginLeft: '25px' }} onClick={openModalEvent}>
+                        <Button type="primary" className="pink" size="large" style={{ marginLeft: '25px' }} onClick={() => setAdGroupModalOpen(true)}>
                             <span>그룹 추가</span>
                         </Button>
                         <Button type="primary" className="gray" size="large" onClick={deleteAdGroup}>
@@ -156,7 +162,7 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
                         <Column title="번호" dataIndex="index" key="index" align="center" render={(_: any, recode: any, index: number) => (<a>{index + 1}</a>)} />
                         <Column title="그룹명" dataIndex="agroupName" key="agroupName" align="center"
                             render={(_: any, record: adGroupItem) => (
-                                
+
                                 <Space size="middle" onClick={() => movePageEvent(record.agroupId)}>
                                     <a>{record.agroupName}</a>
                                 </Space>

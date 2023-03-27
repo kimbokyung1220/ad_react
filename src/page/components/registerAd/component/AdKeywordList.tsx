@@ -5,10 +5,14 @@ import { actionCreators, State } from "../../../../state";
 import { Button, Table, TableColumnsType, Modal, Input } from 'antd';
 import RegAdBtn from './RegAdBtn';
 import { keywordTable, KeywordTableDefaultValue } from '../../../../type/keyword';
+import { validation } from '../../../../store/validation';
+import { warningAlert } from '../../../alerts/alert';
 
 
 
 const AdKeywordList = () => {
+    // validation
+    const { checkInputSpecial } = validation();
     // 등록 키워드 정보
     const keywordTableInfo = useSelector((state: State) => state.keywordTableInfo)
     const dispatch = useDispatch();
@@ -18,6 +22,7 @@ const AdKeywordList = () => {
     const [kwdIsModalOpen, setKwdIsModalOpen] = useState(false);
     const [bioCostIsModalOpen, setBioCostIsModalOpen] = useState(false);
     const [newKeywordTable, setNewKeywordTable] = useState<keywordTable>(KeywordTableDefaultValue);
+    
 
     // 키워드 등록 이벤트
     const saveKeywordEvent = (newKeywordTable: keywordTable) => {
@@ -28,6 +33,10 @@ const AdKeywordList = () => {
         const sameKwdExist = keywordTableInfo.filter(keyword => keyword.kwdName === newKeywordTable.kwdName)
         if (sameKwdExist.length !== 0) {
             alert("현재 동일한 키워드 명이 존재합니다.");
+            return false;
+        }
+        if(!checkInputSpecial) {
+            warningAlert("특수문자는 제외해주세요.")
             return false;
         }
 
@@ -145,9 +154,10 @@ const AdKeywordList = () => {
                                     </dt>
                                     <dd>
                                         <div className="form-group">
-                                            <Input type="text" name="bi"
-                                                value={newKeywordTable.bidCost}
-                                                onChange={(e) => setNewKeywordTable({ key: Math.floor(Math.random() * 101), kwdName: newKeywordTable.kwdName, bidCost: e.target.value })}
+                                            <Input type="text" name="bidCost"
+                                                // value={newKeywordTable.bidCost}
+                                                value={isNaN(newKeywordTable.bidCost) ? 0 : newKeywordTable.bidCost}
+                                                onChange={(e) => setNewKeywordTable({ key: Math.floor(Math.random() * 101), kwdName: newKeywordTable.kwdName, bidCost: Number(e.target.value)})}
 
                                             />
                                         </div>
@@ -181,9 +191,9 @@ const AdKeywordList = () => {
                                     </dt>
                                     <dd>
                                         <div className="form-group">
-                                            <Input type="text" name="groupName"
-                                                value={newKeywordTable.bidCost}
-                                                onChange={(e) => setNewKeywordTable({ key: newKeywordTable.key, kwdName: newKeywordTable.kwdName, bidCost: e.target.value })}
+                                            <Input type="text" name="bidCost"
+                                                value={isNaN(newKeywordTable.bidCost) ? 0 : newKeywordTable.bidCost}
+                                                onChange={(e) => {setNewKeywordTable({ key: newKeywordTable.key, kwdName: newKeywordTable.kwdName, bidCost: Number(e.target.value) })}}
                                             />
                                         </div>
                                     </dd>

@@ -3,10 +3,10 @@ import { Button, Table, TableColumnsType } from 'antd';
 import { useDispatch, useSelector } from "react-redux"
 import { bindActionCreators } from "redux";
 import { actionCreators, State } from "../../../../state";
-import { requestAgroupAllList } from '../../../../model/axios';
+import { requestAgroupAllList, requestCheckResAdItem } from '../../../../model/axios';
 import PrdInfo from "./PrdInfo";
 import { item } from '../../../../type/item';
-import { successAlert } from "../../../alerts/alert";
+import { successAlert, errorAlert } from "../../../alerts/alert";
 
 const ResultPrd = () => {
     // 컴포넌트 활성화
@@ -27,20 +27,29 @@ const ResultPrd = () => {
             successAlert("비활성화된 상품은 광고 등록을 진행할 수 없습니다.")
             return false;
         }
-        // 레코드정보 담기
-        showItemInfo(record)
-        setShowComponent(true)
+        requestCheckResAdItem(String(record.itemId))
+            .then((res) => {
+                if (res.data === null) {
+                    errorAlert(res.error.message)
+                    return false;
+                }
 
-        // 광고그룹 API
-        requestAgroupAllList()
-        .then(res => {
-            if (res !== null) {
-                showAdGroup(res)
-            }
-        }).catch(error => {
-            console.log("show AdGroup error")
-            console.log(error)
-        })
+                // 레코드정보 담기
+                showItemInfo(record)
+                setShowComponent(true)
+
+                // 광고그룹 API
+                requestAgroupAllList()
+                    .then(res => {
+                        if (res !== null) {
+                            showAdGroup(res)
+                        }
+                    }).catch(error => {
+                        console.log("show AdGroup error")
+                        console.log(error)
+                    })
+            })
+            .catch((error) => console.log(error))
     };
 
     const columns: TableColumnsType<item> = [

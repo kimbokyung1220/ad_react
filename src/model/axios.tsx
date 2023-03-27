@@ -43,7 +43,16 @@ export const requestLogin = async (data: {}) => {
  */
 export const requestItemAllList = async (data: {}) => {
     const response = await instance.post(`/api/item`, data)
-    console.log("[API] getItemList")
+    console.log("[API] requestItemAllList")
+    console.log(response)
+    return response.data
+}
+/** 
+ * 광고등록 - 광고등록 시, 해당 상품이 광고테이블이 있는지 조회
+ */
+export const requestCheckResAdItem = async (itemId: string) => { //
+    const response = await instance.post(`/api/ad/item/${itemId}`)
+    console.log("[API] requestCheckResAdItem")
     console.log(response)
     return response.data
 }
@@ -51,16 +60,16 @@ export const requestItemAllList = async (data: {}) => {
  * 광고등록 - 광고등록 시 광고그룹 생성
  * 광고관리 - 그룹추가
  */
-export const requesSaveAgroup = async (data: {}) => {
+export const requesSaveAgroup = async (data: {}) => {  //
     const response = await instance.post(`/api/agroup`, data)
     console.log("[API] requesSaveAgroup")
     console.log(response)
-    return response
+    return response.data
 }
 /**
  * 광고등록 - 광고그룹 선택 (광고그룹 리스트)
  */
-export const requestAgroupAllList = async () => {
+export const requestAgroupAllList = async () => { //
     const response = await instance.get(`/api/agroup`)
     console.log("[API] getAgroupList")
     // console.log(response)
@@ -79,11 +88,11 @@ export const createKwds = async (data: {}) => {
 /**
  * 광고등록 - 광고 등록
  */
-export const requestSaveAd = async (data: {}) => {
+export const requestSaveAd = async (data: {}) => { //
     const response = await instance.post(`/api/ad`, data)
     console.log("[API] requestSaveAd")
     console.log(response)
-    return response
+    return response.data
 }
 
 /**
@@ -129,56 +138,56 @@ export const requestAgroupItem = async (data: {}) => {
 /**
  * 광고관리 - 그룹리스트 - 광고그룹 사용설정여부 변경(1개)
  */
-export const requestUpdateAgUseConfig = async (data: {}) => {
+export const requestUpdateAgUseConfig = async (data: {}) => { //
     const response = await instance.post(`api/agroup/aguc`, data)
     console.log("[API] requestUpdateAgUseConfig")
     console.log(response)
-    return response
+    return response.data
 }
 
 
 /**
  * 광고관리 - 그룹리스트 - 광고그룹 사용설정여부 변경(체크박스로)
  */
-export const requestUpdateAgUseConfigs = async (data: {}) => {
+export const requestUpdateAgUseConfigs = async (data: {}) => { //
     const response = await instance.post(`api/agroup/agucs`, data)
     console.log("[API] requestUpdateAgUseConfigs")
     console.log(response)
-    return response
+    return response.data
 }
 
 /**
  * 광고관리 - 광고주 계정 설정 및 정보 - 일일 허용 예산 변경
  */
-export const requestUpdateLimitBudget = async (data: {}) => {
-    const response = await instance.post(`api/adv/ad-budget`, data)
+export const requestUpdateLimitBudget = async (data: {}) => { //
+    const response = await instance.post(`api/adv/budget`, data)
     console.log("[API] requestUpdateLimitBudget")
     console.log(response)
-    return response
+    return response.data
 }
 
 /**
  * 광고관리 - 그룹리스트 - 광고그룹 사용설정여부 변경(체크박스로)
  */
-export const requestUpdateOffActYns = async (data: {}) => {
+export const requestUpdateOffActYns = async (data: {}) => { //
     const response = await instance.post(`api/agroup/agayns`, data)
     console.log("[API] requestUpdateAgUseConfigs")
     console.log(response)
-    return response
+    return response.data
 }
 /**
  * 광고관리 - 광고그룹명 변경
  */
-export const requestUpdateAgName = async (data: {}) => {
+export const requestUpdateAgName = async (data: {}) => { //
     const response = await instance.post(`api/agroup/agname`, data)
     console.log("[API] requestUpdateAgName")
     console.log(response)
-    return response
+    return response.data
 }
 /**
  * 광고관리 - 상품 조건조회
  */
-export const requestMngItemList = async (param: string, data: {}) => {
+export const requestMngItemList = async (param: number, data: {}) => {
     const response = await instance.post(`api/item/list/${param}`, data)
     console.log("[API] requestMngItemList")
     console.log(response)
@@ -187,11 +196,11 @@ export const requestMngItemList = async (param: string, data: {}) => {
 /**
  * 광고 관리 - 1.광고 사용설정 여부 변경 2. 관련 직접 광고 사용 설정 여부 변경
  */
-export const requestUpdateAdUseConfig = async (data: {}) => {
+export const requestUpdateAdUseConfig = async (data: {}) => { //
     const response = await instance.post(`api/ad/aduc`, data)
     console.log("[API] requestUpdateAdUseConfig")
     console.log(response)
-    return response
+    return response.data
 }
 
 /**
@@ -226,18 +235,18 @@ export const requestKeywordList = async (param: string, data: {}) => {
 /**
  * 키워드 직접광고 사용 여부 변경
  */
-export const requestUpdateDadUseConfig = async (data: {}) => {
-    const response = await instance.post(`api/dad/aduc`, data)
-    console.log("[API] requestUpdateDadUseConfig")
+export const requestUpdateKwdUseConfig = async (data: {}) => {
+    const response = await instance.post(`api/kwd/kuc`, data)
+    console.log("[API] requestUpdateKwdUseConfig")
     console.log(response)
     return response
 }
 /**
  * 광고 관리 - 직접광고 사용 여부 변경(체크박스)
  */
-export const requestUpdateDadUseConfigs = async (data: {}) => {
-    const response = await instance.post(`api/dad/aducs`, data)
-    console.log("[API] requestUpdateDadUseConfigs")
+export const requestUpdateKwdUseConfigs = async (data: {}) => {
+    const response = await instance.post(`api/kwd/kucs`, data)
+    console.log("[API] requestUpdateKwdUseConfigs")
     console.log(response)
     return response
 }
@@ -246,7 +255,7 @@ export const requestUpdateDadUseConfigs = async (data: {}) => {
  * 광고 관리 - 직접광고 활성 여부 변경(체크박스)
  */
 export const requestUpdateDadActs = async (data: {}) => {
-    const response = await instance.post(`api/dad/agayns`, data)
+    const response = await instance.post(`api/kwd/kacts`, data)
     console.log("[API] requestUpdateDadActs")
     console.log(response)
     return response

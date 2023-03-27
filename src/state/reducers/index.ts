@@ -29,8 +29,7 @@ const reducers = combineReducers({
     mngItemList: mngItemListReducer,
     selectedAdId: selectedAdIdReducer,
     mngKeyworldList: mngKeyworldListReducer
-
-
+    
 });
 
 export default reducers

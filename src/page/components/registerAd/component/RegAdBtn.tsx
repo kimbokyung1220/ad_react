@@ -3,6 +3,8 @@ import { Button } from 'antd';
 import { useSelector } from "react-redux"
 import { State } from "../../../../state";
 import { requestSaveAd, requesSaveAgroup } from '../../../../model/axios';
+import { errorAlert, successAlert } from '../../../alerts/alert';
+import { ok } from 'assert';
 
 const RegAdBtn = () => {
     const keywordInfo = useSelector((state: State) => state.keywordTableInfo);
@@ -20,41 +22,29 @@ const RegAdBtn = () => {
             alert("키워드를 입력해주세요");
             return false;
         }
+        console.log(adGroupInfo);
 
-        // 1. 광고그룹 저장
-        requesSaveAgroup({ 'agroupName': adGroupInfo })
-            .then(res => {
-                if (res !== null) {
-                    console.log("광고그룹 생성")
-                    console.log(res.data)
-                    // const adGroupId = ;
-                    resAdEvent(res.data.agroupId);
-                }
-            }).catch(error => {
-                console.log("login error");
-                console.log(error);
-
-            })
-
-    }
-
-    const resAdEvent = (agroupId: number) => {
-        // 광고, 키워드 등록
         requestSaveAd({
-            'agroupId': agroupId,
+            'agroupName': adGroupInfo,
             'kwds': keywordInfo,
             'itemId': itemInfo.itemId,
         }).then(res => {
-            if (res !== null) {
-                alert("광고를 등록 완료 했습니다! :)")
-                window.location.reload();
+            if (res.data === null || res.data.sucscess === 'false') {
+                errorAlert(res.error.message)
+                console.log(res.sucscess)
+                return false;
+            } else {
+                successAlert("광고 등록 완료! :-)")
+                return window.location.reload();
             }
+           
         }).catch(error => {
-            console.log("login error");
-            console.log(error);
-
+            console.log(error)
+            errorAlert(error.message)
         })
+
     }
+
 
 
     return (

@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators } from "redux";
 import { 
     requestMngItemList, requestUpdateAdUseConfig, requestUpdateAdUseConfigs, requestUpdateOffAdActYns } from "../../../../../model/axios";
+import { successAlert, warningAlert } from "../../../../alerts/alert";
 interface Props {
     itemNo: string,
     itemName: string
@@ -29,9 +30,9 @@ const ItemList = ({ itemNo, itemName }: Props) => {
 
     // 광고그룹 사용설정여부 변경 이벤트
     const updateAdUseConfigEvent = (recode: any) => {
+        console.log("변경전" + recode.adUseConfigYn);
         const param = recode.adUseConfigYn === 1 ? 0 : 1;
-        console.log("param")
-        console.log(recode.adUseConfigYn)
+        console.log("변경후" + param)
 
         // 광고 사용여부 변경 (1개)
         requestUpdateAdUseConfig(
@@ -39,7 +40,9 @@ const ItemList = ({ itemNo, itemName }: Props) => {
         )
             .then((res) => {
 
-                const agroupId = res.data
+                console.log("res")
+                console.log(res)
+                const agroupId = res
                 // reload
                 requestMngItemList(
                     agroupId,
@@ -55,8 +58,7 @@ const ItemList = ({ itemNo, itemName }: Props) => {
     // 광고그룹 사용설정여부 변경 이벤트(체크박스)
     const updateAdUseConfigListEvent = (param: number) => {
         if (selectedRowKeys.length === 0) {
-            console.log("asdfasd")
-            alert("선택한 그룹이 없습니다.")
+            warningAlert("선택한 그룹이 없습니다.")
             return null;
         }
 
@@ -65,6 +67,7 @@ const ItemList = ({ itemNo, itemName }: Props) => {
             'adUseConfigYnList': selectedRowKeys
         })
             .then((res) => {
+                successAlert("변경되었습니다.")
                 // reload
                 requestMngItemList(
                     state,
@@ -86,6 +89,7 @@ const ItemList = ({ itemNo, itemName }: Props) => {
             'deleteAdList': selectedRowKeys 
         })
             .then((res) => {
+                successAlert("변경되었습니다.")
                 // reload
                 requestMngItemList(
                     state,

@@ -4,6 +4,7 @@ import { requestAgroupItem, requestUpdateAgName } from "../../../../../model/axi
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actionCreators, State } from "../../../../../state";
+import { errorAlert, successAlert } from '../../../../alerts/alert';
 
 interface Props {
     updateAdGroupNmModalOpen: boolean,
@@ -36,7 +37,13 @@ const UpdateAdGroupNmModal = ({ updateAdGroupNmModalOpen, setUpdateAdGroupNmModa
             'newAgroupName': newAdGroupName,
         })
             .then((res) => {
-
+                console.log(res.data)
+                if(res.data === null) {
+                    errorAlert(res.error.message)
+                    return false;
+                }
+                successAlert(res.data)
+                //reload
                 requestAgroupItem({
                     'agroupId': adGroupId,
                 })

@@ -5,9 +5,10 @@ import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { bindActionCreators } from "redux";
-import { requestKeywordList, requestUpdateDadActs, requestUpdateDadUseConfig, requestUpdateDadUseConfigs } from "../../../../../model/axios";
+import { requestKeywordList, requestUpdateDadActs, requestUpdateKwdUseConfig, requestUpdateKwdUseConfigs } from "../../../../../model/axios";
 import { actionCreators, State } from "../../../../../state";
 import { mngKeywordList } from "../../../../../type/keyword";
+import { successAlert } from "../../../../alerts/alert";
 interface Props {
     keywordName: string
 }
@@ -29,11 +30,14 @@ const KeywordList = ({ keywordName }: Props) => {
         console.log(recode.dadUseConfigYn)
         console.log("param")
         console.log(param)
-        requestUpdateDadUseConfig({
-            'dadDetId': recode.dadDetId,
-            'dadUseConfigYn': param
+        console.log(recode);
+
+        requestUpdateKwdUseConfig({
+            'kwdId': recode.kwdId,
+            'sellPossKwdYn': param
         })
             .then((res) => {
+                successAlert("변경 하였습니다.")
                 requestKeywordList(
                     state,
                     { 'kwdName': keywordName })
@@ -45,16 +49,16 @@ const KeywordList = ({ keywordName }: Props) => {
             })
             .catch()
 
-
     }
 
     // 활성화(체크박스)
     const updateDadUseConfigListEvent = (param: number) => {
-        requestUpdateDadUseConfigs({
+        requestUpdateKwdUseConfigs({
             'code': param,
-            'dadUseConfigList': selectedRowKeys
+            'kwdList': selectedRowKeys
         })
             .then((res) => {
+                successAlert("변경 되었습니다")
                 requestKeywordList(
                     state,
                     { 'kwdName': keywordName })
@@ -71,9 +75,10 @@ const KeywordList = ({ keywordName }: Props) => {
     const deleteDadEvent = () => {
      
         requestUpdateDadActs({
-            'deleteDadList': selectedRowKeys
+            'deleteKwdList': selectedRowKeys
         })
             .then((res) => {
+                successAlert("변경 되었습니다")
                 requestKeywordList(
                     state,
                     { 'kwdName': keywordName })
