@@ -1,34 +1,38 @@
-import { Layout } from 'antd';
 import RegContent from './components/registerAd/RegContent';
-import NavigateLanding from "./NavigateLanding";
 import { Route, Routes } from "react-router-dom";
 import Body from "./layout/Body";
 import AdvInfoContent from './components/managementAd/advInfo/AdvInfoContent';
 import { getData } from "../model/token";
-import IspContent from "./components/inspectAd/IspContent";
-import { useContext } from "react";
-import AuthContext from "../store/auth-context";
+import IspKwdContent from './components/admin/inspectKeyword/IspKwdContent';
+import AdGroupInfoContent from './components/managementAd/groupInfo/AdGroupInfoContent';
+import KeywordContent from './components/managementAd/kwdInfo/KeywordContent';
+import IspAdContent from './components/admin/inspectAd/IspAdContent';
+import CsAdContent from './components/admin/currentSituationAd/CsAdContent';
 
 const Home = () => {
     const roleGroups = getData('auth');
     return (
-        <NavigateLanding>
-            <Body>
-                {roleGroups === "ROLE_ADV" &&
-                    <Routes>
-                        <Route element={<RegContent />} />
-                        <Route element={<AdvInfoContent />} />
-                    </Routes>
-                }
 
-                {roleGroups === "ROLE_ADMIN" &&
-                    <Routes>
-                        <Route element={<IspContent />} />
-                    </Routes>
-                }
+        <Body>
+            {roleGroups === "ROLE_ADV" &&
+                <Routes>
+                    <Route element={<RegContent />} />
+                    <Route element={<AdvInfoContent />} />
+                    <Route element={<AdGroupInfoContent />} />
+                    <Route element={<KeywordContent />} />
+                </Routes>
+            }
 
-            </Body>
-        </NavigateLanding>
+            {roleGroups === "ROLE_ADMIN" &&
+                <Routes>
+                    <Route element={<IspKwdContent />} />
+                    <Route element={<IspAdContent />} />
+                    <Route element={<CsAdContent />} />
+                </Routes>
+            }
+
+        </Body>
+
     );
 }
 

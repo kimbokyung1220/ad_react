@@ -10,7 +10,7 @@ interface Props {
     setDayLimitBudgetModalOpen: Dispatch<boolean>
 }
 
-const DayBudgetModal = ({dayLimitBudgetModalOpen, setDayLimitBudgetModalOpen}:Props) => {
+const DayBudgetModal = ({ dayLimitBudgetModalOpen, setDayLimitBudgetModalOpen }: Props) => {
     const [newDayLimitBudget, setNewDayLimitBudget] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
 
@@ -20,44 +20,44 @@ const DayBudgetModal = ({dayLimitBudgetModalOpen, setDayLimitBudgetModalOpen}:Pr
     // 일일 허용 예산 변경
     const updateBudgetEvent = () => {
         const dayLimitBudgetStr = newDayLimitBudget.toString();
-        
-        if(newDayLimitBudget > 100000) {
+
+        if (newDayLimitBudget > 100000) {
             return warningAlert("일일 허용 예산은 10만원 미만으로 가능합니다.");
         }
 
-        if(dayLimitBudgetStr.length >= 2 && dayLimitBudgetStr.substring(dayLimitBudgetStr.length -2, dayLimitBudgetStr.length) !== "00") {
-            return  warningAlert("일일 허용 예산은 100원 단위로 변경 가능합니다.");
+        if (dayLimitBudgetStr.length >= 2 && dayLimitBudgetStr.substring(dayLimitBudgetStr.length - 2, dayLimitBudgetStr.length) !== "00") {
+            return warningAlert("일일 허용 예산은 100원 단위로 변경 가능합니다.");
         }
 
-        if(newDayLimitBudget < 100 && newDayLimitBudget >= 1) {
+        if (newDayLimitBudget < 100 && newDayLimitBudget >= 1) {
             return warningAlert("일일 허용 예산은 100원 단위로 변경 가능합니다. ");
         }
 
         requestUpdateLimitBudget({ 'dayLimitBudget': newDayLimitBudget })
-        .then((res) => {
-            if(res.data === null){
-                errorAlert(res.error.message);
-                return false;
-            }
+            .then((res) => {
+                if (res.data === null) {
+                    errorAlert(res.error.message);
+                    return false;
+                }
 
-            getReAdvInfo(res.data);
-            cancleModalEvent(); 
-            successAlert("변경이 완료 되었습니다.");
-            
-        })    
-        .catch((err) => errorAlert("변경하지 못하였습니다."))
+                getReAdvInfo(res.data);
+                cancleModalEvent();
+                successAlert("변경이 완료 되었습니다.");
+
+            })
+            .catch((err) => errorAlert("변경하지 못하였습니다."))
     }
-    
+
     // 모달 닫기
     const cancleModalEvent = () => {
         // 모달 닫기
-        setIsOpen(false); 
+        setIsOpen(false);
         setNewDayLimitBudget(0);
         setDayLimitBudgetModalOpen(false);
     }
 
     useEffect(() => {
-        if(dayLimitBudgetModalOpen) {
+        if (dayLimitBudgetModalOpen) {
             setIsOpen(true)
         } else {
             setIsOpen(false)

@@ -6,12 +6,13 @@ import { Link, useLocation } from "react-router-dom";
 
 const advMenu: MenuProps['items'] = [
     { label: <Link to="/adv/reg">광고 등록</Link>, key: 'reg', icon: <i className="ico ico-menu-01 ant-menu-item-icon" /> },
-    { label: <Link to="/adv/mng/advInfo">광고 관리</Link>, key: 'mng', icon: <i className="ico ico-menu-02 ant-menu-item-icon" /> },
+    { label: <Link to="/adv/mng/adv-info">광고 관리</Link>, key: 'mng', icon: <i className="ico ico-menu-02 ant-menu-item-icon" /> },
 ]
 
 const admMenu: MenuProps['items'] = [
-    { label: '키워드 검수', key: 'kwd', icon: <i className="ico ico-menu-01 ant-menu-item-icon" /> },
-    { label: '광고 검수', key: 'isp', icon: <i className="ico ico-menu-02 ant-menu-item-icon" /> },
+    { label: <Link to="/adm/isp-kwd">키워드 검수</Link>, key: 'isp-kwd', icon: <i className="ico ico-menu-01 ant-menu-item-icon" /> },
+    { label: <Link to="/adm/isp-ad">광고 검수</Link>, key: 'isp-ad', icon: <i className="ico ico-menu-02 ant-menu-item-icon" /> },
+    { label: <Link to="/adm/cs-ad">광고 현황</Link>, key: 'cs-ad', icon: <i className="ico ico-menu-00 ant-menu-item-icon" /> },
 ]
 
 const Header = () => {
@@ -22,11 +23,13 @@ const Header = () => {
     const roleGroups = getData('auth');
 
     const moveAdvPage: MenuProps['onClick'] = (e) => {
+        // setCurrent(e.key)
         localStorage.setItem('tab', e.key)
     };
-
-    function moveAdminPage() {
-        window.location.href = "/adm/mng";
+    
+    const moveAdminPage: MenuProps['onClick'] = (e) => {
+        // setCurrent(e.key)
+        localStorage.setItem('tab', e.key)
     };
 
     function logoutEvent() {
@@ -34,10 +37,13 @@ const Header = () => {
     }
 
     useEffect(() => {
-        if(localStorage.getItem('tab') === 'reg') setCurrent("reg")
-        else if (localStorage.getItem('tab') === 'mng')  setCurrent("mng")
-        else setCurrent("")
-    }, [current])
+        if(location.pathname.includes("reg")) setCurrent("reg")
+        else if(location.pathname.includes("mng")) setCurrent("mng")
+        else if(location.pathname.includes("isp-kwd")) setCurrent("isp-kwd")
+        else if(location.pathname.includes("isp-ad")) setCurrent("isp-ad")
+        else if(location.pathname.includes("cs-ad")) setCurrent("cs-ad")
+        else setCurrent("");
+    }, [location])
 
     return (
         <>

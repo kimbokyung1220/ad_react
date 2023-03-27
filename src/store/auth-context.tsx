@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { getData, setData } from "../model/token";
 
 type Props = { children?: React.ReactNode }
 
@@ -26,7 +27,7 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
         localStorage.setItem('Refresh_Token', res.data.refreshToken);
         localStorage.setItem('auth', res.data.authority);
         localStorage.setItem('id', res.data.memberId);
-        sessionStorage.setItem('menu', 'res');
+        getData('auth') === 'ROLE_ADV' ? setData('tab', 'res') : setData('tab',"isp-kwd")
 
         setToken(`Bearer ${res.data.accessToken}`)
 
@@ -48,8 +49,10 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
 
     // retrieveStoredToken로 받은 token값과, logoutHandler를 종속변수로 삼는 useEffect훅
     useEffect(() => {
-
     }, [token]);
+    useEffect(()=> {
+        
+    },[])
 
 
     const contextValue = {

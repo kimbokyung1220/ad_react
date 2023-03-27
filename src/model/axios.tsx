@@ -217,7 +217,7 @@ export const requestUpdateAdUseConfigs = async (data: {}) => {
  */
 export const requestUpdateOffAdActYns = async (data: {}) => {
     const response = await instance.post(`api/ad/adayns`, data)
-    console.log("[API] requestUpdateAdUseConfigs")
+    console.log("[API] requestUpdateOffAdActYns")
     console.log(response)
     return response
 }

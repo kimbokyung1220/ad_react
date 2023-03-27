@@ -1,6 +1,7 @@
-import { Button, Popconfirm, Space, Table } from "antd";
+import { Button, Popconfirm, Space, Table, TablePaginationConfig } from "antd";
 import Column from "antd/es/table/Column";
-import React, { useState } from 'react';
+import { rmSync } from "fs";
+import React, { useEffect, useState } from 'react';
 import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -8,9 +9,12 @@ import { bindActionCreators } from "redux";
 import { requestKeywordList, requestUpdateDadActs, requestUpdateKwdUseConfig, requestUpdateKwdUseConfigs } from "../../../../../model/axios";
 import { actionCreators, State } from "../../../../../state";
 import { mngKeywordList } from "../../../../../type/keyword";
-import { successAlert } from "../../../../alerts/alert";
+import { errorAlert, successAlert, warningAlert } from "../../../../alerts/alert";
 interface Props {
     keywordName: string
+}
+interface TableParams {
+    pagination?: TablePaginationConfig;
 }
 
 const KeywordList = ({ keywordName }: Props) => {
@@ -22,22 +26,30 @@ const KeywordList = ({ keywordName }: Props) => {
     const { getReKeywordList } = bindActionCreators(actionCreators, dispatch);
 
     const [selectedRowKeys, setSelectedRowKeys] = useState(keywordList);
+    const [tableParams, setTableParams] = useState<TableParams>({
+        pagination: {
+            current: 1,
+            pageSize: 10,
+        },
+    });
 
-    // 직접광고 활성 여부
+    // 테이블 index
+    let index = 1;
+    keywordList.forEach((res) => {
+        res.index = index++;
+        res.dadUseConfigYnStr = res.dadUseConfigYn === 1 ? "ON" : "OFF"
+    });
+
+    // 키워드 - 직접광고 활성 여부 (1개)
     const updateDadConfigEvent = (recode: any) => {
         const param = recode.dadUseConfigYn === 1 ? 0 : 1;
-        console.log("recode.dadUseConfigYn")
-        console.log(recode.dadUseConfigYn)
-        console.log("param")
-        console.log(param)
-        console.log(recode);
 
         requestUpdateKwdUseConfig({
             'kwdId': recode.kwdId,
             'sellPossKwdYn': param
         })
             .then((res) => {
-                successAlert("변경 하였습니다.")
+                successAlert("변경 완료! 🙌")
                 requestKeywordList(
                     state,
                     { 'kwdName': keywordName })
@@ -45,20 +57,25 @@ const KeywordList = ({ keywordName }: Props) => {
                         console.log("keywordName")
                         getReKeywordList(res.data)
                     })
-                    .catch((err) => console.log(err))
+                    .catch((err) => { console.log(err); errorAlert("변경하지 못했습니다.") })
             })
             .catch()
 
     }
 
-    // 활성화(체크박스)
+    // 키워드 - 직접광고 활성 여부 (체크박스)
     const updateDadUseConfigListEvent = (param: number) => {
+        if (selectedRowKeys.length === 0) {
+            warningAlert("선택한 키워드가 없습니다.")
+            return false;
+        }
+
         requestUpdateKwdUseConfigs({
             'code': param,
             'kwdList': selectedRowKeys
         })
             .then((res) => {
-                successAlert("변경 되었습니다")
+                successAlert("변경 완료! 🙌")
                 requestKeywordList(
                     state,
                     { 'kwdName': keywordName })
@@ -66,27 +83,31 @@ const KeywordList = ({ keywordName }: Props) => {
                         console.log("keywordName")
                         getReKeywordList(res.data)
                     })
-                    .catch((err) => console.log(err))
+                    .catch((err) => { console.log(err); errorAlert("변경하지 못했습니다.") })
             })
     }
 
 
     // 키워드 삭제
     const deleteDadEvent = () => {
-     
+
+        if (selectedRowKeys.length === 0) {
+            warningAlert("선택한 키워드가 없습니다.")
+            return false;
+        }
+
         requestUpdateDadActs({
             'deleteKwdList': selectedRowKeys
         })
             .then((res) => {
-                successAlert("변경 되었습니다")
+                successAlert("삭제 완료! 🙌")
                 requestKeywordList(
                     state,
                     { 'kwdName': keywordName })
                     .then((res) => {
-                        console.log("keywordName")
                         getReKeywordList(res.data)
                     })
-                    .catch((err) => console.log(err))
+                    .catch((err) => { console.log(err); errorAlert("삭제하지 못했습니다.") })
             })
             .catch()
 
@@ -100,12 +121,32 @@ const KeywordList = ({ keywordName }: Props) => {
         },
     };
 
+
+    const handleTableChange = (pagination: TablePaginationConfig) => {
+        console.log("selectedRowKeys*****")
+        console.log(selectedRowKeys)
+        setTableParams({ pagination });
+        setSelectedRowKeys([]);
+
+
+        // `dataSource` is useless since `pageSize` changed
+        if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+
+            console.log(123)
+        }
+    };
+
+    useEffect(() => {
+        setSelectedRowKeys([]);
+    },[])
+
     // 키워드 다운로드
     const headers = [
         { label: "번호", key: "index" },
-        { label: "키워드명", key: "keywordName" },
-        { label: "ON/OFF", key: "dadUseConfigYn" },
+        { label: "키워드명", key: "kwdName" },
+        { label: "ON/OFF", key: "dadUseConfigYnStr" },
     ];
+
     return (
         <>
             <section className="wrap-section wrap-datagrid">
@@ -125,7 +166,7 @@ const KeywordList = ({ keywordName }: Props) => {
                         </Button>
 
                         <CSVLink filename={"KeywordList.csv"} data={keywordList} headers={headers} className="btn btn-primary"
-                            onClick={() => alert("다운완료")}
+                            onClick={() => { successAlert("다운로드 완료 👀👍") }}
                         >
                             <Button className="pink" size="large" style={{ marginLeft: '25px' }}>
                                 <span> 키워드 다운로드 </span>
@@ -143,21 +184,16 @@ const KeywordList = ({ keywordName }: Props) => {
                         rowKey={(render) => render.dadDetId}
                         pagination={{ showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>) }}
                         bordered={true}
+                        onChange={handleTableChange}
                     >
-                        <Column title="번호" dataIndex="index" key="index" align="center" render={(_: any, recode: any, index: number) => (<a>{index + 1}</a>)} />
-                        <Column title="키워드 명" dataIndex="kwdName" key="kwdName" align="center"
-                            render={(_: any, record: mngKeywordList) => (
-                                <Space size="middle">
-                                    <a>{record.kwdName}</a>
-                                </Space>
-                            )}
-                        />
-                        <Column title="ON/OFF" dataIndex="dadUseConfigYn" key="dadUseConfigYn" align="center"
+                        <Column title="번호" dataIndex="index" key="index" align="center" />
+                        <Column title="키워드 명" dataIndex="kwdName" key="kwdName" align="center" />
+                        <Column title="ON/OFF" dataIndex="dadUseConfigYnStr" key="dadUseConfigYnStr" align="center"
                             render={(_: any, record: mngKeywordList, index) => (
-                                <Popconfirm title="광고 사용 설정 여부를 변경하시겠습니까?"
+                                <Popconfirm title="키워드 사용 설정 여부를 변경하시겠습니까?"
                                     onConfirm={() => updateDadConfigEvent(record)}
                                 >
-                                    <a>{record.dadUseConfigYn === 1 ? "ON" : "OFF"}</a>
+                                    <a>{record.dadUseConfigYnStr}</a>
                                 </Popconfirm>
                             )}
                         />
