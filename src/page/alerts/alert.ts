@@ -26,8 +26,10 @@ export const warningAlert = (msg: string) => {
       });
 };
 
-export const showConfirm = (msg: string) => {
+export const showConfirm = (msg: string, fnc:void) => {
     confirm({
-        content: (msg), onOk(){}, onCancel(){}
+        content: (msg), onOk(){
+            return fnc;
+        }, onCancel(){}
     })
 }

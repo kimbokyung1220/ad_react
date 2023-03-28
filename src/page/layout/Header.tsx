@@ -12,7 +12,7 @@ const advMenu: MenuProps['items'] = [
 const admMenu: MenuProps['items'] = [
     { label: <Link to="/adm/isp-kwd">키워드 검수</Link>, key: 'isp-kwd', icon: <i className="ico ico-menu-01 ant-menu-item-icon" /> },
     { label: <Link to="/adm/isp-ad">광고 검수</Link>, key: 'isp-ad', icon: <i className="ico ico-menu-02 ant-menu-item-icon" /> },
-    { label: <Link to="/adm/cs-ad">광고 현황</Link>, key: 'cs-ad', icon: <i className="ico ico-menu-00 ant-menu-item-icon" /> },
+    { label: <Link to="/adm/cs-ad">광고 현황</Link>, key: 'cs-ad', icon: <i className="ico ico-menu-02 ant-menu-item-icon" /> },
 ]
 
 const Header = () => {

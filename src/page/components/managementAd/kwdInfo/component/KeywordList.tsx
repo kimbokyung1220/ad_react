@@ -1,6 +1,5 @@
 import { Button, Popconfirm, Space, Table, TablePaginationConfig } from "antd";
 import Column from "antd/es/table/Column";
-import { rmSync } from "fs";
 import React, { useEffect, useState } from 'react';
 import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,25 +12,17 @@ import { errorAlert, successAlert, warningAlert } from "../../../../alerts/alert
 interface Props {
     keywordName: string
 }
-interface TableParams {
-    pagination?: TablePaginationConfig;
-}
 
 const KeywordList = ({ keywordName }: Props) => {
     // 키워드 리스트 
     const { state } = useLocation();
 
-    const keywordList = useSelector((state: State) => state.mngKeyworldList);
     const dispatch = useDispatch();
     const { getReKeywordList } = bindActionCreators(actionCreators, dispatch);
 
-    const [selectedRowKeys, setSelectedRowKeys] = useState(keywordList);
-    const [tableParams, setTableParams] = useState<TableParams>({
-        pagination: {
-            current: 1,
-            pageSize: 10,
-        },
-    });
+    const keywordList = useSelector((state: State) => state.mngKeyworldList);
+    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+    const [selectedItems, setSelectedItems] = useState(keywordList);
 
     // 테이블 index
     let index = 1;
@@ -65,14 +56,15 @@ const KeywordList = ({ keywordName }: Props) => {
 
     // 키워드 - 직접광고 활성 여부 (체크박스)
     const updateDadUseConfigListEvent = (param: number) => {
-        if (selectedRowKeys.length === 0) {
+
+        if (selectedItems.length === 0) {
             warningAlert("선택한 키워드가 없습니다.")
             return false;
         }
 
         requestUpdateKwdUseConfigs({
             'code': param,
-            'kwdList': selectedRowKeys
+            'kwdList': selectedItems
         })
             .then((res) => {
                 successAlert("변경 완료! 🙌")
@@ -87,17 +79,16 @@ const KeywordList = ({ keywordName }: Props) => {
             })
     }
 
-
     // 키워드 삭제
     const deleteDadEvent = () => {
 
-        if (selectedRowKeys.length === 0) {
+        if (selectedItems.length === 0) {
             warningAlert("선택한 키워드가 없습니다.")
             return false;
         }
 
         requestUpdateDadActs({
-            'deleteKwdList': selectedRowKeys
+            'deleteKwdList': selectedItems
         })
             .then((res) => {
                 successAlert("삭제 완료! 🙌")
@@ -113,34 +104,25 @@ const KeywordList = ({ keywordName }: Props) => {
 
     }
 
-
+    // 테이블 체크박스
     const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: mngKeywordList[]) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            setSelectedRowKeys(selectedRows)
-        },
-    };
-
-
-    const handleTableChange = (pagination: TablePaginationConfig) => {
-        console.log("selectedRowKeys*****")
-        console.log(selectedRowKeys)
-        setTableParams({ pagination });
-        setSelectedRowKeys([]);
-
-
-        // `dataSource` is useless since `pageSize` changed
-        if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-
-            console.log(123)
+        selectedItems,
+        selectedRowKeys,
+        onChange: (newSelectedRowKeys: React.Key[], selectedRows: mngKeywordList[]) => {
+            // console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+            setSelectedRowKeys(newSelectedRowKeys);
+            setSelectedItems(selectedRows);
         }
     };
 
-    useEffect(() => {
+    useEffect(() => { }, [selectedItems])
+
+    useEffect(() => { 
         setSelectedRowKeys([]);
+        setSelectedItems([]); 
     },[])
 
-    // 키워드 다운로드
+    // .csv 파일 다운로드 받을 시 제목열
     const headers = [
         { label: "번호", key: "index" },
         { label: "키워드명", key: "kwdName" },
@@ -184,7 +166,8 @@ const KeywordList = ({ keywordName }: Props) => {
                         rowKey={(render) => render.dadDetId}
                         pagination={{ showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>) }}
                         bordered={true}
-                        onChange={handleTableChange}
+                        // `dataSource` is useless since `pageSize` changed
+                        onChange={() => { setSelectedRowKeys([]); setSelectedItems([]);}}
                     >
                         <Column title="번호" dataIndex="index" key="index" align="center" />
                         <Column title="키워드 명" dataIndex="kwdName" key="kwdName" align="center" />

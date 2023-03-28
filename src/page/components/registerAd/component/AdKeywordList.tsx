@@ -26,11 +26,9 @@ const AdKeywordList = () => {
 
     // 키워드 등록 이벤트
     const saveKeywordEvent = (newKeywordTable: keywordTable) => {
-        if (Number(newKeywordTable.bidCost) < 90 || Number(newKeywordTable.bidCost) >= 99000) {
 
-            if(isNaN(newKeywordTable.bidCost)) {
-                return newKeywordTable.bidCost = 0;
-            }
+
+        if (Number(newKeywordTable.bidCost) < 90 || Number(newKeywordTable.bidCost) >= 99000 || isNaN(newKeywordTable.bidCost)) {
     
             warningAlert("입찰가는 최소 90원 최대 99000원까지 입력 가능합니다.");
             return false;
