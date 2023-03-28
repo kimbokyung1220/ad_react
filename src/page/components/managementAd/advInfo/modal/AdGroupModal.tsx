@@ -13,13 +13,15 @@ interface Props {
 }
 
 const AdGroupModal = ({ adGroupModalOpen, setAdGroupModalOpen }: Props) => {
-   // validation
-   const { checkInputSpecial, checkSpace } = validation();
-   
-    const adGroupItemList = useSelector((state: State) => state.adGroupItemList);
+
+    // validation
+    const { checkInputSpecial, checkSpace } = validation();
 
     const dispatch = useDispatch();
     const { getReAdgroupItemList } = bindActionCreators(actionCreators, dispatch);
+
+    // 그룹정보 및 상품갯수
+    const adGroupItemList = useSelector((state: State) => state.adGroupItemList);
     const [isOpen, setIsOpen] = useState(false);
     const [newAdGroupName, setNewAdGroupName] = useState("");
 
@@ -27,27 +29,27 @@ const AdGroupModal = ({ adGroupModalOpen, setAdGroupModalOpen }: Props) => {
     const saveAdGroupEvent = () => {
 
         const sameAdGroupExist = adGroupItemList.filter(adGroup => adGroup.agroupName === newAdGroupName);
+
         if (sameAdGroupExist.length !== 0) {
             warningAlert("동일한 그룹명이 존재합니다.");
             return false;
         }
-        if(newAdGroupName === "") {
+
+        if (newAdGroupName === "") {
             warningAlert("광고그룹명을 입력해주세요.");
             return false;
         }
 
-        // 특수문자 정규식 check
-        if(checkInputSpecial(newAdGroupName)) {
-           warningAlert("특수문자는 제외해주세요.")
+        if (checkInputSpecial(newAdGroupName)) {
+            warningAlert("특수문자는 제외해주세요.")
             return false;
         }
 
-        if(checkSpace(newAdGroupName)) {
+        if (checkSpace(newAdGroupName)) {
             warningAlert("공백은 제외해주세요.")
             return false;
         }
-
-        
+        //axios
         requesSaveAgroup({ 'agroupName': newAdGroupName })
             .then((res) => {
                 if (res.data === null) {
@@ -55,8 +57,8 @@ const AdGroupModal = ({ adGroupModalOpen, setAdGroupModalOpen }: Props) => {
                     return false;
                 }
                 cancleModalEvent();
-                successAlert("광고그룹을 등록했습니다.");
-
+                successAlert("광고그룹을 등록 완료 🙌");
+                // reload
                 requestAgroupItemList({ 'agroupName': "" })
                     .then((res) => getReAdgroupItemList(res))
                     .catch((err) => console.log(err))

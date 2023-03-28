@@ -9,7 +9,7 @@ interface Props {
     setKeywordName: Dispatch<string>
 }
 
-const KeywordSearch = ({setKeywordName}: Props) => {
+const KeywordSearch = ({ setKeywordName }: Props) => {
     const [searchKeywordName, setSearchKeywordName] = useState<string>("");
     const { state } = useLocation();
 
@@ -30,7 +30,7 @@ const KeywordSearch = ({setKeywordName}: Props) => {
 
     useEffect(() => {
         searchKeyword();
-    },[])
+    }, [])
 
     return (
         <>
@@ -53,7 +53,7 @@ const KeywordSearch = ({setKeywordName}: Props) => {
                             <dd>
                                 <div className="form-group">
                                     <Input name="itemName" placeholder="키워드명을 입력하세요."
-                                        onChange={(e) => { setSearchKeywordName(e.currentTarget.value);}}
+                                        onChange={(e) => { setSearchKeywordName(e.currentTarget.value); }}
                                         type="text"
                                         value={searchKeywordName}
                                         style={{ width: "500px" }}

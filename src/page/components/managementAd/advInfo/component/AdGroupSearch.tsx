@@ -4,17 +4,18 @@ import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { requestAgroupItemList } from '../../../../../model/axios';
 import { actionCreators } from '../../../../../state';
-interface Props{
+interface Props {
     setIsAdGroupName: Dispatch<string>
 }
 
-const AdGroupSearch = ({setIsAdGroupName}:Props) => {
+const AdGroupSearch = ({ setIsAdGroupName }: Props) => {
     const dispatch = useDispatch();
     const { getAdgroupItemList } = bindActionCreators(actionCreators, dispatch);
-    
+
     const [adGroupName, setAdGroupName] = useState<string>("");
-    
+
     const searchAdGroup = () => {
+        //axios
         requestAgroupItemList({
             'agroupName': adGroupName,
         })
@@ -47,7 +48,7 @@ const AdGroupSearch = ({setIsAdGroupName}:Props) => {
                             <dd>
                                 <div className="form-group">
                                     <Input name="itemName" placeholder="그룹명을 입력하세요."
-                                        onChange={(e) => {setAdGroupName(e.currentTarget.value); setIsAdGroupName(e.currentTarget.value)}}
+                                        onChange={(e) => { setAdGroupName(e.currentTarget.value); setIsAdGroupName(e.currentTarget.value) }}
                                         type="text"
                                         // value={itemName}
                                         style={{ width: "500px" }}
@@ -58,7 +59,7 @@ const AdGroupSearch = ({setIsAdGroupName}:Props) => {
                             <dt>
                                 <div className="dt-inner">
                                     <Button className="pink" size="large" type="primary"
-                                    onClick={searchAdGroup}
+                                        onClick={searchAdGroup}
                                     >
                                         <span>그룹 조회</span>
                                     </Button>

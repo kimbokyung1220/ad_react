@@ -10,7 +10,6 @@ const RegAdBtn = () => {
     const itemInfo = useSelector((state: State) => state.itemInfo);
     const adGroupInfo = useSelector((state: State) => state.selectedAdGroup)
 
-
     const regAdEvent = () => {
         console.log(adGroupInfo);
         if (adGroupInfo === "") {
@@ -34,17 +33,13 @@ const RegAdBtn = () => {
                 return false;
             } else {
                 successReloadAlert("광고 등록 완료! :-)", window.location.reload())
-                
             }
-           
+
         }).catch(error => {
             console.log(error)
             errorAlert(error.message)
         })
-
     }
-
-
 
     return (
         <>

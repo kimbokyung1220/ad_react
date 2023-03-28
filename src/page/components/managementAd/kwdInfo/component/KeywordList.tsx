@@ -1,4 +1,4 @@
-import { Button, Popconfirm, Space, Table, TablePaginationConfig } from "antd";
+import { Button, Popconfirm, Table } from "antd";
 import Column from "antd/es/table/Column";
 import React, { useEffect, useState } from 'react';
 import { CSVLink } from "react-csv";
@@ -41,6 +41,7 @@ const KeywordList = ({ keywordName }: Props) => {
         })
             .then((res) => {
                 successAlert("변경 완료! 🙌")
+                //reload
                 requestKeywordList(
                     state,
                     { 'kwdName': keywordName })
@@ -51,7 +52,6 @@ const KeywordList = ({ keywordName }: Props) => {
                     .catch((err) => { console.log(err); errorAlert("변경하지 못했습니다.") })
             })
             .catch()
-
     }
 
     // 키워드 - 직접광고 활성 여부 (체크박스)
@@ -68,6 +68,7 @@ const KeywordList = ({ keywordName }: Props) => {
         })
             .then((res) => {
                 successAlert("변경 완료! 🙌")
+                //reload
                 requestKeywordList(
                     state,
                     { 'kwdName': keywordName })
@@ -92,6 +93,7 @@ const KeywordList = ({ keywordName }: Props) => {
         })
             .then((res) => {
                 successAlert("삭제 완료! 🙌")
+                //reload
                 requestKeywordList(
                     state,
                     { 'kwdName': keywordName })
@@ -101,8 +103,13 @@ const KeywordList = ({ keywordName }: Props) => {
                     .catch((err) => { console.log(err); errorAlert("삭제하지 못했습니다.") })
             })
             .catch()
-
     }
+
+
+    useEffect(() => {
+        setSelectedRowKeys([]);
+        setSelectedItems([]);
+    }, [keywordList])
 
     // 테이블 체크박스
     const rowSelection = {
@@ -114,14 +121,6 @@ const KeywordList = ({ keywordName }: Props) => {
             setSelectedItems(selectedRows);
         }
     };
-
-    useEffect(() => { }, [selectedItems])
-
-    useEffect(() => { 
-        setSelectedRowKeys([]);
-        setSelectedItems([]); 
-    },[])
-
     // .csv 파일 다운로드 받을 시 제목열
     const headers = [
         { label: "번호", key: "index" },
@@ -167,7 +166,7 @@ const KeywordList = ({ keywordName }: Props) => {
                         pagination={{ showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>) }}
                         bordered={true}
                         // `dataSource` is useless since `pageSize` changed
-                        onChange={() => { setSelectedRowKeys([]); setSelectedItems([]);}}
+                        onChange={() => { setSelectedRowKeys([]); setSelectedItems([]); }}
                     >
                         <Column title="번호" dataIndex="index" key="index" align="center" />
                         <Column title="키워드 명" dataIndex="kwdName" key="kwdName" align="center" />

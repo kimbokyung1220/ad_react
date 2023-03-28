@@ -32,7 +32,7 @@ const DayBudgetModal = ({ dayLimitBudgetModalOpen, setDayLimitBudgetModalOpen }:
         if (newDayLimitBudget < 100 && newDayLimitBudget >= 1) {
             return warningAlert("일일 허용 예산은 100원 단위로 변경 가능합니다. ");
         }
-
+        //axios
         requestUpdateLimitBudget({ 'dayLimitBudget': newDayLimitBudget })
             .then((res) => {
                 if (res.data === null) {
@@ -42,10 +42,10 @@ const DayBudgetModal = ({ dayLimitBudgetModalOpen, setDayLimitBudgetModalOpen }:
 
                 getReAdvInfo(res.data);
                 cancleModalEvent();
-                successAlert("변경이 완료 되었습니다.");
+                successAlert("변경 완료 🙌");
 
             })
-            .catch((err) => errorAlert("변경하지 못하였습니다."))
+            .catch((err) => {errorAlert("변경하지 못하였습니다."); console.log(err)})
     }
 
     // 모달 닫기

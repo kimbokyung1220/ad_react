@@ -23,20 +23,20 @@ const AdGroupInfoContent = () => {
                     <div className="site-layout-content">
                         <div className="inner-content">
                             <>
-                                <ContentHeader headerTitle={"광고 관리"} 
+                                <ContentHeader headerTitle={"광고 관리"}
                                 />
                             </>
                             <div className="content-body">
-                                <AdGroupInfo setUpdateAdGroupNmModalOpen={setUpdateAdGroupNmModalOpen} 
-                                             setAdGroupName={setAdGroupName}
-                                             setAdGroupId={setAdGroupId}             
+                                <AdGroupInfo setUpdateAdGroupNmModalOpen={setUpdateAdGroupNmModalOpen}
+                                    setAdGroupName={setAdGroupName}
+                                    setAdGroupId={setAdGroupId}
                                 />
-                                <ItemSearch setItemNo={setItemNo} setItemName={setItemName}/>
-                                <ItemList itemNo={itemNo} itemName={itemName}/>
+                                <ItemSearch setItemNo={setItemNo} setItemName={setItemName} />
+                                <ItemList itemNo={itemNo} itemName={itemName} />
                                 <UpdateAdGroupNmModal updateAdGroupNmModalOpen={updateAdGroupNmModalOpen}
-                                                      setUpdateAdGroupNmModalOpen={setUpdateAdGroupNmModalOpen} 
-                                                      adGroupName={adGroupName}
-                                                      adGroupId={adGroupId}
+                                    setUpdateAdGroupNmModalOpen={setUpdateAdGroupNmModalOpen}
+                                    adGroupName={adGroupName}
+                                    adGroupId={adGroupId}
                                 />
                             </div>
                         </div>

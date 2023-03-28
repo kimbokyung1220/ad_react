@@ -1,8 +1,8 @@
 
 import { useState, useEffect } from 'react';
 import { Button, Select, Modal, Input } from "antd";
-import { useDispatch, useSelector } from 'react-redux';
-import { actionCreators, State } from '../../../../state';
+import { useDispatch } from 'react-redux';
+import { actionCreators } from '../../../../state';
 import { requesSaveAgroup, requestAgroupAllList } from '../../../../model/axios';
 import { bindActionCreators } from 'redux';
 import { adGroup } from '../../../../type/adGroup';
@@ -33,20 +33,20 @@ const SelectAdGroup = () => {
 
     // select-box
     const saveAdGroupEvent = () => {
-        if(newAdGroupName === "" ){
+        if (newAdGroupName === "") {
             warningAlert("광고그룹명을 입력해 주세요.")
             return false;
         }
 
-       if(checkInputSpecial(newAdGroupName)) {
+        if (checkInputSpecial(newAdGroupName)) {
             warningAlert("특수문자는 제외해주세요.")
             return false;
         }
-        if(checkSpace(newAdGroupName)) {
+        if (checkSpace(newAdGroupName)) {
             warningAlert("공백은 제외해주세요.")
             return false;
         }
-
+        // axios
         requesSaveAgroup({
             'agroupName': newAdGroupName
         })

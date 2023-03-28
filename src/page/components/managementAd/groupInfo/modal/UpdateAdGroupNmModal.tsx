@@ -1,9 +1,9 @@
 import React, { useState, useEffect, Dispatch } from 'react';
 import { Button, Input, Modal } from "antd";
 import { requestAgroupItem, requestUpdateAgName } from "../../../../../model/axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { actionCreators, State } from "../../../../../state";
+import { actionCreators } from "../../../../../state";
 import { errorAlert, successAlert, warningAlert } from '../../../../alerts/alert';
 import { validation } from "../../../../../store/validation";
 
@@ -13,7 +13,6 @@ interface Props {
     adGroupName: string
     adGroupId: number
 }
-
 
 const UpdateAdGroupNmModal = ({ updateAdGroupNmModalOpen, setUpdateAdGroupNmModalOpen, adGroupName, adGroupId }: Props) => {
     const { checkInputSpecial, checkSpace } = validation();
@@ -34,7 +33,7 @@ const UpdateAdGroupNmModal = ({ updateAdGroupNmModalOpen, setUpdateAdGroupNmModa
 
     // 광고그룹명 변경
     const updateAdGroupNameEvent = () => {
-        // 특수문자 정규식 check
+
         if (checkInputSpecial(newAdGroupName)) {
             warningAlert("특수문자는 제외해주세요.")
             return false;
@@ -44,7 +43,7 @@ const UpdateAdGroupNmModal = ({ updateAdGroupNmModalOpen, setUpdateAdGroupNmModa
             warningAlert("공백은 제외해주세요.")
             return false;
         }
-
+        // axios
         requestUpdateAgName({
             'agroupName': adGroupName,
             'newAgroupName': newAdGroupName,

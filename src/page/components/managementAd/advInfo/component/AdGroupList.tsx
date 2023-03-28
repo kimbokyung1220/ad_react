@@ -18,29 +18,30 @@ interface Props {
 const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
 
     const navigate = useNavigate();
-    
-    // 광고그룹 리스트
+
+    // reload
     const dispatch = useDispatch();
     const { getReAdgroupItemList } = bindActionCreators(actionCreators, dispatch);
     const { selectedAdGroupId } = bindActionCreators(actionCreators, dispatch);
 
+    // 광고그룹 리스트
     const adGroupItemList = useSelector((state: State) => state.adGroupItemList);
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [selectedAdGroups, setSelectedAdGroups] = useState(adGroupItemList);
 
-    // 테이블 index
+    // 가공이 필요한 테이블 데이터
     let index = 1;
     adGroupItemList.forEach((res) => {
         res.index = index++;
     });
 
 
-    // 광고그룹 사용설정여부 변경 
+    // 광고그룹 사용설정여부 변경 (1개)
     const updateAgUseConfigEvent = (recode: any) => {
 
         const param = recode.agroupUseConfigYn === 1 ? 0 : 1
 
-        // 광고그룹 사용설정여부 변경(1개)
+        // aixos
         requestUpdateAgUseConfig({
             'agroupId': recode.agroupId,
             'agroupUseConfigYn': param
@@ -64,6 +65,7 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
             return false;
         }
 
+        // aixos
         requestUpdateAgUseConfigs({
             'code': param,
             'agUseConfigList': selectedAdGroups
@@ -82,13 +84,14 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
             )
             .catch((err) => errorAlert("변경하지 못했습니다."))
     }
+
     // 그룹 삭제
     const deleteAdGroup = () => {
         if (selectedAdGroups.length === 0) {
             warningAlert("선택한 그룹이 없습니다.")
             return false;
         }
-
+        // aixos
         requestUpdateOffActYns({ 'deleteGroupList': selectedAdGroups })
             .then((res) => {
                 if (res.data === null) {
@@ -96,6 +99,7 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
                     return false;
                 }
                 successAlert(res.data);
+                //reload
                 requestAgroupItemList({ 'agroupName': adGroupName })
                     .then((res) => getReAdgroupItemList(res))
                     .catch((err) => console.log(err))
@@ -108,6 +112,11 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
         selectedAdGroupId(agroupId);
         navigate(`/adv/mng/ag-info/${agroupId}`, { state: agroupId })
     }
+
+    useEffect(() => {
+        setSelectedRowKeys([]);
+        setSelectedAdGroups([]);
+    }, [adGroupItemList])
 
     // 테이블 체크박스
     const rowSelection = {
@@ -127,13 +136,6 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
         { label: "그룹ON/OFF", key: "agroupUseConfigYnSrt" },
         { label: "상품수(LIVE/전체)", key: "itemCnt" }
     ];
-
-    useEffect(() => { }, [selectedAdGroups])
-
-    useEffect(() => { 
-        setSelectedRowKeys([]);
-        setSelectedAdGroups([]); 
-    },[])
 
     return (
         <>
@@ -175,7 +177,7 @@ const AdGroupList = ({ adGroupName, setAdGroupModalOpen }: Props) => {
                         rowKey={(render) => render.agroupId}
                         pagination={{ showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>) }}
                         bordered={true}
-                        onChange={() => { setSelectedRowKeys([]); setSelectedAdGroups([]);}}
+                        onChange={() => { setSelectedRowKeys([]); setSelectedAdGroups([]); }}
                     >
                         <Column title="번호" dataIndex="index" key="index" align="center"
                         // render={(_: any, recode: any, index: number) => (<a>{index + 1}</a>)} 

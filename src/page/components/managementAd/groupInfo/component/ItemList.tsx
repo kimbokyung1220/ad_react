@@ -42,7 +42,7 @@ const ItemList = ({ itemNo, itemName }: Props) => {
 
         const param = recode.adUseConfigYn === 1 ? 0 : 1;
 
-        // 광고 사용여부 변경 (1개)
+        // axios 광고 사용여부 변경 (1개)
         requestUpdateAdUseConfig(
             { 'adId': recode.adId, 'adUseConfigYn': param }
         )
@@ -68,7 +68,7 @@ const ItemList = ({ itemNo, itemName }: Props) => {
             warningAlert("선택한 상품이 없습니다.")
             return false;
         }
-
+        // axios
         requestUpdateAdUseConfigs({
             'code': param,
             'adUseConfigYnList': selectedItems
@@ -93,7 +93,7 @@ const ItemList = ({ itemNo, itemName }: Props) => {
             warningAlert("선택한 상품이 없습니다.")
             return null;
         }
-
+        // axios
         requestUpdateOffAdActYns({
             'deleteAdList': selectedItems
         })
@@ -116,7 +116,12 @@ const ItemList = ({ itemNo, itemName }: Props) => {
         navigate(`/adv/mng/kwd-info/${adId}`, { state: adId })
     }
 
-    // 테이블 체크박스
+    useEffect(() => {
+        setSelectedRowKeys([]);
+        setSelectedItems([]);
+    }, [ItemTable])
+
+    // 테이블 체크박스 옵션
     const rowSelection = {
         selectedItems,
         selectedRowKeys,
@@ -135,14 +140,6 @@ const ItemList = ({ itemNo, itemName }: Props) => {
         { label: "광고 상품 ON/OFF", key: "adUseConfigYnStr" }
     ];
 
-    useEffect(() => {
-
-    }, [selectedItems])
-
-    useEffect(() => {
-        setSelectedRowKeys([]);
-        setSelectedItems([]);
-    }, [])
     return (
         <>
             <section className="wrap-section wrap-datagrid">
@@ -181,7 +178,7 @@ const ItemList = ({ itemNo, itemName }: Props) => {
                         pagination={{ showSizeChanger: true, showTotal: ((total) => <p>Total {total} items</p>) }}
                         bordered={true}
                         // onChange={handleTableChange}
-                        onChange={() => { setSelectedRowKeys([]); setSelectedItems([]);}}
+                        onChange={() => { setSelectedRowKeys([]); setSelectedItems([]); }}
                     >
                         <Column title="번호" dataIndex="index" key="index" align="center" />
                         <Column title="상품번호" dataIndex="itemNo" key="itemNo" align="center"

@@ -20,8 +20,9 @@ const AdGroupInfo = ({ setUpdateAdGroupNmModalOpen, setAdGroupName, setAdGroupId
     const dispatch = useDispatch();
     const { getAdgroupItem } = bindActionCreators(actionCreators, dispatch);
     const { getReAdgroupItem } = bindActionCreators(actionCreators, dispatch);
+    
+    // 그룹 및 상품 갯수
     const adGroupItemInfo = useSelector((state: State) => state.adGroupItem);
-
     const [switchState, setSwitchState] = useState<boolean>(false);
 
     // 광고 설정 변경

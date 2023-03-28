@@ -24,11 +24,11 @@ const AdvInfoContent = () => {
                                 <ContentHeader headerTitle={"광고 관리"} />
                             </>
                             <div className="content-body">
-                                <AdvInfo setDayLimitBudgetModalOpen={setDayLimitBudgetModalOpen}/>
-                                <AdGroupSearch setIsAdGroupName={setIsAdGroupName}/>
-                                <AdGroupList adGroupName={adGroupName} setAdGroupModalOpen={setAdGroupModalOpen}/>
-                                <DayBudgetModal dayLimitBudgetModalOpen={dayLimitBudgetModalOpen} setDayLimitBudgetModalOpen={setDayLimitBudgetModalOpen}/>
-                                <AdGroupModal adGroupModalOpen={adGroupModalOpen} setAdGroupModalOpen={setAdGroupModalOpen}/>
+                                <AdvInfo setDayLimitBudgetModalOpen={setDayLimitBudgetModalOpen} />
+                                <AdGroupSearch setIsAdGroupName={setIsAdGroupName} />
+                                <AdGroupList adGroupName={adGroupName} setAdGroupModalOpen={setAdGroupModalOpen} />
+                                <DayBudgetModal dayLimitBudgetModalOpen={dayLimitBudgetModalOpen} setDayLimitBudgetModalOpen={setDayLimitBudgetModalOpen} />
+                                <AdGroupModal adGroupModalOpen={adGroupModalOpen} setAdGroupModalOpen={setAdGroupModalOpen} />
                             </div>
                         </div>
                     </div>

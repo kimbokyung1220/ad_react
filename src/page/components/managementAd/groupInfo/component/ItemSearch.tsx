@@ -2,7 +2,7 @@ import React, { useState, useEffect, Dispatch } from 'react';
 import { Button, Input } from 'antd';
 import { requestMngItemList } from '../../../../../model/axios';
 import { useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actionCreators } from "../../../../../state";
 
@@ -12,18 +12,20 @@ interface Props {
 }
 
 
-const ItemSearch = ({setItemNo, setItemName}: Props) => {
+const ItemSearch = ({ setItemNo, setItemName }: Props) => {
+
     const { state } = useLocation();
-    const [searchItemName, setSearchItemName] = useState<string>("");
-    const [searchItemNo, setSearchItemNo] = useState<string>("");
 
     const dispatch = useDispatch();
     const { getMngItemList } = bindActionCreators(actionCreators, dispatch);
 
+    const [searchItemName, setSearchItemName] = useState<string>("");
+    const [searchItemNo, setSearchItemNo] = useState<string>("");
+
     const searchItemList = () => {
         setItemNo(searchItemNo)
         setItemName(searchItemName)
-
+        // axios
         requestMngItemList(
             state,
             { 'itemNo': searchItemNo, 'itemName': searchItemName, }
@@ -61,7 +63,7 @@ const ItemSearch = ({setItemNo, setItemName}: Props) => {
                                         type="text"
                                         value={searchItemName}
                                         style={{ width: "300px" }}
-                                    onPressEnter={searchItemList}
+                                        onPressEnter={searchItemList}
                                     />
                                 </div>
                             </dd>
@@ -77,14 +79,14 @@ const ItemSearch = ({setItemNo, setItemName}: Props) => {
                                         type="text"
                                         value={searchItemNo}
                                         style={{ width: "300px" }}
-                                    onPressEnter={searchItemList}
+                                        onPressEnter={searchItemList}
                                     />
                                 </div>
                             </dd>
                             <dt>
                                 <div className="dt-inner">
                                     <Button className="pink" size="large" type="primary"
-                                    onClick={searchItemList}
+                                        onClick={searchItemList}
                                     >
                                         <span>상품 조회</span>
                                     </Button>

@@ -10,15 +10,18 @@ interface Props {
 }
 
 const AdvInfo = ({ setDayLimitBudgetModalOpen }: Props) => {
+
     const dispatch = useDispatch();
     const { getAdvInfo } = bindActionCreators(actionCreators, dispatch);
-    const advInfo = useSelector((state: State) => state.advInfo)
 
+    // 광고주 정보
+    const advInfo = useSelector((state: State) => state.advInfo)
     const [switchState, setSwitchState] = useState<boolean>(false);
 
     // 광고 설정 변경
     const swithchEvent = (checked: boolean) => {
         const data = checked ? 1 : 0;
+        //axios
         requestUpdateIngActYn({
             'adIngActYn': data
         })
@@ -28,11 +31,6 @@ const AdvInfo = ({ setDayLimitBudgetModalOpen }: Props) => {
             })
             .catch((err => console.log(err)))
         setSwitchState(checked)
-
-    }
-    // 모달 오픈
-    const openModalEvent = () => {
-        setDayLimitBudgetModalOpen(true)
     }
 
     useEffect(() => {
@@ -156,7 +154,7 @@ const AdvInfo = ({ setDayLimitBudgetModalOpen }: Props) => {
                                             <span className="table-cell">
 
                                                 <b className="fz-14 fc-gray-400">{advInfo.dayLimitBudget === 0 ? advInfo.dayLimitBudgetStatus : `${advInfo.dayLimitBudget}원`}</b>
-                                                <Button className="pink" size="middle" style={{ marginLeft: "20px" }} onClick={openModalEvent}>일일 허용 예산 설정</Button>
+                                                <Button className="pink" size="middle" style={{ marginLeft: "20px" }} onClick={() => setDayLimitBudgetModalOpen(true)}>일일 허용 예산 설정</Button>
                                             </span>
                                         </span>
                                     </span>
