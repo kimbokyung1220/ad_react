@@ -51,3 +51,17 @@ export const mngKeywordListDefaultValue: mngKeywordList = {
     kwdId: 0,
     kwdName: ""
 }
+
+export type ispKeywordList = {
+    kwdId: number,
+    kwdName: string,
+    manualCnrKwdYn: number,
+    sellPossKwdYn: number
+}
+
+export const ispKeywordListDefaultValue: ispKeywordList = {
+    kwdId: 0,
+    kwdName: "",
+    manualCnrKwdYn: 0,
+    sellPossKwdYn: 0
+}

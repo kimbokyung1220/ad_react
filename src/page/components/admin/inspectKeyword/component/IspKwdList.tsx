@@ -40,7 +40,9 @@ const IspKwdList = () => {
                     <Table
                         dataSource={dataSource}
                         bordered
-                        pagination={{ showTotal: ((total) => <p>총 {total}건</p>) }}>
+                        pagination={{ showTotal: ((total) => <p>총 {total}건</p>) }}
+                        // rowKey={(render) => render.kwdId}
+                        >
 
                         <Column title="키워드 명" dataIndex="kwdName" align="center" />
                         <Column title="검수 키워드 삭제" dataIndex="checkKwdDelete" align="center" render={(value, recode: string) =>

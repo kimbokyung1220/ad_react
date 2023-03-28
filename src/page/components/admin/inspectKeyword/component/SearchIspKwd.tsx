@@ -1,8 +1,17 @@
 import { Button, Input } from 'antd';
 import React, { useState } from 'react';
+import { requestSearchIspKwd } from "../../../../../model/adminAxios";
+import { errorAlert } from "../../../../alerts/alert";
 
 const SearchIspKwd = () => {
     const [searchIspKwd, setSearchIspKwd] = useState("")
+    
+    const SearchIspKwdEvent = () => {
+        requestSearchIspKwd({'kwdName': searchIspKwd})
+        .then((res) => {console.log(res)})
+        .catch((err) => errorAlert("조회하지 못했습니다."))
+    }
+
     return (
         <>
             <section className="wrap-section wrap-tbl">
@@ -28,7 +37,7 @@ const SearchIspKwd = () => {
                                         type="text"
                                         value={searchIspKwd}
                                         style={{ width: "500px" }}
-                                    // onPressEnter={searchKeyword}
+                                    onPressEnter={SearchIspKwdEvent}
                                     />
                                 </div>
                             </dd>
@@ -40,7 +49,7 @@ const SearchIspKwd = () => {
                 </div>
                 <div className="box-footer">
                     <div className="box-center">
-                        <Button className="pink" size="large" type="primary">
+                        <Button className="pink"size="large" type="primary" onClick={SearchIspKwdEvent}>
                             <span>키워드 조회</span>
                         </Button>
                     </div>
