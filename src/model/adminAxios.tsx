@@ -54,6 +54,7 @@ export const requestSaveIspKwd = async (data: {}) => {
  */
 export const requestOffIspKwdManualYn = async (kwdId: number) => {
     const response = await instance.post(`api/kwd/isp/${kwdId}`)
+    console.log("[API] requestOffIspKwdManualYn => api/kwd/isp/${kwdId}")
     return response.data
 }
 
@@ -63,5 +64,25 @@ export const requestOffIspKwdManualYn = async (kwdId: number) => {
  */
 export const requestSearchIspAdList = async (data: {}) => {
     const response = await instance.post(`api/dad/list`, data)
+    console.log("[API] requestSearchIspAdList => api/dad/list")
+    return response.data
+}
+
+/**
+ * 광고 검수 대상 상세조회
+ * param: dadDetId
+ */
+export const requestIspAdDetail = async (dadDetId: number) => {
+    const response = await instance.post(`api/dad/list/${dadDetId}`)
+    console.log("[API] requestIspAdDetail => api/dad/list/${dadDetId}")
+    return response.data
+}
+/**
+ * 광고 검수 대상 상세조회
+ * param: dadDetId, cnrReqId, cnrFailCause, cnrFailComt
+ */
+export const requestUpdateCnrIngStatus = async (data: {}) => {
+    const response = await instance.post(`api/dad/status`, data)
+    console.log("[API] requestUpdateCnrIngStatus => api/dad/list/${dadDetId}")
     return response.data
 }

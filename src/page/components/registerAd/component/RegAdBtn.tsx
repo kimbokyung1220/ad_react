@@ -10,9 +10,8 @@ const RegAdBtn = () => {
     const itemInfo = useSelector((state: State) => state.itemInfo);
     const adGroupInfo = useSelector((state: State) => state.selectedAdGroup)
 
-    const regAdEvent = (code: number) => {
+    const regAdEvent = () => {
 
-        console.log(adGroupInfo);
         if (adGroupInfo === "") {
             warningAlert("광고그룹을 선택해 주세요");
             return false;
@@ -21,10 +20,8 @@ const RegAdBtn = () => {
             warningAlert("키워드를 입력해주세요");
             return false;
         }
-        console.log(adGroupInfo);
 
         requestSaveAd({
-            'code': code, // 일반등록: 0, 수동등록: 1
             'agroupName': adGroupInfo,
             'kwds': keywordInfo,
             'itemId': itemInfo.itemId,
@@ -34,7 +31,7 @@ const RegAdBtn = () => {
                 console.log(res.sucscess)
                 return false;
             } else {
-                successReloadAlert("광고(자동) 등록 완료! :-)", window.location.reload())
+                successReloadAlert("광고 등록 완료! :-)", window.location.reload())
             }
 
         }).catch(error => {
@@ -48,11 +45,8 @@ const RegAdBtn = () => {
         <>
             <div className="box-footer">
                 <div className="box-center">
-                    <Button type="primary" size="large" className="pink" onClick={() => regAdEvent(0)}>
-                        <span>광고 등록(자동 검수 키워드)</span>
-                    </Button>
-                    <Button size="large" className="pink" onClick={() => regAdEvent(1)}>
-                        <span>광고 등록(수동 검수 키워드)</span>
+                    <Button type="primary" size="large" className="pink" onClick={regAdEvent}>
+                        <span>광고 등록</span>
                     </Button>
                 </div>
             </div>

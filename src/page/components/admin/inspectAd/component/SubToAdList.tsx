@@ -3,12 +3,14 @@ import { Button, Table } from 'antd';
 import Column from 'antd/es/table/Column';
 import { useSelector } from "react-redux";
 import { State } from "../../../../../state";
+import { ispAdKwdList } from '../../../../../type/dadDet';
 
 interface Props {
     setCnrProcessModalOpen: Dispatch<boolean>
+    setRecode: Dispatch<ispAdKwdList>
 }
 
-const SubToAdList = ({ setCnrProcessModalOpen }: Props) => {
+const SubToAdList = ({ setCnrProcessModalOpen, setRecode }: Props) => {
     const ispAdKwds = useSelector((state: State) => state.searchIspAdKwdList);
 
     ispAdKwds.map((row) => {
@@ -34,8 +36,8 @@ const SubToAdList = ({ setCnrProcessModalOpen }: Props) => {
                         <Column title="상품 명" dataIndex="itemName" align="center" />
                         <Column title="키워드 명" dataIndex="kwdName" align="center" />
                         <Column title="검수 사유" dataIndex="reasonForIsp" align="center" />
-                        <Column title="검수 처리" dataIndex="cnrProcess" align="center" render={(value, recode: string) =>
-                            <Button type="primary" size="small" className="pink" onClick={() => setCnrProcessModalOpen(true)}>검수</Button>
+                        <Column title="검수 처리" dataIndex="cnrProcess" align="center" render={(value, recode: ispAdKwdList) =>
+                            <Button type="primary" size="small" className="pink" onClick={() => {setCnrProcessModalOpen(true); setRecode(recode)}}>검수</Button>
                         } />
                     </Table>
                 </div>
