@@ -1,16 +1,27 @@
 import { Button, Input } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { requestSearchIspKwd } from "../../../../../model/adminAxios";
 import { errorAlert } from "../../../../alerts/alert";
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { admActionCreators } from '../../../../../state';
+
 
 const SearchIspKwd = () => {
+    const dispatch = useDispatch();
+    const { getSearchIspKwdList } = bindActionCreators(admActionCreators, dispatch);
+
     const [searchIspKwd, setSearchIspKwd] = useState("")
     
-    const SearchIspKwdEvent = () => {
+    const searchIspKwdEvent = () => {
         requestSearchIspKwd({'kwdName': searchIspKwd})
-        .then((res) => {console.log(res)})
+        .then((res) => {getSearchIspKwdList(res.data)})
         .catch((err) => errorAlert("조회하지 못했습니다."))
     }
+
+    useEffect(() => {
+        searchIspKwdEvent()
+    },[])
 
     return (
         <>
@@ -37,7 +48,7 @@ const SearchIspKwd = () => {
                                         type="text"
                                         value={searchIspKwd}
                                         style={{ width: "500px" }}
-                                    onPressEnter={SearchIspKwdEvent}
+                                    onPressEnter={searchIspKwdEvent}
                                     />
                                 </div>
                             </dd>
@@ -49,7 +60,7 @@ const SearchIspKwd = () => {
                 </div>
                 <div className="box-footer">
                     <div className="box-center">
-                        <Button className="pink"size="large" type="primary" onClick={SearchIspKwdEvent}>
+                        <Button className="pink"size="large" type="primary" onClick={searchIspKwdEvent}>
                             <span>키워드 조회</span>
                         </Button>
                     </div>

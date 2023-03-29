@@ -13,6 +13,8 @@ import adGroupItemReducer from './adGroupItemReducer';
 import mngItemListReducer from './mngItemListReducer';
 import selectedAdIdReducer from './selectedAdIdReducer';
 import mngKeyworldListReducer from './mngKeyworldListReducer';
+// 관리자
+import searchIspKwdReducer from './admin/searchIspKwdReducer';
 
 const reducers = combineReducers({
     item: itemReducer,
@@ -28,7 +30,10 @@ const reducers = combineReducers({
     adGroupItem: adGroupItemReducer,
     mngItemList: mngItemListReducer,
     selectedAdId: selectedAdIdReducer,
-    mngKeyworldList: mngKeyworldListReducer
+    mngKeyworldList: mngKeyworldListReducer,
+
+    // 관리자
+    searchIspKwdList: searchIspKwdReducer,
     
 });
 

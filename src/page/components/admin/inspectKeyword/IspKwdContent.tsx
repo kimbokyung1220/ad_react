@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Body from '../../../layout/Body';
 import ContentHeader from '../../../layout/content/ContentHeader';
 import IspKwdList from './component/IspKwdList';
 import SearchIspKwd from './component/SearchIspKwd';
+import SubToIspKwdModal from './modal/SubToIspKwdModal';
 
 const IspKwdContent = () => {
+    const [ispKwdModalOpen, setIspKwdModalOpen] = useState(false);
+
     return (
         <>
             <Body>
@@ -15,7 +18,10 @@ const IspKwdContent = () => {
                         </>
                         <div className="content-body">
                             <SearchIspKwd />
-                            <IspKwdList />
+                            <IspKwdList setIspKwdModalOpen={setIspKwdModalOpen} /> 
+                            
+                            {/* 모달 */}
+                            <SubToIspKwdModal ispKwdModalOpen={ispKwdModalOpen} setIspKwdModalOpen={setIspKwdModalOpen}/>
                         </div>
                     </div>
                 </div>

@@ -118,8 +118,7 @@ const AdGroupModal = ({ adGroupModalOpen, setAdGroupModalOpen }: Props) => {
                                                 // onKeyUp={(e) => checkInput(e.currentTarget.value)}
                                                 value={newAdGroupName}
                                                 onChange={(e) => setNewAdGroupName(e.currentTarget.value)}
-                                                onPressEnter={saveAdGroupEvent
-                                                }
+                                                onPressEnter={saveAdGroupEvent}
                                             />
                                         </div>
                                     </dd>
