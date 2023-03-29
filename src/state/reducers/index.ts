@@ -15,6 +15,7 @@ import selectedAdIdReducer from './selectedAdIdReducer';
 import mngKeyworldListReducer from './mngKeyworldListReducer';
 // 관리자
 import searchIspKwdReducer from './admin/searchIspKwdReducer';
+import searchIspAdKwdReducer from './admin/searchIspAdKwdReducer';
 
 const reducers = combineReducers({
     item: itemReducer,
@@ -31,9 +32,10 @@ const reducers = combineReducers({
     mngItemList: mngItemListReducer,
     selectedAdId: selectedAdIdReducer,
     mngKeyworldList: mngKeyworldListReducer,
-
+  
     // 관리자
     searchIspKwdList: searchIspKwdReducer,
+    searchIspAdKwdList: searchIspAdKwdReducer,
     
 });
 

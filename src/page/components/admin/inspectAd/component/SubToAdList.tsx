@@ -1,31 +1,20 @@
+import React, { Dispatch } from 'react';
 import { Button, Table } from 'antd';
 import Column from 'antd/es/table/Column';
-import React from 'react';
+import { useSelector } from "react-redux";
+import { State } from "../../../../../state";
 
-const SubToAdList = () => {
-    const dataSource = [
-        {
-            itemName: '1',
-            kwdName: "선택",
-            ddd: "ddd",
-            cnrIngStatus: "adsfasd"
+interface Props {
+    setCnrProcessModalOpen: Dispatch<boolean>
+}
 
-        },
-        {
-            itemName: '1',
-            kwdName: "선택",
-            ddd: "ddd",
-            cnrIngStatus: "adsfasd"
+const SubToAdList = ({ setCnrProcessModalOpen }: Props) => {
+    const ispAdKwds = useSelector((state: State) => state.searchIspAdKwdList);
 
-        },
-        {
-            itemName: '1',
-            kwdName: "선택",
-            ddd: "ddd",
-            cnrIngStatus: "adsfasd"
+    ispAdKwds.map((row) => {
+        row.reasonForIsp = `검수 대상 키워드 : ${row.itemName}`
+    })
 
-        },
-    ]
     return (
         <>
             <section className="wrap-section wrap-datagrid">
@@ -37,15 +26,16 @@ const SubToAdList = () => {
 
                 <div className="box-body">
                     <Table
-                        dataSource={dataSource}
+                        dataSource={ispAdKwds}
+                        rowKey={(render) => render.cnrReqId}
                         bordered
                         pagination={{ showTotal: ((total) => <p>총 {total}건</p>) }}>
 
                         <Column title="상품 명" dataIndex="itemName" align="center" />
                         <Column title="키워드 명" dataIndex="kwdName" align="center" />
-                        <Column title="검수 사유" dataIndex="ddd" align="center" />
-                        <Column title="검수 처리" dataIndex="cnrIngStatus" align="center" render={(value, recode: string) =>
-                            <Button type="primary" size="small" className="pink" >선택</Button>
+                        <Column title="검수 사유" dataIndex="reasonForIsp" align="center" />
+                        <Column title="검수 처리" dataIndex="cnrProcess" align="center" render={(value, recode: string) =>
+                            <Button type="primary" size="small" className="pink" onClick={() => setCnrProcessModalOpen(true)}>검수</Button>
                         } />
                     </Table>
                 </div>

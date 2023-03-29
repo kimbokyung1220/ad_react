@@ -1,6 +1,6 @@
 import { Button, Input } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { requestSearchIspKwd } from "../../../../../model/adminAxios";
+import { requestSearchIspKwdList } from "../../../../../model/adminAxios";
 import { errorAlert } from "../../../../alerts/alert";
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -14,7 +14,7 @@ const SearchIspKwd = () => {
     const [searchIspKwd, setSearchIspKwd] = useState("")
     
     const searchIspKwdEvent = () => {
-        requestSearchIspKwd({'kwdName': searchIspKwd})
+        requestSearchIspKwdList({'kwdName': searchIspKwd})
         .then((res) => {getSearchIspKwdList(res.data)})
         .catch((err) => errorAlert("조회하지 못했습니다."))
     }

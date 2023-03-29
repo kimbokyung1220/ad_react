@@ -1,8 +1,33 @@
 import { Button, Input } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { requestSearchIspAdList } from "../../../../../model/adminAxios";
+import { admActionCreators } from "../../../../../state";
+import { errorAlert } from "../../../../alerts/alert";
 
 const SearchSubToIspKwd = () => {
     const [searchSubToIspKwd, setSearchSubToIspKwd] = useState("")
+
+    const dispatch = useDispatch();
+    const { getSearchIspAdKwdList } = bindActionCreators(admActionCreators, dispatch);
+
+    const SearchSubToIspKwdEvent = () => {
+        requestSearchIspAdList({'kwdName': searchSubToIspKwd})
+        .then((res) =>  {
+            if(res.data === null) {
+                errorAlert(res.error.message)
+                return false;
+            }
+            getSearchIspAdKwdList(res.data)
+        })
+        .catch((err) => console.log(err))
+    }
+
+
+    useEffect(() => {
+        SearchSubToIspKwdEvent()
+    },[])
     return(
         <>
         <section className="wrap-section wrap-tbl">
@@ -28,7 +53,7 @@ const SearchSubToIspKwd = () => {
                                     type="text"
                                     value={searchSubToIspKwd}
                                     style={{ width: "500px" }}
-                                // onPressEnter={searchKeyword}
+                                onPressEnter={SearchSubToIspKwdEvent}
                                 />
                             </div>
                         </dd>
@@ -40,7 +65,7 @@ const SearchSubToIspKwd = () => {
             </div>
             <div className="box-footer">
                 <div className="box-center">
-                    <Button className="pink" size="large" type="primary">
+                    <Button className="pink" size="large" type="primary" onClick={SearchSubToIspKwdEvent}>
                         <span>키워드 조회</span>
                     </Button>
                 </div>

@@ -1,11 +1,13 @@
-import { Button, Table } from 'antd';
-import Column from 'antd/es/table/Column';
 import React, { Dispatch } from 'react';
+import { Button, Table, Modal, Popconfirm } from 'antd';
+import Column from 'antd/es/table/Column';
 import { CSVLink } from 'react-csv';
-import { useSelector } from 'react-redux';
-import { State } from '../../../../../state';
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from "redux";
+import { requestOffIspKwdManualYn } from "../../../../../model/adminAxios";
+import { admActionCreators, State } from '../../../../../state';
 import { ispKeywordList } from '../../../../../type/keyword';
-import { successAlert } from '../../../../alerts/alert';
+import { errorAlert, successAlert, showConfirm } from '../../../../alerts/alert';
 
 interface Props {
     setIspKwdModalOpen: Dispatch<boolean>
@@ -14,15 +16,28 @@ interface Props {
 const IspKwdList = ({ setIspKwdModalOpen }: Props) => {
 
     const ispKwds = useSelector((state: State) => state.searchIspKwdList);
+    // reload
+    const dispatch = useDispatch();
+    const { getSearchIspKwdList } = bindActionCreators(admActionCreators, dispatch);
+
 
     //키워드 삭제 (수동검사여부 1 -> 0)
-    const deleteIspKwdEvent = (recode: ispKeywordList[]) => {
+    const deleteIspKwdEvent = (recode: ispKeywordList) => {
         console.log("recode");
-        console.log(recode);
+        requestOffIspKwdManualYn(recode.kwdId)
+            .then((res) => {
+                if(res.data === null) {
+                    errorAlert(res.error.message)
+                    return false;
+                }
+                getSearchIspKwdList(res.data)
+                successAlert("삭제 완료! 🙌")
+            })
+            .catch((err) => { console.log(err); errorAlert("삭제하지 못했습니다.") })
     }
 
-     // .csv 파일 다운로드 받을 시 제목열
-     const headers = [
+    // .csv 파일 다운로드 받을 시 제목열
+    const headers = [
         { label: "키워드 명", key: "kwdName" },
     ];
 
@@ -40,9 +55,9 @@ const IspKwdList = ({ setIspKwdModalOpen }: Props) => {
                         <CSVLink filename={"Inspect_Keyword_List.csv"} data={ispKwds} headers={headers} className="btn btn-primary"
                             onClick={() => { successAlert("다운로드 완료 👀👍") }}
                         >
-                        <Button className="gray" >
-                            <span>키워드 다운로드</span>
-                        </Button>
+                            <Button className="gray" >
+                                <span>키워드 다운로드</span>
+                            </Button>
                         </CSVLink>
                     </div>
                 </div>
@@ -56,8 +71,10 @@ const IspKwdList = ({ setIspKwdModalOpen }: Props) => {
                     >
 
                         <Column title="키워드 명" dataIndex="kwdName" align="center" />
-                        <Column title="검수 키워드 삭제" dataIndex="deleteBtn" align="center" render={(value, recode: ispKeywordList[]) =>
-                            <Button type="primary" size="small" className="pink" onClick={() => deleteIspKwdEvent(recode)} >선택</Button>
+                        <Column title="검수 키워드 삭제" dataIndex="deleteBtn" align="center" render={(value, recode: ispKeywordList) =>
+                            <Popconfirm title="검수 키워드를 삭제하시겠습니까?" onConfirm={() => deleteIspKwdEvent(recode)}>
+                                <Button type="primary" size="small" className="pink">선택</Button>
+                            </Popconfirm>
                         } />
                     </Table>
                 </div>

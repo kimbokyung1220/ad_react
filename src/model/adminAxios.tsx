@@ -32,8 +32,36 @@ instance.interceptors.request.use(
 
 /**
  * 검수 대상 키워드 조회
+ * data: kwdName
  */
-export const requestSearchIspKwd = async (data: {}) => {
+export const requestSearchIspKwdList = async (data: {}) => {
     const response = await instance.post(`api/kwd/isp/list`, data)
+    return response.data
+}
+
+/**
+ * 검수 대상 키워드 등록
+ * data: kwdName
+ */
+export const requestSaveIspKwd = async (data: {}) => {
+    const response = await instance.post(`api/kwd/isp`, data)
+    return response.data
+}
+
+/**
+ * 검수 대상 키워드 삭제
+ * param: kwdId
+ */
+export const requestOffIspKwdManualYn = async (kwdId: number) => {
+    const response = await instance.post(`api/kwd/isp/${kwdId}`)
+    return response.data
+}
+
+/**
+ * 광고 검수 대상 리스트
+ * param: kwdName
+ */
+export const requestSearchIspAdList = async (data: {}) => {
+    const response = await instance.post(`api/dad/list`, data)
     return response.data
 }
