@@ -17,3 +17,20 @@ export const ispAdKwdListDefaultValue: ispAdKwdList = {
     kwdName: "",
     reasonForIsp: ""
 }
+
+export interface csAdList {
+    cnrReqId: number,
+    dadDetId: number,
+    itemName: string,
+    kwdName: string,
+    adultYn: number,
+
+}
+
+export const csAdListDefaultValue: csAdList = {
+    cnrReqId: 0,
+    dadDetId: 0,
+    itemName: "",
+    kwdName: "",
+    adultYn: 0,
+}

@@ -3,11 +3,10 @@ import { Button, Input, Modal, Select } from "antd";
 import { ispAdKwdList, ispAdKwdListDefaultValue } from '../../../../../type/dadDet';
 import { requestIspAdDetail, requestUpdateCnrIngStatus } from '../../../../../model/adminAxios';
 import { errorAlert, successAlert } from '../../../../alerts/alert';
-import { CnrFailCauseType } from './CnrFailCause';
-import { createImportSpecifier } from 'typescript';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { admActionCreators } from '../../../../../state';
+import { CnrFailCauseType } from "./CnrFailCause";
 
 interface Props {
     cnrProcessModalOpen: boolean
@@ -160,8 +159,12 @@ const CnrProcessModal = ({ cnrProcessModalOpen, setCnrProcessModalOpen, recode }
                                                 placeholder="반려사유를 선택해주세요"
                                                 onChange={onSelectedEvent}
                                                 value={selectedDefault}
-                                                options={[{ value: CnrFailCauseType.AN_INAPPROPRIATE_KEYWORD, label: CnrFailCauseType.AN_INAPPROPRIATE_KEYWORD },
-                                                { value: CnrFailCauseType.TEST, label: CnrFailCauseType.TEST },
+                                                options={[{ value: CnrFailCauseType.AN_INAPPROP_KWD, label: CnrFailCauseType.AN_INAPPROP_KWD },
+                                                          { value: CnrFailCauseType.NOT_MATCHED, label: CnrFailCauseType.NOT_MATCHED },
+                                                          { value: CnrFailCauseType.CHANGED_KWD, label: CnrFailCauseType.CHANGED_KWD },
+                                                          { value: CnrFailCauseType.NO_ADULT_KWD, label: CnrFailCauseType.NO_ADULT_KWD },
+                                                          { value: CnrFailCauseType.ERROR_TYPING, label: CnrFailCauseType.ERROR_TYPING },
+                                                          { value: CnrFailCauseType.TEST_KEYWORD, label: CnrFailCauseType.TEST_KEYWORD },
                                                 ]}
                                             >
                                             </Select>

@@ -5,11 +5,14 @@ import { State } from "../../../../state";
 import { requestSaveAd } from '../../../../model/axios';
 import { errorAlert, successReloadAlert, warningAlert } from '../../../alerts/alert';
 
+
 const RegAdBtn = () => {
     const keywordInfo = useSelector((state: State) => state.keywordTableInfo);
     const itemInfo = useSelector((state: State) => state.itemInfo);
     const adGroupInfo = useSelector((state: State) => state.selectedAdGroup)
+    
 
+    // 등록버튼 이벤트
     const regAdEvent = () => {
 
         if (adGroupInfo === "") {
@@ -31,12 +34,14 @@ const RegAdBtn = () => {
                 console.log(res.sucscess)
                 return false;
             } else {
-                successReloadAlert("광고 등록 완료! :-)", window.location.reload())
+                successReloadAlert("광고 등록 완료! :-)")
             }
 
         }).catch(error => {
             console.log(error)
-            errorAlert(error.message)
+            const kwdName = error.response.data.keyword
+            // "판매 가능한 키워드가 아닙니다."
+            errorAlert(`[ ${kwdName} ](은)는 ${error.response.data.desc}`)
         })
 
     }

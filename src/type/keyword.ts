@@ -1,7 +1,7 @@
 export type keywordTable = {
     key: number,
     kwdName: string,
-    bidCost: number,
+    bidCost: number
 }
 
 export const KeywordTableDefaultValue: keywordTable = {

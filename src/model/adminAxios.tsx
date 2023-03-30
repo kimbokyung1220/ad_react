@@ -86,3 +86,14 @@ export const requestUpdateCnrIngStatus = async (data: {}) => {
     console.log("[API] requestUpdateCnrIngStatus => api/dad/list/${dadDetId}")
     return response.data
 }
+
+/**
+ * 광고 현황
+ * 
+ */
+export const requestCsAdAllList = async () => {
+    const response = await instance.post(`api/dad/cslist`)
+    console.log("[API] requestCsAdAllList => api/dad/cslist")
+    return response.data
+}
+

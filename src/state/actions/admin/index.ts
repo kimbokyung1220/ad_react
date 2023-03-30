@@ -1,4 +1,4 @@
-import { ispAdKwdList } from "../../../type/dadDet"
+import { csAdList, ispAdKwdList } from "../../../type/dadDet"
 import { ispKeywordList } from "../../../type/keyword"
 import { AdmActionType } from "../../action-type/admin"
 
@@ -12,6 +12,11 @@ interface SearchIspAdKwdAction {
     payload: ispAdKwdList[]
 }
 
+interface CsAdListAction {
+    type: AdmActionType.CS_AD_LIST
+    payload: csAdList[]
+}
 
 export type AdmAction = SearchIspKwdAction
     | SearchIspAdKwdAction
+    | CsAdListAction

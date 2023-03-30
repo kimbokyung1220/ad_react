@@ -5,7 +5,7 @@ const { confirm } = Modal;
 
 export const successReloadAlert = (msg: string, fnc?: void) => {
     Modal.success({
-        content: (msg), onOk(fnc) {},
+        content: (msg), onOk() {window.location.reload()},
     });
 }
 export const successAlert = (msg: string) => {
