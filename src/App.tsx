@@ -4,9 +4,6 @@ import './css/plugin.css';
 import './css/fonts/NanumSquareNeo/fonts.css';
 
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import Home from "./page/Home";
-import NavigateLanding from './page/NavigateLanding';
-import Notfound from './page/Notfound';
 import Login from './page/Login';
 import { useContext } from "react";
 import AuthContext from "./store/auth-context";
@@ -18,6 +15,7 @@ import { getData } from "./model/token";
 import IspKwdContent from './page/components/admin/inspectKeyword/IspKwdContent';
 import IspAdContent from './page/components/admin/inspectAd/IspAdContent';
 import CsAdContent from './page/components/admin/currentSituationAd/CsAdContent';
+import TaskMngContent from "./page/components/admin/taskManagement/taskMngContent";
 
 
 function App() {
@@ -27,7 +25,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        {!authCtx.isLoggedIn ?
+        {!authCtx.isLoggedIn?
           <Routes>
             <Route path="/*" element={<Navigate replace to="/common/login" />} />
             <Route path="/common/login" element={<Login />} />
@@ -44,6 +42,7 @@ function App() {
           <Route path="/adv/mng/kwd-info/:adId" element={<KeywordContent />} />
           <Route path="/adm/isp-kwd" element={<IspKwdContent />} />
           <Route path="/adm/isp-ad" element={<IspAdContent />} />
+          <Route path="/adm/isp-task" element={<TaskMngContent />} />
           <Route path="/adm/cs-ad" element={<CsAdContent />} />
         </Routes>
         }

@@ -3,16 +3,25 @@ import { Button, Divider, Layout, Menu, MenuProps, Space } from 'antd';
 import AuthContext from "../../store/auth-context";
 import { getData } from "../../model/token";
 import { Link, useLocation } from "react-router-dom";
+import {
+    SettingOutlined,
+    DownSquareOutlined,
+    FormOutlined,
+    DesktopOutlined,
+    LineChartOutlined,
+    ClusterOutlined
+  } from '@ant-design/icons';
 
 const advMenu: MenuProps['items'] = [
-    { label: <Link to="/adv/reg">광고 등록</Link>, key: 'reg', icon: <i className="ico ico-menu-01 ant-menu-item-icon" /> },
-    { label: <Link to="/adv/mng/adv-info">광고 관리</Link>, key: 'mng', icon: <i className="ico ico-menu-02 ant-menu-item-icon" /> },
+    { label: <Link to="/adv/reg">광고 등록</Link>, key: 'reg', icon: <FormOutlined /> },
+    { label: <Link to="/adv/mng/adv-info">광고 관리</Link>, key: 'mng', icon: <SettingOutlined /> },
 ]
 
 const admMenu: MenuProps['items'] = [
-    { label: <Link to="/adm/isp-kwd">키워드 검수</Link>, key: 'isp-kwd', icon: <i className="ico ico-menu-01 ant-menu-item-icon" /> },
-    { label: <Link to="/adm/isp-ad">광고 검수</Link>, key: 'isp-ad', icon: <i className="ico ico-menu-02 ant-menu-item-icon" /> },
-    { label: <Link to="/adm/cs-ad">광고 현황</Link>, key: 'cs-ad', icon: <i className="ico ico-menu-02 ant-menu-item-icon" /> },
+    { label: <Link to="/adm/isp-kwd">키워드 검수</Link>, key: 'isp-kwd', icon: <DownSquareOutlined /> },
+    { label: <Link to="/adm/isp-ad">광고 검수</Link>, key: 'isp-ad', icon: <DesktopOutlined /> },
+    { label: <Link to="/adm/isp-task">대량 관리</Link>, key: 'isp-task', icon: <ClusterOutlined /> },
+    { label: <Link to="/adm/cs-ad">광고 현황</Link>, key: 'cs-ad', icon: <LineChartOutlined /> },
 ]
 
 const Header = () => {
@@ -41,6 +50,7 @@ const Header = () => {
         else if(location.pathname.includes("mng")) setCurrent("mng")
         else if(location.pathname.includes("isp-kwd")) setCurrent("isp-kwd")
         else if(location.pathname.includes("isp-ad")) setCurrent("isp-ad")
+        else if(location.pathname.includes("isp-task")) setCurrent("isp-task")
         else if(location.pathname.includes("cs-ad")) setCurrent("cs-ad")
         else setCurrent("");
     }, [location])
