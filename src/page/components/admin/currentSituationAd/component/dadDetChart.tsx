@@ -103,14 +103,18 @@ const DadDetChart = ({itemName} : Props) => {
               position: 'left',
               name: selectedDefault1, // y축 제목
               dataMin: minValue1,
-              dataMax: maxValue1
+              dataMax: maxValue1,
+              splitLine: {
+                show: false,
+              },
             },
             {
               type: 'value',
               position: 'right',
               name: selectedDefault2, // y축 제목
               dataMin: minValue2 ,
-              dataMax: maxValue2
+              dataMax: maxValue2,
+             
             }
           ],
         series: [
@@ -172,7 +176,7 @@ const DadDetChart = ({itemName} : Props) => {
 
                 <div className="box-body">
 
-                    <ReactEcharts option={options} />
+                    <ReactEcharts option={options} style={{height: '400px'}}/>
                 </div>
             </section>
         </>
