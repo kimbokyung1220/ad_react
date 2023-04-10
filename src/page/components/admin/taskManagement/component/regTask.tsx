@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Input } from "antd";
 import { CSVLink } from "react-csv";
-import { errorAlert, successAlert } from "../../../../alerts/alert";
+import { errorAlert, successAlert, successReloadAlert } from "../../../../alerts/alert";
 import { data, headers } from "./bulkMngTemplat";
 import { requestSaveTaskReq } from '../../../../../model/adminAxios';
 import { bindActionCreators } from 'redux';
@@ -53,7 +53,7 @@ const RegTask = () => {
         requestSaveTaskReq(formData)
             .then((res) => {
                 console.log(res.data);
-                successAlert("등록 완료! 🙌")
+                successReloadAlert("등록 완료! 🙌")
                 getTaskReqList(res.data);
             })
             .catch((err) => {

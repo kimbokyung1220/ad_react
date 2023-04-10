@@ -16,8 +16,6 @@ const CsAdContent = () => {
                         </>
                         <div className="content-body">
                             <CsAdList />
-                            <DadDetChart />
-                            <CsDetailData />
                         </div>
                     </div>
                 </div>

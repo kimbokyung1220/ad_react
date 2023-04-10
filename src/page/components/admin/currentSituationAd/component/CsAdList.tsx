@@ -1,12 +1,14 @@
 import { Space, Table } from 'antd';
 import Column from 'antd/es/table/Column';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { requestCsAdAllList, requestGetDadRptData } from "../../../../../model/adminAxios";
 import { admActionCreators, State } from "../../../../../state";
 import { csAdList } from "../../../../../type/dadDet";
 import { errorAlert } from "../../../../alerts/alert";
+import DadDetChart from "./dadDetChart";
+import CsDetailData from "./csDetailData";
 
 const CsAdList = () => {
     const dispatch = useDispatch();
@@ -14,6 +16,9 @@ const CsAdList = () => {
     const { getDadRptDetail } = bindActionCreators(admActionCreators, dispatch);
 
     const csAds = useSelector((state: State) => state.csAdList);
+    const dadRptDetails = useSelector((state: State) => state.dadRptDetail);
+
+    const [itemName, setItemName] = useState("");
 
     const showRptTableEvent = (dadDetId: number) => {
         requestGetDadRptData(dadDetId)
@@ -49,7 +54,7 @@ const CsAdList = () => {
                         <Column title="직접광고 상세 ID" dataIndex="dadDetId" align="center" />
                         <Column title="상품 명" dataIndex="itemName" align="center"
                             render={(_: any, record: csAdList) => (
-                                <Space size="middle" onClick={() => showRptTableEvent(record.dadDetId)}>
+                                <Space size="middle" onClick={() => {showRptTableEvent(record.dadDetId); setItemName(record.itemName)}}>
                                     <a>{record.itemName}</a>
                                 </Space>
 
@@ -63,7 +68,11 @@ const CsAdList = () => {
                     </Table>
                 </div>
             </section>
+            {dadRptDetails.length > 0 && <DadDetChart itemName={itemName}/> }
+            {dadRptDetails.length > 0 && <CsDetailData /> }
         </>
+
+
     );
 }
 

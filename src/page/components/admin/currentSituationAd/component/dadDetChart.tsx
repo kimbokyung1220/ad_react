@@ -5,7 +5,11 @@ import { State } from '../../../../../state';
 import { Select } from 'antd';
 import { warningAlert } from '../../../../alerts/alert';
 
-const DadDetChart = () => {
+interface Props {
+    itemName: String
+}
+
+const DadDetChart = ({itemName} : Props) => {
     const dadRptDetails = useSelector((state: State) => state.dadRptDetail);
 
     // select-box 데이터를 관리하는 state
@@ -19,7 +23,6 @@ const DadDetChart = () => {
     let maxValue1 = Math.max(...seriesData1);
     let minValue2 = Math.min(...seriesData2);
     let maxValue2 = Math.max(...seriesData2);
-
 
     const xData: string[] = [];
 
@@ -80,7 +83,7 @@ const DadDetChart = () => {
     // EChart옵션
     const options = {
         title: {
-            text: 'Stacked Line Chart'
+            text: itemName
         },
         tooltip: {
             trigger: 'axis'
@@ -114,15 +117,15 @@ const DadDetChart = () => {
             {
                 name: selectedDefault1,
                 type: 'line',
-                stack: 'stacked',
                 data: seriesData1,
+                alignTicks: true,
                 yAxisIndex: 0 // 첫 번째 y축 사용
             },
             {
                 name: selectedDefault2,
                 type: 'line',
-                stack: 'stacked',
                 data: seriesData2,
+                alignTicks: true,
                 yAxisIndex: 1  // 두 번째 y축 사용
             }
         ]
@@ -138,7 +141,6 @@ const DadDetChart = () => {
                     <div className="box-right">
                         <Select
                             style={{ width: "250px" }}
-                            placeholder="반려사유를 선택해주세요"
                             onChange={onSelectedEvent1}
                             value={selectedDefault1}
                             options={[
@@ -153,7 +155,6 @@ const DadDetChart = () => {
                         </Select>
                         <Select
                             style={{ width: "250px" }}
-                            placeholder="반려사유를 선택해주세요"
                             onChange={onSelectedEvent2}
                             value={selectedDefault2}
                             options={[
