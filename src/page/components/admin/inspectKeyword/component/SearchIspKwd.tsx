@@ -12,16 +12,22 @@ const SearchIspKwd = () => {
     const { getSearchIspKwdList } = bindActionCreators(admActionCreators, dispatch);
 
     const [searchIspKwd, setSearchIspKwd] = useState("")
-    
+
     const searchIspKwdEvent = () => {
-        requestSearchIspKwdList({'kwdName': searchIspKwd})
-        .then((res) => {getSearchIspKwdList(res.data)})
-        .catch((err) => errorAlert("조회하지 못했습니다."))
+        requestSearchIspKwdList({ 'kwdName': searchIspKwd })
+            .then((res) => { getSearchIspKwdList(res.data) })
+            .catch((err) => {
+                if (err.code === 'ERR_NETWORK') {
+                    errorAlert("인터넷 연결상태를 확인해주세요");
+                    return false;
+                }
+                errorAlert("조회하지 못했습니다.")
+            })
     }
 
     useEffect(() => {
         searchIspKwdEvent()
-    },[])
+    }, [])
 
     return (
         <>
@@ -48,7 +54,7 @@ const SearchIspKwd = () => {
                                         type="text"
                                         value={searchIspKwd}
                                         style={{ width: "500px" }}
-                                    onPressEnter={searchIspKwdEvent}
+                                        onPressEnter={searchIspKwdEvent}
                                     />
                                 </div>
                             </dd>
@@ -60,7 +66,7 @@ const SearchIspKwd = () => {
                 </div>
                 <div className="box-footer">
                     <div className="box-center">
-                        <Button className="pink"size="large" type="primary" onClick={searchIspKwdEvent}>
+                        <Button className="pink" size="large" type="primary" onClick={searchIspKwdEvent}>
                             <span>키워드 조회</span>
                         </Button>
                     </div>

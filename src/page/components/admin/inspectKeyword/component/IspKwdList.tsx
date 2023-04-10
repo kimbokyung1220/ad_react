@@ -1,5 +1,5 @@
 import React, { Dispatch } from 'react';
-import { Button, Table, Modal, Popconfirm } from 'antd';
+import { Button, Table, Popconfirm } from 'antd';
 import Column from 'antd/es/table/Column';
 import { CSVLink } from 'react-csv';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 import { requestOffIspKwdManualYn } from "../../../../../model/adminAxios";
 import { admActionCreators, State } from '../../../../../state';
 import { ispKeywordList } from '../../../../../type/keyword';
-import { errorAlert, successAlert, showConfirm } from '../../../../alerts/alert';
+import { errorAlert, successAlert } from '../../../../alerts/alert';
 
 interface Props {
     setIspKwdModalOpen: Dispatch<boolean>

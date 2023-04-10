@@ -92,8 +92,64 @@ export const requestUpdateCnrIngStatus = async (data: {}) => {
  * 
  */
 export const requestCsAdAllList = async () => {
-    const response = await instance.post(`api/dad/cslist`)
+    const response = await instance.get(`api/dad/cslist`)
+    console.log(response)
     console.log("[API] requestCsAdAllList => api/dad/cslist")
     return response.data
 }
 
+/**
+ * 작업 요청 내역 전체 조회 - [ 대량 관리 ]
+ * 
+ */
+export const requestTaskReqAllList = async () => {
+    const response = await instance.get(`api/task`)
+    console.log("[API] requestTaskReqAllList => api/tasks")
+    return response.data
+}
+
+/**
+ * 작업 요청 등록 - [대량 관리]
+ * uploadFile, taskReqDto{'taskName' : taskName}
+ * `
+ */
+export const requestSaveTaskReq = async (data: FormData) => {
+    const response = await instance.post(`api/task/upload`, data, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    })
+    console.log("[API] requestSaveTaskReq => api/task/upload")
+    return response.data
+}
+
+/**
+ * 파일 다운로드 - [대량 관리]
+ * fileName
+ */
+export const requestDownloadFile = async (data: {'fileName': string}) => {
+    const response = await instance.post(`api/download`, data, {
+        responseType: 'arraybuffer'
+        // params: {
+        //     fileName: fileName,
+        // },
+    });
+    console.log("[API] requestDownloadFile **** ");
+
+    const blob = new Blob([response.data], { type: response.headers['content-type'] });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', data.fileName);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    return response.data;
+}
+/**
+ * 통계차트 (직접광고 상세 통계)
+ * dadDetId
+ */
+export const requestGetDadRptData = async (dadDetId: number) => {
+    const response = await instance.post(`api/rpt/${dadDetId}`)
+    console.log("[API] requestGetDadRptData => api/rpt/${dadDetId}")
+    return response.data
+}

@@ -2,6 +2,8 @@ import React from 'react';
 import Body from '../../../layout/Body';
 import ContentHeader from '../../../layout/content/ContentHeader';
 import CsAdList from './component/CsAdList';
+import DadDetChart from './component/dadDetChart';
+import CsDetailData from './component/csDetailData';
 
 const CsAdContent = () => {
     return (
@@ -14,6 +16,8 @@ const CsAdContent = () => {
                         </>
                         <div className="content-body">
                             <CsAdList />
+                            <DadDetChart />
+                            <CsDetailData />
                         </div>
                     </div>
                 </div>

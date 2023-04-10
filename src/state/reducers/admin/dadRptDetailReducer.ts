@@ -1,13 +1,13 @@
-import { csAdList } from "../../../type/dadDet";
+import { dadRptDetail } from "../../../type/report";
 import { AdmActionType } from "../../action-type/admin"; 
 import { AdmAction } from "../../actions/admin"; 
 // 실제 동작 함수
 
-const init: csAdList[] = []
+const init: dadRptDetail[] = []
 
-const reducer = (state: csAdList[] = init, action: AdmAction) => {
+const reducer = (state: dadRptDetail[] = init, action: AdmAction) => {
     switch (action.type) {
-        case AdmActionType.CS_AD_LIST:
+        case AdmActionType.DAD_RPT_DETAIL:
             return action.payload
         default:
             return state

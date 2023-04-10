@@ -13,10 +13,13 @@ import adGroupItemReducer from './adGroupItemReducer';
 import mngItemListReducer from './mngItemListReducer';
 import selectedAdIdReducer from './selectedAdIdReducer';
 import mngKeyworldListReducer from './mngKeyworldListReducer';
+
 // 관리자
 import searchIspKwdReducer from './admin/searchIspKwdReducer';
 import searchIspAdKwdReducer from './admin/searchIspAdKwdReducer';
 import csAdListReducer from './admin/csAdListReducer';
+import taskReqListReducer from './admin/taskReqListReducer';
+import dadRptDetailReducer from './admin/dadRptDetailReducer';
 
 const reducers = combineReducers({
     item: itemReducer,
@@ -38,6 +41,8 @@ const reducers = combineReducers({
     searchIspKwdList: searchIspKwdReducer,
     searchIspAdKwdList: searchIspAdKwdReducer,
     csAdList: csAdListReducer,
+    taskReqList: taskReqListReducer,
+    dadRptDetail: dadRptDetailReducer,
     
 });
 

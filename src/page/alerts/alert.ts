@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
 import { Modal } from 'antd';
 const { confirm } = Modal;
 
 
-export const successReloadAlert = (msg: string, fnc?: void) => {
+export const successReloadAlert = (msg: string) => {
     Modal.success({
         content: (msg), onOk() {window.location.reload()},
     });
@@ -26,10 +25,10 @@ export const warningAlert = (msg: string) => {
       });
 };
 
-export const showConfirm = (msg: string, fnc:void) => {
-    confirm({
-        content: (msg), onOk(){
-            return fnc;
-        }, onCancel(){}
-    })
-}
+// export const showConfirm = (msg: string, fnc:void) => {
+//     confirm({
+//         content: (msg), onOk(){
+//             fnc;
+//         }, onCancel(){return false;}
+//     })
+// }
