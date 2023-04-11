@@ -75,7 +75,6 @@ const RegTask = () => {
     }
 
     useEffect(() => {
-        console.log(123)
         cancleEvent();
     }, [taskReqAllList])
 

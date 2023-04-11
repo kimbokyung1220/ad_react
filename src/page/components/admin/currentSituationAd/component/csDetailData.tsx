@@ -23,7 +23,7 @@ const CsDetailData = () => {
     let i = 0;
     dadRptDetails.forEach((row) =>{
         row.index = i++;
-        row.clickPercentStr = row.clickCnt + "%";
+        row.clickPercentStr = row.clickPercent + "%";
         row.avgImpRank = row.avgImpRank / 1;
         row.adSpendStr = row.adSpend.toLocaleString();
     })
